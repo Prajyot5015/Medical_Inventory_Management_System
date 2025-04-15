@@ -46,6 +46,15 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
             {
                 return false;
             }
+            existingProduct.Name = product.Name;
+            existingProduct.Batch = product.Batch;
+            existingProduct.Unit = product.Unit;
+            existingProduct.Price = product.Price;
+            existingProduct.BrandId = product.BrandId;
+            existingProduct.ManufacturerId = product.ManufacturerId;
+
+            appDbContext.Products.Update(existingProduct);
+            await appDbContext.SaveChangesAsync();
             return true;
         }
     }

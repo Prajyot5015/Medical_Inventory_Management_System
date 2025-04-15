@@ -45,7 +45,7 @@ namespace Medical_Inventory_Management_System.Services.Implementations
         public async Task<string> UpdateProductAsync(int id, UpdateProductDTO updateProductDTO)
         {
             var response = await productsRepository.UpdateProductAsync(id, mapper.Map<Product>(updateProductDTO));
-            if (response != true) return null;
+            if (response == false) return null;
             return "Product updated successfully!";
         }
     }

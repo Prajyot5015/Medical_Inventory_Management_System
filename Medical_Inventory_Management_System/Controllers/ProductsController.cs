@@ -55,7 +55,12 @@ namespace Medical_Inventory_Management_System.Controllers
 
         public async Task<IActionResult> UpdateProduct(int id, UpdateProductDTO updateProductDTO)
         {
-            return Ok();
+            var response = await productsService.UpdateProductAsync(id, updateProductDTO);
+            if (response == null)
+            {
+                return NotFound("Product not found.");
+            }
+            return Ok(response);
         }
 
     }

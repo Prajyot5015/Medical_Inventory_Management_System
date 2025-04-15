@@ -4,7 +4,6 @@
     {
         public string Name { get; set; }
         public string Batch { get; set; }
-        public DateTime ExpiryDate { get; set; }
         public string Unit { get; set; }
         public decimal Price { get; set; }
 
