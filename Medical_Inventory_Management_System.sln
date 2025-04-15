@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medical_Inventory_Management_System", "Medical_Inventory_Management_System\Medical_Inventory_Management_System.csproj", "{EB5465C4-509F-40E1-B2A1-665FEB68FA93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_Medical_Inventory_Managment_Systemm", "WPF_Medical_Inventory_Managment_Systemm\WPF_Medical_Inventory_Managment_Systemm.csproj", "{F374A647-1246-4765-9A98-170B2BD0563C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F374A647-1246-4765-9A98-170B2BD0563C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F374A647-1246-4765-9A98-170B2BD0563C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F374A647-1246-4765-9A98-170B2BD0563C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F374A647-1246-4765-9A98-170B2BD0563C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
