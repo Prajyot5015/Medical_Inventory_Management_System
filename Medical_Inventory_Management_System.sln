@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medical_Inventory_Management_System", "Medical_Inventory_Management_System\Medical_Inventory_Management_System.csproj", "{EB5465C4-509F-40E1-B2A1-665FEB68FA93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_Midical_Inventory_Management_System", "WPF_Midical_Inventory_Management_System\WPF_Midical_Inventory_Management_System.csproj", "{57DCB9A4-A99C-40FD-B68D-F728A3877CB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB5465C4-509F-40E1-B2A1-665FEB68FA93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57DCB9A4-A99C-40FD-B68D-F728A3877CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57DCB9A4-A99C-40FD-B68D-F728A3877CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57DCB9A4-A99C-40FD-B68D-F728A3877CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57DCB9A4-A99C-40FD-B68D-F728A3877CB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64B2F5B0-0429-49D7-B6A0-1DD79AD955AB}
+	EndGlobalSection
+EndGlobal
