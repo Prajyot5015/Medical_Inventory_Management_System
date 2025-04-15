@@ -11,5 +11,7 @@ namespace Medical_Inventory_Management_System.Services.Interface
         Task<ProductDTO> GetProductById(int id);
 
         Task<string> UpdateProductAsync(int id, UpdateProductDTO updateProductDTO);
+
+        Task<string> DeleteProductAsync(int id);
     }
 }

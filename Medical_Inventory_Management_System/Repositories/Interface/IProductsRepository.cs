@@ -11,5 +11,7 @@ namespace Medical_Inventory_Management_System.Repositories.Interface
         Task<Product> GetProductByIdAsync(int id);
 
         Task<bool> UpdateProductAsync(int id, Product product);
+
+        Task<bool> DeleteProductAsync(int id);
     }
 }

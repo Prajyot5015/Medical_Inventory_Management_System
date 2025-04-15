@@ -28,6 +28,13 @@ namespace Medical_Inventory_Management_System.Services.Implementations
             return "Product added successfully!";
         }
 
+        public async Task<string> DeleteProductAsync(int id)
+        {
+            var response = await productsRepository.DeleteProductAsync(id);
+            if (response == false) return null;
+            return "Product deleted successfully!";
+        }
+
         public async Task<ProductDTO> GetProductById(int id)
         {
             var response = await productsRepository.GetProductByIdAsync(id);

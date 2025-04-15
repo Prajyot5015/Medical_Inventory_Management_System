@@ -63,5 +63,15 @@ namespace Medical_Inventory_Management_System.Controllers
             return Ok(response);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            var response = await productsService.DeleteProductAsync(id);
+            if (response == null)
+            {
+                return NotFound("Product not found.");
+            }
+            return Ok(response);
+        }
     }
 }

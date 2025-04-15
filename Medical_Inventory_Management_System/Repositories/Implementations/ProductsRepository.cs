@@ -21,6 +21,18 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
             return true;
         }
 
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var existingProduct = await appDbContext.Products.FindAsync(id);
+            if (existingProduct == null)
+            {
+                return false;
+            }
+            appDbContext.Products.Remove(existingProduct);
+            await appDbContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<List<Product>> GetAllProductsAsync()
         {
            var products = await appDbContext.Products
