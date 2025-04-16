@@ -6,7 +6,15 @@
         xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel>
+        <!-- Navigation Panel -->
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Background="LightGray" Width="200">
+            <Button Content="Manufacturers" Margin="10" Click="NavigateToManufacturerPage"/>
+            <Button Content="Brands" Margin="10" Click="NavigateToBrandPage"/>
+            <Button Content="Products" Margin="10" Click="NavigateToProductPage"/>
+        </StackPanel>
+
+        <!-- Main Content Area -->
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
-    </Grid>
+    </DockPanel>
 </Window>

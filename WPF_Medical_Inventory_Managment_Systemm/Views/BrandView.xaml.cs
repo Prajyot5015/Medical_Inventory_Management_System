@@ -1,9 +1,10 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using WPF_Medical_Inventory_Managment_Systemm.ViewModel;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.Views
 {
-    public partial class BrandView : Window
+    public partial class BrandView : Page
     {
         private readonly BrandViewModel _viewModel;
 
