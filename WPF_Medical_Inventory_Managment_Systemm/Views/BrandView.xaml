@@ -1,4 +1,4 @@
-﻿<Window x:Class="WPF_Medical_Inventory_Managment_Systemm.Views.BrandView"
+﻿<Page x:Class="WPF_Medical_Inventory_Managment_Systemm.Views.BrandView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Brand Management" Height="400" Width="600">
@@ -29,4 +29,4 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
-</Window>
+</Page>

@@ -18,7 +18,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
     /// <summary>
     /// Interaction logic for ProductWindow.xaml
     /// </summary>
-    public partial class ProductWindow : Window
+    public partial class ProductWindow : Page
     {
         public ProductWindow()
         {
