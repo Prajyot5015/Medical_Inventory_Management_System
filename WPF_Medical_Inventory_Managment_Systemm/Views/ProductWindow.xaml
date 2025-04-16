@@ -30,6 +30,14 @@
               DisplayMemberPath="Name"
               SelectedValuePath="Id"
               SelectedValue="{Binding NewProduct.BrandId, Mode=TwoWay}" />
+
+            <!-- Manufacturer Dropdown -->
+            <ComboBox Width="120" Margin="5"
+              ItemsSource="{Binding Manufacturers}"
+              DisplayMemberPath="Name"
+              SelectedValuePath="Id"
+              SelectedValue="{Binding NewProduct.ManufacturerId, Mode=TwoWay}" />
+
             <Button Content="Add Product" Command="{Binding AddProductCommand}" Margin="5"/>
         </StackPanel>
 
