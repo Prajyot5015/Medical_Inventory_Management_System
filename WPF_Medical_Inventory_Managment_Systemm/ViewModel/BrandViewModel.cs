@@ -22,15 +22,13 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             get => _selectedBrand;
             set
             {
-                if (_selectedBrand != value)
-                {
-                    _selectedBrand = value;
-                    OnPropertyChanged();
-                    ((RelayCommand)UpdateCommand).RaiseCanExecuteChanged();
-                    ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
-                }
+                _selectedBrand = value ?? new Brand(); // ensure not null
+                OnPropertyChanged();
+                ((RelayCommand)UpdateCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
             }
         }
+
 
         public ICommand LoadCommand { get; }
         public ICommand AddCommand { get; }
@@ -63,11 +61,20 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 return;
             }
 
-            await _service.AddBrandAsync(SelectedBrand);
-            SelectedBrand = new Brand(); // reset
-            OnPropertyChanged(nameof(SelectedBrand));
-            await LoadAsync();
+            try
+            {
+                await _service.AddBrandAsync(SelectedBrand);
+                MessageBox.Show("Brand added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                SelectedBrand = new Brand(); // reset
+                OnPropertyChanged(nameof(SelectedBrand));
+                await LoadAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to add brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+
 
         public async Task UpdateAsync()
         {
@@ -86,12 +93,21 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             var result = MessageBox.Show($"Are you sure you want to delete '{SelectedBrand.Name}'?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                await _service.DeleteBrandAsync(SelectedBrand.Id);
-                SelectedBrand = new Brand(); // reset
-                OnPropertyChanged(nameof(SelectedBrand));
-                await LoadAsync();
+                try
+                {
+                    await _service.DeleteBrandAsync(SelectedBrand.Id);
+                    MessageBox.Show("Brand deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SelectedBrand = new Brand(); // reset
+                    OnPropertyChanged(nameof(SelectedBrand));
+                    await LoadAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to delete brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
