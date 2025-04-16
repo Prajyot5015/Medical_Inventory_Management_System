@@ -18,10 +18,12 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
     {
         private readonly ProductApiService _apiService;
         private readonly BrandService _brandService;
-        //private readonly ManufacturerService _manufacturerService;
+        private readonly ManufacturersApiService _manufacturerService;
+
 
         public ObservableCollection<Brand> Brands { get; set; } = new();
-      //  public ObservableCollection<Manufacturer> Manufacturers { get; set; } = new();
+        public ObservableCollection<ManufacturersDTO> Manufacturers { get; set; } = new();
+
         public ObservableCollection<Product> Products { get; set; } = new();
         public CreateProductDTO NewProduct { get; set; } = new();
 
@@ -36,8 +38,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             AddProductCommand = new RelayCommand(async () => await AddProduct());
 
             _brandService = new BrandService(new HttpClient { BaseAddress = new Uri("https://localhost:7228/api/") });
-        //    _manufacturerService = new ManufacturerService(new HttpClient { BaseAddress = new Uri("https://localhost:7228/api/") });
-
+            _manufacturerService = new ManufacturersApiService(new HttpClient { BaseAddress = new Uri("https://localhost:7228/api/") });
         }
 
         // Load All Products
@@ -56,7 +57,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         {
             var products = await _apiService.GetAllProductsAsync();
             var brands = await _brandService.GetBrandsAsync();
-           // var manufacturers = await _manufacturerService.GetManufacturersAsync();
+            var manufacturers = await _manufacturerService.GetAllManufacturersAsync();
 
             Products.Clear();
             foreach (var p in products) Products.Add(p);
@@ -64,8 +65,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             Brands.Clear();
             foreach (var b in brands) Brands.Add(b);
 
-           // Manufacturers.Clear();
-          //  foreach (var m in manufacturers) Manufacturers.Add(m);
+            Manufacturers.Clear();
+            foreach (var m in manufacturers) Manufacturers.Add(m);
         }
 
         // Add New Product
