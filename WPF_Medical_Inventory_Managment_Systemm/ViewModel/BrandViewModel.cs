@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -22,13 +23,12 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             get => _selectedBrand;
             set
             {
-                _selectedBrand = value ?? new Brand(); // ensure not null
+                _selectedBrand = value ?? new Brand();
                 OnPropertyChanged();
                 ((RelayCommand)UpdateCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
             }
         }
-
 
         public ICommand LoadCommand { get; }
         public ICommand AddCommand { get; }
@@ -43,15 +43,26 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             AddCommand = new RelayCommand(async () => await AddAsync());
             UpdateCommand = new RelayCommand(async () => await UpdateAsync(), () => SelectedBrand?.Id > 0);
             DeleteCommand = new RelayCommand(async () => await DeleteAsync(), () => SelectedBrand?.Id > 0);
+
+            // Load brands on initialization
+            _ = LoadAsync(); // Fire-and-forget call
         }
+
+        private bool _isLoaded = false;
 
         public async Task LoadAsync()
         {
+            if (_isLoaded) return;
+
             Brands.Clear();
             var brands = await _service.GetBrandsAsync();
             foreach (var brand in brands)
                 Brands.Add(brand);
+
+            _isLoaded = true;
         }
+
+
 
         public async Task AddAsync()
         {
@@ -65,8 +76,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             {
                 await _service.AddBrandAsync(SelectedBrand);
                 MessageBox.Show("Brand added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                SelectedBrand = new Brand(); // reset
-                OnPropertyChanged(nameof(SelectedBrand));
+                SelectedBrand = new Brand();
                 await LoadAsync();
             }
             catch (Exception ex)
@@ -74,7 +84,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 MessageBox.Show($"Failed to add brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
 
         public async Task UpdateAsync()
         {
@@ -97,8 +106,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 {
                     await _service.DeleteBrandAsync(SelectedBrand.Id);
                     MessageBox.Show("Brand deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
-                    SelectedBrand = new Brand(); // reset
-                    OnPropertyChanged(nameof(SelectedBrand));
+                    SelectedBrand = new Brand();
                     await LoadAsync();
                 }
                 catch (Exception ex)
@@ -108,12 +116,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
