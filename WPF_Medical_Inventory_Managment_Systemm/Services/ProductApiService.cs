@@ -44,5 +44,18 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
             var response = await _client.PostAsJsonAsync("Products", product);
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<bool> UpdateProductAsync(int id, UpdateProductDTO product)
+        {
+            var response = await _client.PutAsJsonAsync($"Products/{id}", product);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var response = await _client.DeleteAsync($"Products/{id}");
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }

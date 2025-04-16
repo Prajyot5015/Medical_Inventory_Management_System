@@ -44,5 +44,15 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
