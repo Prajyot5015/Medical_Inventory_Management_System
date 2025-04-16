@@ -14,7 +14,12 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             _viewModel = new BrandViewModel();
             DataContext = _viewModel;
 
-            Loaded += async (_, __) => await _viewModel.LoadAsync();
+            this.Loaded += BrandView_Loaded;
+        }
+
+        private async void BrandView_Loaded(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.LoadAsync();
         }
     }
 }

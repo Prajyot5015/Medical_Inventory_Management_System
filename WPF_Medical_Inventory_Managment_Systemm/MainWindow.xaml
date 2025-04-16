@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <DockPanel>
         <!-- Navigation Panel -->
         <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Background="LightGray" Width="200">

@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Views"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
     </Application.Resources>
-</Application>
+</Application> 
