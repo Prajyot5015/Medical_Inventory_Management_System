@@ -11,9 +11,10 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Width" Value="100"/>
+            <Setter Property="MinWidth" Value="80"/>
+            <Setter Property="MaxWidth" Value="120"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Style.Triggers>
-                <!-- Hover Effect for Buttons -->
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#388E3C"/>
                     <Setter Property="Cursor" Value="Hand"/>
@@ -43,67 +44,57 @@
     </Page.Resources>
 
     <Grid Margin="10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="64*"/>
-            <ColumnDefinition Width="241*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Input Section -->
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,10" Grid.ColumnSpan="2">
-            <TextBox Width="200"
-                     Margin="0,0,10,0"
-                     Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                     Padding="8"
-                     FontSize="14"
-                     VerticalContentAlignment="Center"
-                     HorizontalContentAlignment="Left"
-                     BorderBrush="#B0BEC5"
-                     BorderThickness="1" 
-                     MinWidth="180"/>
+        <DockPanel Margin="0,0,0,10" LastChildFill="True">
+            <TextBox 
+                Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                Padding="8"
+                FontSize="14"
+                VerticalContentAlignment="Center"
+                BorderBrush="#B0BEC5"
+                BorderThickness="1"
+                MinWidth="180"
+                MaxWidth="400"
+                HorizontalAlignment="Stretch"
+                DockPanel.Dock="Left"
+                Margin="0,0,10,0"
+            />
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Content="Add" 
-                        Command="{Binding AddCommand}" 
-                        Style="{StaticResource ActionButtonStyle}"
-                        Background="#4CAF50"/>
-                <Button Content="Update" 
-                        Command="{Binding UpdateCommand}" 
-                        Style="{StaticResource ActionButtonStyle}"
-                        Background="#FFF38B21"/>
-                <Button Content="Delete" 
-                        Command="{Binding DeleteCommand}" 
-                        Style="{StaticResource ActionButtonStyle}"
-                        Background="#FF862019"/>
-                <Button Content="Refresh" 
-                        Command="{Binding LoadCommand}" 
-                        Style="{StaticResource ActionButtonStyle}"
-                        Background="#FF14A7EE"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <Button Content="Add" Command="{Binding AddCommand}" Style="{StaticResource ActionButtonStyle}" Background="#4CAF50" Margin="0,0,5,0"/>
+                <Button Content="Update" Command="{Binding UpdateCommand}" Style="{StaticResource ActionButtonStyle}" Background="#FFF38B21" Margin="0,0,5,0"/>
+                <Button Content="Delete" Command="{Binding DeleteCommand}" Style="{StaticResource ActionButtonStyle}" Background="#FF862019" Margin="0,0,5,0"/>
+                <Button Content="Refresh" Command="{Binding LoadCommand}" Style="{StaticResource ActionButtonStyle}" Background="#FF14A7EE"/>
             </StackPanel>
-        </StackPanel>
+        </DockPanel>
 
         <!-- DataGrid Section -->
-        <Border Grid.Row="1" Padding="10" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Margin="0,10,0,0" Grid.ColumnSpan="2">
+        <Border Grid.Row="1" Padding="10" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8">
             <Border.Effect>
                 <DropShadowEffect Color="Black" ShadowDepth="2" Opacity="0.3" BlurRadius="5"/>
             </Border.Effect>
 
-            <DataGrid Grid.Row="1"
-                      ItemsSource="{Binding Brands}"
-                      SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
-                      AutoGenerateColumns="False"
-                      SelectionMode="Single"
-                      IsReadOnly="True"
-                      RowBackground="#F9F9F9"
-                      AlternatingRowBackground="#E1F5FE"
-                      FontSize="14"
-                      HorizontalAlignment="Stretch"
-                      RowStyle="{StaticResource DataGridRowHover}">
+            <DataGrid
+                ItemsSource="{Binding Brands}"
+                SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
+                AutoGenerateColumns="False"
+                SelectionMode="Single"
+                IsReadOnly="True"
+                RowBackground="#F9F9F9"
+                AlternatingRowBackground="#E1F5FE"
+                FontSize="14"
+                RowStyle="{StaticResource DataGridRowHover}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                CanUserResizeColumns="True"
+                CanUserResizeRows="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="100"/>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                     <DataGridTextColumn Header="BrandName" Binding="{Binding Name}" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
