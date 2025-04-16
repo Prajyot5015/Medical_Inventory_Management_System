@@ -24,5 +24,9 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
         {
             InitializeComponent();
         }
+
+       
+
+       
     }
 }
