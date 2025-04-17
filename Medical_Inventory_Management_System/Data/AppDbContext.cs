@@ -11,6 +11,15 @@ namespace Medical_Inventory_Management_System.Data
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<Product> Products { get; set; }
 
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public DbSet<PurchaseOrderItem> PurchaseOrderItems { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+
+        public DbSet<Sale> Sales { get; set; }
+
+        public DbSet<SalesItem> SalesItems { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -9,6 +9,8 @@
         public string Unit { get; set; }
         public decimal Price { get; set; }
 
+        public int Stock { get; set; }
+
         // Foreign Keys
         public int BrandId { get; set; }
         public Brand Brand { get; set; }

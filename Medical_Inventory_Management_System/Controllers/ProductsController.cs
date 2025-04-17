@@ -1,6 +1,5 @@
 ﻿using Medical_Inventory_Management_System.Models.DTOs;
 using Medical_Inventory_Management_System.Services.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Medical_Inventory_Management_System.Controllers
@@ -17,10 +16,10 @@ namespace Medical_Inventory_Management_System.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(CreateProductDTO createProductDTO)
+        public async Task<IActionResult> AddProduct([FromBody] CreateProductDTO createProductDTO)
         {
             var response = await productsService.AddProductAsync(createProductDTO);
-            if (response != null)
+            if (response == null)
             {
                 return BadRequest("Product could not be added.");
             }
@@ -28,11 +27,10 @@ namespace Medical_Inventory_Management_System.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> GetAllProducts()
         {
             var response = await productsService.GetProductsAsync();
-            if (response == null)
+            if (response == null || !response.Any())
             {
                 return NotFound("No products found.");
             }
@@ -40,7 +38,6 @@ namespace Medical_Inventory_Management_System.Controllers
         }
 
         [HttpGet("{id}")]
-
         public async Task<IActionResult> GetProductById(int id)
         {
             var response = await productsService.GetProductById(id);
@@ -52,8 +49,7 @@ namespace Medical_Inventory_Management_System.Controllers
         }
 
         [HttpPut("{id}")]
-
-        public async Task<IActionResult> UpdateProduct(int id, UpdateProductDTO updateProductDTO)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO updateProductDTO)
         {
             var response = await productsService.UpdateProductAsync(id, updateProductDTO);
             if (response == null)

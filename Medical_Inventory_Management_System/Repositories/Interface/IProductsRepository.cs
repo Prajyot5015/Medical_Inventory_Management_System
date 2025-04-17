@@ -15,3 +15,4 @@ namespace Medical_Inventory_Management_System.Repositories.Interface
         Task<bool> DeleteProductAsync(int id);
     }
 }
+
