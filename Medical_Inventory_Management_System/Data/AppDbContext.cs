@@ -19,8 +19,6 @@ namespace Medical_Inventory_Management_System.Data
 
         public DbSet<SalesItem> SalesItems { get; set; }
 
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
