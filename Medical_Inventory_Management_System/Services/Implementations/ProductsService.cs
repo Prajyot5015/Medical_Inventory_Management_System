@@ -21,7 +21,7 @@ namespace Medical_Inventory_Management_System.Services.Implementations
         {
             var response = await productsRepository.AddProductAsync(mapper.Map<Product>(createProductDTO));
 
-            if (response == true)
+            if (!response)
             {
                 return null;
             }
@@ -31,7 +31,10 @@ namespace Medical_Inventory_Management_System.Services.Implementations
         public async Task<string> DeleteProductAsync(int id)
         {
             var response = await productsRepository.DeleteProductAsync(id);
-            if (response == false) return null;
+            if (!response)
+            {
+                return null;
+            }
             return "Product deleted successfully!";
         }
 
@@ -52,7 +55,10 @@ namespace Medical_Inventory_Management_System.Services.Implementations
         public async Task<string> UpdateProductAsync(int id, UpdateProductDTO updateProductDTO)
         {
             var response = await productsRepository.UpdateProductAsync(id, mapper.Map<Product>(updateProductDTO));
-            if (response == false) return null;
+            if (!response)
+            {
+                return null;
+            }
             return "Product updated successfully!";
         }
     }

@@ -35,9 +35,10 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
-           var products = await appDbContext.Products
-                                .Include(p => p.Brand)
-                                .Include(p => p.Manufacturer).ToListAsync();
+            var products = await appDbContext.Products
+                                    .Include(p => p.Brand)
+                                    .Include(p => p.Manufacturer)
+                                    .ToListAsync();
             return products;
         }
 
@@ -58,10 +59,12 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
             {
                 return false;
             }
+
             existingProduct.Name = product.Name;
             existingProduct.Batch = product.Batch;
             existingProduct.Unit = product.Unit;
             existingProduct.Price = product.Price;
+            existingProduct.Stock = product.Stock;
             existingProduct.BrandId = product.BrandId;
             existingProduct.ManufacturerId = product.ManufacturerId;
 
@@ -71,3 +74,4 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
         }
     }
 }
+
