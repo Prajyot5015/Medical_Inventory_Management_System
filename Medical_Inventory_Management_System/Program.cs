@@ -35,7 +35,9 @@ builder.Services.AddScoped<IManufacturersRepository, ManufacturersRepository>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
 builder.Services.AddScoped<ISaleRepository, SaleRepository>();
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
+builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<ISaleService, SaleService>();
 builder.Services.AddScoped<IBrandsService, BrandsService>();
 builder.Services.AddScoped<IManufacturersService, ManufacturersService>();
