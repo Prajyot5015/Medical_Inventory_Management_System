@@ -9,7 +9,7 @@ using WPF_Medical_Inventory_Managment_Systemm.Views;
 
 namespace WPF_Medical_Inventory_Managment_Systemm
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : MahApps.Metro.Controls.MetroWindow//Window
     {
         private readonly ServiceProvider _provider;
 
