@@ -96,6 +96,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 Batch = product.Batch,
                 Unit = product.Unit,
                 Price = product.Price.ToString("0.00"),
+                Stock = product.Stock,
                 BrandId = product.Brand?.Id ?? 0,
                 ManufacturerId = product.Manufacturer?.Id ?? 0,
                 ExpiryDate = product.ExpiryDate
@@ -115,6 +116,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 Batch = NewProduct.Batch,
                 Unit = NewProduct.Unit,
                 Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
+                Stock = NewProduct.Stock,
                 BrandId = NewProduct.BrandId,
                 ManufacturerId = NewProduct.ManufacturerId
             };

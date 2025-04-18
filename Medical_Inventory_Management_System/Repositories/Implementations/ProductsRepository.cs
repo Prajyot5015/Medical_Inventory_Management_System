@@ -80,6 +80,7 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
             existingProduct.Batch = product.Batch;
             existingProduct.Unit = product.Unit;
             existingProduct.Price = product.Price;
+            existingProduct.Stock = product.Stock;
             existingProduct.BrandId = product.BrandId;
             existingProduct.ManufacturerId = product.ManufacturerId;
 

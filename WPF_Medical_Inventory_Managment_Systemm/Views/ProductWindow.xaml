@@ -23,12 +23,12 @@
 
             <!-- Form Section -->
             <materialDesign:Card Padding="20" Margin="0 0 0 20">
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top" >
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top"  Background="#FFE4DDDD" >
 
-                    <TextBlock Text="Add New Product" FontSize="24" FontWeight="Bold" Margin="0 0 0 20" Foreground="#333"/>
+                    <TextBlock Text="Add New Product" FontSize="24" FontWeight="Bold" Margin="20 5 0 20" Foreground="#333"/>
 
                     <!-- Form Layout -->
-                    <UniformGrid Columns="4" Rows="2" Margin="0 0 0 20" HorizontalAlignment="Stretch">
+                    <UniformGrid Columns="4" Rows="2" Margin="20 0 20 20" HorizontalAlignment="Stretch">
 
                         <StackPanel Margin="5">
                             <TextBlock Text="Name" FontWeight="SemiBold" Height="24"/>
@@ -50,7 +50,7 @@
 
                         <StackPanel Margin="5">
                             <TextBlock Text="Unit" FontWeight="SemiBold" Height="22"/>
-                            <TextBox Text="{Binding NewProduct.Unit}" Height="29"  />
+                            <TextBox Text="{Binding NewProduct.Unit}" Height="29" />
                         </StackPanel>
 
                         <StackPanel Margin="5">
@@ -76,6 +76,11 @@
                                        />
                         </StackPanel>
 
+                        <StackPanel Margin="5">
+                            <TextBlock Text="Quantiy" FontWeight="SemiBold" Height="22"/>
+                            <TextBox Text="{Binding NewProduct.Stock}" Height="29"  />
+                        </StackPanel>
+
                     </UniformGrid>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -85,7 +90,7 @@
                                 Foreground="White"
                                 Width="160"
                                 Height="40"
-                                Margin="0 10 10 0"
+                                Margin="10"
                                 FontSize="16"/>
                                     <Button Content="Update Product"
                                 Command="{Binding UpdateProductCommand}"
@@ -93,7 +98,7 @@
                                 Foreground="White"
                                 Width="160"
                                 Height="40"
-                                Margin="0 10 0 0"
+                                Margin="10"
                                 FontSize="16"/>     
                     </StackPanel>       
 
@@ -101,51 +106,67 @@
                 
                 
             </materialDesign:Card>
-
             <!-- DataGrid Section -->
-            <materialDesign:Card Grid.Row="1" Padding="15">
-                <DataGrid ItemsSource="{Binding Products}"
-                          AutoGenerateColumns="False"
-                          CanUserAddRows="False"
-                          IsReadOnly="True"
-                          HeadersVisibility="Column"
-                          AlternatingRowBackground="#F5F5F5"
-                          GridLinesVisibility="Horizontal"
-                          Margin="0"
-                          FontSize="14" SelectionChanged="DataGrid_SelectionChanged">
+            <materialDesign:Card Grid.Row="1" Padding="15" Margin="10">
+                <Border Background="White" CornerRadius="8" Padding="5">
+                    <DataGrid ItemsSource="{Binding Products}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  HeadersVisibility="Column"
+                  AlternatingRowBackground="#FAFAFA"
+                  GridLinesVisibility="Horizontal"
+                  FontSize="14"
+                  RowBackground="White"
+                  Margin="0"
+                  SelectionChanged="DataGrid_SelectionChanged"
+                  Style="{DynamicResource MaterialDesignDataGrid}">
 
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
-                        <DataGridTextColumn Header="Batch" Binding="{Binding Batch}" Width="100"/>
-                        <DataGridTextColumn Header="Expiry Date" Binding="{Binding ExpiryDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120"/>
-                        <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"/>
-                        <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
-                        <DataGridTextColumn Header="Brand" Binding="{Binding Brand.Name}" Width="100"/>
-                        <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer.Name}" Width="120"/>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150"/>
+                            <DataGridTextColumn Header="Batch" Binding="{Binding Batch}" Width="100"/>
+                            <DataGridTextColumn Header="Expiry Date" Binding="{Binding ExpiryDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="120"/>
+                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="80"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
+                            <DataGridTextColumn Header="Brand" Binding="{Binding Brand.Name}" Width="100"/>
+                            <DataGridTextColumn Header="Manufacturer" Binding="{Binding Manufacturer.Name}" Width="120"/>
 
-                        <!-- Action Column -->
-                        <DataGridTemplateColumn Header="Action" Width="160">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                      <Button Content="Edit" Margin="5,5" Padding="5"
-        Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-        CommandParameter="{Binding}" Width="80" Background="#FFC107" Foreground="Black"/>
+                            <!-- Action Buttons -->
+                            <DataGridTemplateColumn Header="Action" Width="160">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="Edit"
+                                        Margin="5"
+                                        Padding="5"
+                                        Width="70"
+                                        Background="#FFC107"
+                                        Foreground="Black"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"/>
 
+                                            <Button Content="Delete"
+                                        Margin="5"
+                                        Padding="5"
+                                        Width="70"
+                                        Background="#F44336"
+                                        Foreground="White"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
 
-                                        <!-- Delete Button -->
-                                        <Button Content="Delete" Margin="5,5" Padding="5"
-                            Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                            CommandParameter="{Binding}" Width="60" Background="#F44336" Foreground="White"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-
-                </DataGrid>
+                    </DataGrid>
+                </Border>
             </materialDesign:Card>
+
+
         </Grid>
     </ScrollViewer>
 </Page>
