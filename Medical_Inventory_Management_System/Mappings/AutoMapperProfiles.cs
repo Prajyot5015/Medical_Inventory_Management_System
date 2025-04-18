@@ -45,18 +45,9 @@ namespace Medical_Inventory_Management_System.Mappings
                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name));
 
             CreateMap<Stock, StockDto>()
-           .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
-           .ForMember(dest => dest.IsLowStock, opt => opt.MapFrom(src => src.CurrentStock < src.LowStockThreshold))
-           .ForMember(dest => dest.IsNearExpiry, opt => opt.MapFrom(src =>
-               src.ExpiryDate.HasValue && src.ExpiryDate.Value <= DateTime.UtcNow.AddDays(7)
-           ));
-
-            CreateMap<Stock, StockDto>()
-                .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product.Name))
-                .ForMember(dest => dest.IsLowStock, opt => opt.MapFrom(src => src.CurrentStock < src.LowStockThreshold))
-                .ForMember(dest => dest.IsNearExpiry, opt => opt.MapFrom(src =>
-                    src.ExpiryDate.HasValue && src.ExpiryDate.Value <= DateTime.UtcNow.AddDays(7)
-                ));
+                 .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product != null ? src.Product.Name : string.Empty))
+                 .ForMember(dest => dest.Batch, opt => opt.MapFrom(src => src.Product != null ? src.Product.Batch : string.Empty))
+                 .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.ExpiryDate ?? src.Product.ExpiryDate));
         }
     }
 }

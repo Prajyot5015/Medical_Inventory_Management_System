@@ -18,5 +18,15 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
         {
             return await _context.Stocks.Include(s => s.Product).ToListAsync();
         }
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddStockAsync(Stock stock)
+        {
+            await _context.Stocks.AddAsync(stock);
+            await _context.SaveChangesAsync();
+        }
     }
 }
