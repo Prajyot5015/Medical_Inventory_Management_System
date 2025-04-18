@@ -39,5 +39,59 @@ namespace Medical_Inventory_Management_System.Services.Implementations
 
             return _mapper.Map<List<StockDto>>(filtered);
         }
+        public async Task UpdateStockAfterSaleAsync(int productId, int quantitySold)
+        {
+            var stock = await _repository.GetAllStocksAsync();
+            var productStock = stock.FirstOrDefault(s => s.ProductId == productId);
+
+            if (productStock != null)
+            {
+                if (productStock.CurrentStock >= quantitySold)
+                {
+                    productStock.CurrentStock -= quantitySold;
+                    var product = productStock.Product;
+                    product.DecreaseStock(quantitySold);
+                    await _repository.SaveChangesAsync();
+                }
+                else
+                {
+                    throw new InvalidOperationException("Insufficient stock");
+                }
+            }
+        }
+
+        public async Task UpdateStockAfterPurchaseAsync(int productId, int quantityPurchased)
+        {
+            var stock = await _repository.GetAllStocksAsync();
+            var productStock = stock.FirstOrDefault(s => s.ProductId == productId);
+
+            if (productStock != null)
+            {
+                productStock.CurrentStock += quantityPurchased;
+                var product = productStock.Product;
+                product.IncreaseStock(quantityPurchased);
+                await _repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddStockToProductAsync(int productId, int quantityToAdd)
+        {
+            var stock = await _repository.GetAllStocksAsync();
+            var productStock = stock.FirstOrDefault(s => s.ProductId == productId);
+
+            if (productStock != null)
+            {
+                productStock.CurrentStock += quantityToAdd;
+                var product = productStock.Product;
+                product.IncreaseStock(quantityToAdd);
+
+                await _repository.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Product not found in stock");
+            }
+        }
     }
 }
+

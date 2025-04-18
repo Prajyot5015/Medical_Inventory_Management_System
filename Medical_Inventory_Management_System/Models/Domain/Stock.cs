@@ -12,5 +12,10 @@
         public int LowStockThreshold { get; set; }
 
         public DateTime? ExpiryDate { get; set; }
+
+        public void UpdateStock(int newStockQuantity)
+        {
+            CurrentStock = newStockQuantity;
+        }
     }
 }

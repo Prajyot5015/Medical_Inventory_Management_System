@@ -1,6 +1,7 @@
 ﻿using Medical_Inventory_Management_System.Data;
 using Medical_Inventory_Management_System.Models.Domain;
 using Medical_Inventory_Management_System.Repositories.Interface;
+using Medical_Inventory_Management_System.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Medical_Inventory_Management_System.Repositories.Implementations
@@ -8,16 +9,31 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
     public class ProductsRepository : IProductsRepository
     {
         private readonly AppDbContext appDbContext;
+        private readonly IStockService stockService;
 
-        public ProductsRepository(AppDbContext appDbContext)
+        public ProductsRepository(AppDbContext appDbContext, IStockService stockService)
         {
             this.appDbContext = appDbContext;
+            this.stockService = stockService;
         }
 
         public async Task<bool> AddProductAsync(Product product)
         {
             await appDbContext.Products.AddAsync(product);
             await appDbContext.SaveChangesAsync();
+
+            
+            var stock = new Stock
+            {
+                ProductId = product.Id,
+                CurrentStock = product.Stock, 
+                LowStockThreshold = 10, 
+                ExpiryDate = product.ExpiryDate
+            };
+
+            await appDbContext.Stocks.AddAsync(stock);
+            await appDbContext.SaveChangesAsync();
+
             return true;
         }
 
@@ -64,7 +80,6 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
             existingProduct.Batch = product.Batch;
             existingProduct.Unit = product.Unit;
             existingProduct.Price = product.Price;
-            existingProduct.Stock = product.Stock;
             existingProduct.BrandId = product.BrandId;
             existingProduct.ManufacturerId = product.ManufacturerId;
 

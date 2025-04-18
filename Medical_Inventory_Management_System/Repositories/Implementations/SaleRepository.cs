@@ -18,6 +18,28 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
         {
             _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
+
+            foreach (var item in sale.Items)
+            {
+                var stock = await _context.Stocks.FirstOrDefaultAsync(s => s.ProductId == item.ProductId);
+
+                if (stock != null)
+                {
+                    stock.CurrentStock -= item.Quantity;
+
+                    if (stock.CurrentStock < 0)
+                        stock.CurrentStock = 0; 
+
+                    _context.Stocks.Update(stock);
+                }
+                else
+                {
+                    throw new Exception($"No stock found for Product ID {item.ProductId}");
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
             return sale;
         }
 

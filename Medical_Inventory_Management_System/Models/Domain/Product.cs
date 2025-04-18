@@ -8,7 +8,6 @@
         public DateTime ExpiryDate { get; set; }
         public string Unit { get; set; }
         public decimal Price { get; set; }
-
         public int Stock { get; set; }
 
         // Foreign Keys
@@ -21,5 +20,14 @@
         // Navigation
         public ICollection<PurchaseOrderItem> PurchaseOrderItems { get; set; }
         public ICollection<SalesItem> SalesItems { get; set; }
+
+        public void IncreaseStock(int quantity)
+        {
+            Stock += quantity;
+        }
+        public void DecreaseStock(int quantity)
+        {
+            Stock -= quantity;
+        }
     }
 }

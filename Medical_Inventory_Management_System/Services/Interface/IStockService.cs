@@ -7,5 +7,11 @@ namespace Medical_Inventory_Management_System.Services.Interface
         Task<List<StockDto>> GetAllStockDetailsAsync();
         Task<List<StockDto>> GetLowStockAsync();
         Task<List<StockDto>> GetNearExpiryStockAsync();
+
+        Task UpdateStockAfterPurchaseAsync(int productId, int quantitySold);
+
+        Task UpdateStockAfterSaleAsync(int productId, int quantitySold);
+
+        Task AddStockToProductAsync(int productId, int quantityToAdd);
     }
 }
