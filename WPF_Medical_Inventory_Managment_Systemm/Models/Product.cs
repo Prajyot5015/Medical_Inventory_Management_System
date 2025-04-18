@@ -14,6 +14,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Models
         public DateTime ExpiryDate { get; set; }
         public string Unit { get; set; }
         public decimal Price { get; set; }
+
+        public int Stock { get; set; }
         public BrandDTO Brand { get; set; }
         public ManufacturersDTO Manufacturer { get; set; }
     }
