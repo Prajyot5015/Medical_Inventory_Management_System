@@ -17,6 +17,8 @@
             <Button Content="Manufacturers" Margin="10" Click="NavigateToManufacturerPage" Style="{DynamicResource MetroButton}" />
             <Button Content="Brands" Margin="10" Click="NavigateToBrandPage" Style="{DynamicResource MetroButton}" />
             <Button Content="Products" Margin="10" Click="NavigateToProductPage" Style="{DynamicResource MetroButton}" />
+            <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
+
         </StackPanel>
 
         <!-- Main Content Area -->

@@ -13,7 +13,10 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
 
         public BrandService(HttpClient httpClient)
         {
-            _httpClient = httpClient;
+            _httpClient = new HttpClient
+            {
+                BaseAddress = new Uri("https://localhost:7228/api/")
+            };
         }
 
         public async Task<List<Brand>> GetBrandsAsync()
@@ -38,5 +41,10 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
             var response = await _httpClient.DeleteAsync($"brands/{id}");
             response.EnsureSuccessStatusCode();
         }
+        public async Task<Brand> GetBrandByIdAsync(int brandId)
+        {
+            return await _httpClient.GetFromJsonAsync<Brand>($"brands/{brandId}");
+        }
+
     }
 }

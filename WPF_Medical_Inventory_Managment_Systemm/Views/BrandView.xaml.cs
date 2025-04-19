@@ -19,7 +19,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
 
         private async void BrandView_Loaded(object sender, RoutedEventArgs e)
         {
-            await _viewModel.LoadAsync();
+            if (_viewModel != null)
+                await _viewModel.LoadAsync();
         }
     }
 }

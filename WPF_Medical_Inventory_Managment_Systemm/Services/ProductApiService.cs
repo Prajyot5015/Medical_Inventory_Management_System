@@ -56,6 +56,21 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
             var response = await _client.DeleteAsync($"Products/{id}");
             return response.IsSuccessStatusCode;
         }
+        // Inside ProductApiService class
+        public async Task<Product> GetProductByIdAsync(int id)
+        {
+            var response = await _client.GetAsync($"Products/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<Product>(json, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            return null;
+        }
+
 
     }
 }
