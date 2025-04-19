@@ -3,80 +3,83 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Views"
       mc:Ignorable="d"
-      Title="ManufacturersPage">
+      Title="ManufacturersPage"
+       Background="#F4F4F4">
 
-    <Grid Margin="10">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,10" Background="#FF96C3C1">
-            <TextBlock Text="Manufacturers" FontSize="20" FontWeight="Bold" VerticalAlignment="Center" />
-            <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                <TextBlock Text="Search by ID:" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                <TextBox Width="100" Text="{Binding SearchId, UpdateSourceTrigger=PropertyChanged}" />
-                <Button Content="Search" Command="{Binding GetManufacturerByIdCommand}" Margin="5,0,0,0" />
-            </StackPanel>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Search by ID:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="Bold"/>
+            <TextBox Width="100" Height="30" Padding="5" 
+                     Text="{Binding SearchId, UpdateSourceTrigger=PropertyChanged}" 
+                     BorderBrush="black" BorderThickness="1" />
+            <Button Content="Search" Command="{Binding GetManufacturerByIdCommand}" 
+                    Margin="10,0,0,0" Width="100" Height="35" Background="#FF38ADCE"/>
+
+            <TextBlock Text="Manufacturer Details" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="200,0,0,0"/>
         </StackPanel>
 
-        <Grid Grid.Row="1" Margin="0,35,0,-13" Grid.RowSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="1" Text="Manufacturer Details" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
 
-            <StackPanel Grid.Column="0" Margin="0,0,10,0">
-                <TextBlock Text="Manufacturers" FontSize="16" FontWeight="Bold" Margin="0,0,0,5"/>
-                <ListView ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Height="300" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="120"/>
-                            <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="150"/>
-                            <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="180"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Button Content="Refresh" Command="{Binding LoadManufacturersCommand}" Margin="0,10,0,0" Height="30"/>
-            </StackPanel>
 
-            <StackPanel Grid.Column="1">
-                <TextBlock Text="Manufacturer Details" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+        <Border Grid.Row="1" BorderBrush="#FFB0BEC5" BorderThickness="1" Padding="10" CornerRadius="8" Background="#FFF5F5F5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" Margin="0,0,10,5"/>
-                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name}" Margin="0,0,0,5"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" Margin="0,0,10,10" FontWeight="Bold"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name}" 
+                         Margin="0,0,0,10" Height="30" Padding="5" BorderBrush="Black" BorderThickness="1"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact Details:" Margin="0,0,10,5"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails}" Margin="0,0,0,5"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact:" Margin="0,0,10,10" FontWeight="Bold"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails}" 
+                         Margin="0,0,0,10" Height="30" Padding="5" BorderBrush="black" BorderThickness="1"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Address:" Margin="0,0,10,5"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address}" Margin="0,0,0,5"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Address:" Margin="0,0,10,0" FontWeight="Bold"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address}" 
+                         Height="30" Padding="5" BorderBrush="black" BorderThickness="1"/>
+            </Grid>
+        </Border>
 
-                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                        <Button Content="New" Command="{Binding NewManufacturerCommand}" Width="80" Margin="0,0,10,0" Background="#FF38ADCE"/>
-                        <Button Content="Save" Command="{Binding SaveManufacturerCommand}" Width="80" Margin="0,0,10,0" Background="#FF1F9E30"/>
-                        <Button Content="Delete" Command="{Binding DeleteManufacturerCommand}" Width="80"  Background="#FFD21212"/>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,10">
+            <Button Content="New" Command="{Binding NewManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FF38ADCE"/>
+            <Button Content="Save" Command="{Binding SaveManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FF1F9E30"/>
+            <Button Content="Delete" Command="{Binding DeleteManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FFD21212"/>
+            <Button Content="Refresh" Command="{Binding LoadManufacturersCommand}" Width="100" Height="40" Margin="5"/>
+        </StackPanel>
 
-        <StatusBar Grid.Row="2">
+        <TextBlock Grid.Row="3" Text="Manufacturers" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+
+
+        <ListView Grid.Row="3" ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Margin="0,30,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="180"/>
+                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="250"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+        <StatusBar Grid.Row="4" Margin="0,10,0,0">
             <StatusBarItem>
                 <TextBlock Text="Ready"/>
             </StatusBarItem>
