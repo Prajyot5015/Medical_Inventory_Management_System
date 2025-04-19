@@ -41,13 +41,20 @@ namespace WPF_Medical_Inventory_Managment_Systemm
                 client.BaseAddress = new Uri("https://localhost:7228/api/");
             });
 
+            services.AddHttpClient<StockApiService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5000/api/stock"); // Update to your stock API URL
+            });
+
             services.AddTransient<ManufacturersViewModel>();
             services.AddTransient<BrandViewModel>();
             services.AddTransient<ProductViewModel>();
+            services.AddTransient<StockViewModel>();
 
             services.AddTransient<ManufacturersPage>();
             services.AddTransient<BrandView>();
             services.AddTransient<ProductWindow>();
+            services.AddTransient<StockView>();
         }
 
         private void NavigateToManufacturerPage(object sender, RoutedEventArgs e)
@@ -70,6 +77,13 @@ namespace WPF_Medical_Inventory_Managment_Systemm
             page.DataContext = _provider.GetRequiredService<ProductViewModel>();
             MainFrame.Navigate(page);
         }
+        private void NavigateToStockPage(object sender, RoutedEventArgs e)
+        {
+            var page = _provider.GetRequiredService<StockView>();
+            page.DataContext = _provider.GetRequiredService<StockViewModel>();  // Bind the StockViewModel to the view
+            MainFrame.Navigate(page);
+        }
+
     }
 }
 
