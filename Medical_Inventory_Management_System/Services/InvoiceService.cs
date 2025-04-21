@@ -1,7 +1,5 @@
 ﻿using Medical_Inventory_Management_System.Models.DTOs;
 using QuestPDF.Fluent;
-using QuestPDF.Infrastructure;
-using System.Linq;
 
 namespace Medical_Inventory_Management_System.Services
 {
