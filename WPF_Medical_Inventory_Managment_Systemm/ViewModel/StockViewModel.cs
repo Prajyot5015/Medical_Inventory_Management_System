@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WPF_Medical_Inventory_Managment_Systemm.Helpers.RelayCommands;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
 
@@ -31,7 +32,9 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             LoadLowStockCommand = new RelayCommand(async () => await LoadLowStockData());
             LoadNearExpiryCommand = new RelayCommand(async () => await LoadNearExpiryData());
             AddStockCommand = new RelayCommand(async () => await AddStock(), () => SelectedProductId > 0 && QuantityToAdd > 0);
+            NavigateToAddStockCommand = new RelayCommand(() => NavigateToAddStock(SelectedStockItem));
 
+            _ = LoadStockData();
             _ = LoadProducts();
         }
 
@@ -40,6 +43,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         public ICommand LoadNearExpiryCommand { get; }
         public ICommand UpdateStockAfterSaleCommand { get; }
         public ICommand UpdateStockAfterPurchaseCommand { get; }
+        public ICommand NavigateToAddStockCommand { get; }
+
         public ICommand AddStockCommand { get; }
 
         private ObservableCollection<StockDto> _stockList;
@@ -271,10 +276,22 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             {
                 await _stockApiService.AddStockToProductAsync(SelectedProductId, QuantityToAdd);
                 MessageBox.Show("Stock added successfully.");
+                //SelectedBrand = new Brand();
+                SelectedProductId = 0;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+
+        private void NavigateToAddStock(StockDto selectedItem)
+        {
+            if (selectedItem != null)
+            {
+                SelectedProductId = selectedItem.ProductId;
+                SelectedTabIndex = 3; // Index for "Add Stock" tab
             }
         }
 
