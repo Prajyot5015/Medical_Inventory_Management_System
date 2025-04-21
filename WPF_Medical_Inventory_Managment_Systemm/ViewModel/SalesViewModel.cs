@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
+using System.IO;
 
 public class SalesViewModel : INotifyPropertyChanged
 {
@@ -122,7 +123,9 @@ public class SalesViewModel : INotifyPropertyChanged
         var result = await _saleService.CreateSaleAsync(sale);
         if (result != null)
         {
-            MessageBox.Show($"Sale Created! ID: {result.Id}\nTotal: {result.Items.Sum(i => i.Total)}");
+           // MessageBox.Show($"Sale Created! ID: {result.Id}\nTotal: {result.Items.Sum(i => i.Total)}");
+
+            await DownloadInvoice(result.Id);
 
             CartItems.Clear();
             SaleItems.Clear();
@@ -137,6 +140,39 @@ public class SalesViewModel : INotifyPropertyChanged
             MessageBox.Show("Sale creation failed!");
         }
     }
+
+
+    private async Task DownloadInvoice(int saleId)
+    {
+        var invoiceUrl = $"https://localhost:7228/api/Sales/{saleId}/invoice";
+        var pdfResponse = await _saleService.GetInvoiceAsync(invoiceUrl);
+
+        if (pdfResponse != null)
+        {
+            var projectDirectory = Directory.GetCurrentDirectory(); 
+
+            var invoicesFolderPath = Path.Combine(projectDirectory, "Invoices");
+
+            if (!Directory.Exists(invoicesFolderPath))
+            {
+                Directory.CreateDirectory(invoicesFolderPath);
+            }
+
+            var filePath = Path.Combine(invoicesFolderPath, $"Invoice_{saleId}.pdf");
+
+            File.WriteAllBytes(filePath, pdfResponse);
+
+           // MessageBox.Show($"Invoice saved at: {filePath}");
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(filePath) { UseShellExecute = true });
+        }
+        else
+        {
+            MessageBox.Show("Failed to download invoice.");
+        }
+    }
+
+
     protected void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

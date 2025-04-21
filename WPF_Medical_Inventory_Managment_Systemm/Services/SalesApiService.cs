@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
+using System.Windows;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.Services
@@ -24,6 +25,22 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
                 return await response.Content.ReadFromJsonAsync<SaleResponseDto>();
             }
             return null;
+        }
+
+        public async Task<byte[]> GetInvoiceAsync(string url)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching invoice: {ex.Message}");
+                return null;
+            }
         }
     }
 
