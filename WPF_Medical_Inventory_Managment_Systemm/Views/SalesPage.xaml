@@ -1,0 +1,69 @@
+﻿<Page x:Class="WPF_Medical_Inventory_Managment_Systemm.Views.SalesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Background="White">
+
+    <StackPanel Margin="30">
+        <TextBlock Text="Sales Entry" FontSize="26" FontWeight="Bold" Margin="0 0 0 20"/>
+
+        <TextBox Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" 
+                 materialDesign:HintAssist.Hint="Customer Name" 
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                 Margin="0 0 0 10"/>
+
+        <StackPanel Orientation="Horizontal" Margin="0 20 0 20">
+
+            <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock Text="Select Product" FontWeight="Bold" Margin="0 0 0 5"/>
+                <ComboBox ItemsSource="{Binding Products}" 
+                   SelectedItem="{Binding SelectedProduct}" 
+                   DisplayMemberPath="Name" 
+                   Width="300"
+                   Padding="15"
+                   materialDesign:HintAssist.Hint="Select Product" />   
+
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock Text="Quantity" FontWeight="Bold" Margin="0 0 0 5"/>
+                <TextBox Text="{Binding Quantity}" Width="300" Margin="10 0" Padding="15"
+                  materialDesign:HintAssist.Hint="Quantity" 
+                  HorizontalContentAlignment="Center" 
+                  VerticalContentAlignment="Center"/>   
+            </StackPanel>
+
+         
+            
+            <Button Content="Add" Command="{Binding AddToCartCommand}" Width="300" 
+            Background="#0078D4" Foreground="White" BorderBrush="#0078D4" 
+            BorderThickness="1" Padding="10 5" Height="50" Margin="0 20 0 0" FontSize="20" FontWeight="Bold"/>
+        </StackPanel>
+        
+        <Grid>
+            <DataGrid ItemsSource="{Binding SaleItems}"
+              AutoGenerateColumns="False"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Top"
+              Height="300"
+              CanUserResizeColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Product" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="*" />
+                    <DataGridTextColumn Header="Price" Binding="{Binding UnitPrice}" Width="*" />
+                    <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <TextBlock Text="{Binding TotalAmount, StringFormat='Total: {0:C}'}"
+           FontWeight="Bold"
+           FontSize="16"
+           Margin="10"
+           HorizontalAlignment="Right"/>
+
+
+
+        <Button Content="Generate Invoice" Command="{Binding SubmitSaleCommand}" Margin="0 10 0 0" Height="40" Background="#0078D4" Foreground="White" FontSize="20" FontWeight="Bold"/>
+    </StackPanel>
+</Page>

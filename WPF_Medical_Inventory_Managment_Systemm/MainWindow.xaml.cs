@@ -49,11 +49,12 @@ namespace WPF_Medical_Inventory_Managment_Systemm
             services.AddTransient<ManufacturersViewModel>();
             services.AddTransient<BrandViewModel>();
             services.AddTransient<ProductViewModel>();
+            services.AddTransient<SalesViewModel>();
             services.AddTransient<StockViewModel>();
-
             services.AddTransient<ManufacturersPage>();
             services.AddTransient<BrandView>();
             services.AddTransient<ProductWindow>();
+            services.AddTransient<SalesPage>();
             services.AddTransient<StockView>();
         }
 
@@ -75,6 +76,12 @@ namespace WPF_Medical_Inventory_Managment_Systemm
         {
             var page = _provider.GetRequiredService<ProductWindow>();
             page.DataContext = _provider.GetRequiredService<ProductViewModel>();
+            MainFrame.Navigate(page);
+        }
+        private void NavigateToSalePage(object sender, RoutedEventArgs e)
+        {
+            var page = _provider.GetRequiredService<SalesPage>();
+            page.DataContext = _provider.GetRequiredService<SalesViewModel>();
             MainFrame.Navigate(page);
         }
         private void NavigateToStockPage(object sender, RoutedEventArgs e)
