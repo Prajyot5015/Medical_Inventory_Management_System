@@ -1,0 +1,126 @@
+﻿<Page x:Class="WPF_Medical_Inventory_Managment_Systemm.Views.StockView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Views"
+      Title="Stock Management"
+      Height="Auto"
+      Width="Auto">
+
+    <Page.Resources>
+        <!-- Optional: Button style for consistency -->
+        <Style x:Key="StockButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="#FF007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <!-- Layout Definitions -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <!-- TabControl -->
+            <RowDefinition Height="Auto" />
+            <!-- Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Main TabControl -->
+        <TabControl Grid.Row="0"
+            Margin="10"
+            FontSize="14"
+            FontWeight="SemiBold"
+            SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
+            <!-- All Stock Tab -->
+            <TabItem Header="All Stock">
+                <DataGrid x:Name="StockDataGrid"
+                          AutoGenerateColumns="False"
+                          Margin="5"
+                          ItemsSource="{Binding StockList}"
+                          IsReadOnly="True"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
+                        <DataGridTextColumn Header="Batch" Binding="{Binding Batch}" />
+                        <DataGridTextColumn Header="Brand" Binding="{Binding BrandName}" />
+                        <DataGridTextColumn Header="Manufacturer" Binding="{Binding ManufacturerName}" />
+                        <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock}" />
+                        <DataGridTextColumn Header="Low Stock Threshold" Binding="{Binding LowStockThreshold}" />
+                        <DataGridTextColumn Header="Expiry Date" Binding="{Binding ExpiryDate, StringFormat=d}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <!-- Low Stock Tab -->
+            <TabItem Header="Low Stock">
+                <DataGrid x:Name="LowStockDataGrid"
+                          AutoGenerateColumns="False"
+                          Margin="5"
+                          ItemsSource="{Binding LowStockList}"
+                          IsReadOnly="True"
+                          SelectionChanged="LowStockDataGrid_SelectionChanged"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
+                        <DataGridTextColumn Header="Batch" Binding="{Binding Batch}" />
+                        <DataGridTextColumn Header="Brand" Binding="{Binding BrandName}" />
+                        <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock}" />
+                        <DataGridTextColumn Header="Low Stock Threshold" Binding="{Binding LowStockThreshold}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <!-- Near Expiry Tab -->
+            <TabItem Header="Near Expiry">
+                <DataGrid x:Name="NearExpiryDataGrid"
+                          AutoGenerateColumns="False"
+                          Margin="5"
+                          ItemsSource="{Binding NearExpiryStockList}"
+                          IsReadOnly="True"
+                          CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
+                        <DataGridTextColumn Header="Batch" Binding="{Binding Batch}" />
+                        <DataGridTextColumn Header="Brand" Binding="{Binding BrandName}" />
+                        <DataGridTextColumn Header="Expiry Date" Binding="{Binding ExpiryDate, StringFormat=d}" />
+                        <DataGridTextColumn Header="Current Stock" Binding="{Binding CurrentStock}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Action Buttons -->
+        <ScrollViewer Grid.Row="1"
+                      Margin="10"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button Content="Load All Stock"
+                        Command="{Binding LoadStockDataCommand}"
+                        Style="{StaticResource StockButtonStyle}"/>
+                <Button Content="Load Low Stock"
+                        Command="{Binding LoadLowStockCommand}"
+                        Style="{StaticResource StockButtonStyle}"/>
+                <Button Content="Load Near Expiry"
+                        Command="{Binding LoadNearExpiryCommand}"
+                        Style="{StaticResource StockButtonStyle}"/>
+                <Button Content="Update Stock After Sale"
+                        Command="{Binding UpdateStockAfterSaleCommand}"
+                        Width="180"
+                        Margin="5"
+                        Style="{StaticResource StockButtonStyle}"/>
+                <Button Content="Update Stock After Purchase"
+                        Command="{Binding UpdateStockAfterPurchaseCommand}"
+                        Width="200"
+                        Margin="5"
+                        Style="{StaticResource StockButtonStyle}"/>
+                <Button Content="Add Stock"
+                        Command="{Binding AddStockCommand}"
+                        Style="{StaticResource StockButtonStyle}" Click="Button_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
