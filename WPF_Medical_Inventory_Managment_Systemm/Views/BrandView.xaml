@@ -84,13 +84,13 @@
                             Style="{StaticResource ActionButtonStyle}"
                             Background="#4CAF50"
                             Margin="0,0,10,0"
-                            IsEnabled="{Binding IsAddButtonEnabled}"/>
+                            />
                     <Button Content="Update"
                             Command="{Binding UpdateCommand}"
                             Style="{StaticResource ActionButtonStyle}"
                             Background="#FFC107"
                             Margin="0,0,10,0"
-                            IsEnabled="{Binding IsUpdateButtonEnabled}"/>
+                            />
                     <Button Content="Refresh"
                             Command="{Binding LoadCommand}"
                             Style="{StaticResource ActionButtonStyle}"
