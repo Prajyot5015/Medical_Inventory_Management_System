@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
@@ -29,9 +30,9 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             LoadStockDataCommand = new RelayCommand(async () => await LoadStockData());
             LoadLowStockCommand = new RelayCommand(async () => await LoadLowStockData());
             LoadNearExpiryCommand = new RelayCommand(async () => await LoadNearExpiryData());
-            UpdateStockAfterSaleCommand = new RelayCommand(async () => await UpdateStockAfterSale());
-            UpdateStockAfterPurchaseCommand = new RelayCommand(async () => await UpdateStockAfterPurchase());
-            AddStockCommand = new RelayCommand(async () => await AddStock());
+            AddStockCommand = new RelayCommand(async () => await AddStock(), () => SelectedProductId > 0 && QuantityToAdd > 0);
+
+            _ = LoadProducts();
         }
 
         public ICommand LoadStockDataCommand { get; }
@@ -62,11 +63,55 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             set { _nearExpiryStockList = value; OnPropertyChanged(); }
         }
 
+
+        private ObservableCollection<Product> _products = new ObservableCollection<Product>();
+        public ObservableCollection<Product> Products
+        {
+            get => _products;
+            set { _products = value; OnPropertyChanged(); }
+        }
+
+        private async Task LoadProducts()
+        {
+            try
+            {
+                var productList = await _productApiService.GetAllProductsAsync();
+                Products = new ObservableCollection<Product>(productList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load products: {ex.Message}");
+            }
+        }
+
+
+
         private int _selectedTabIndex;
         public int SelectedTabIndex
         {
             get => _selectedTabIndex;
-            set { _selectedTabIndex = value; OnPropertyChanged(); }
+            set
+            {
+                _selectedTabIndex = value;
+                OnPropertyChanged();
+                _ = HandleTabChangeAsync(value);
+            }
+        }
+        private async Task HandleTabChangeAsync(int index)
+        {
+            switch (index)
+            {
+                case 0: await LoadStockData(); break;
+                case 1: await LoadLowStockData(); break;
+                case 2: await LoadNearExpiryData(); break;
+            }
+        }
+
+        private StockDto _selectedStockItem;
+        public StockDto SelectedStockItem
+        {
+            get => _selectedStockItem;
+            set { _selectedStockItem = value; OnPropertyChanged(); }
         }
 
         public async Task LoadStockData()
@@ -192,20 +237,47 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             NearExpiryStockList = stockDtos;
         }
 
-        public async Task UpdateStockAfterSale()
+
+
+
+        private int _selectedProductId;
+        public int SelectedProductId
         {
-            await _stockApiService.UpdateStockAfterSaleAsync(1, 10); // Replace with real values
+            get => _selectedProductId;
+            set
+            {
+                _selectedProductId = value;
+                OnPropertyChanged();
+                (AddStockCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
 
-        private async Task UpdateStockAfterPurchase()
+        private int _quantityToAdd;
+        public int QuantityToAdd
         {
-            await _stockApiService.UpdateStockAfterPurchaseAsync(1, 10); // Replace with real values
+            get => _quantityToAdd;
+            set
+            {
+                _quantityToAdd = value;
+                OnPropertyChanged();
+                (AddStockCommand as RelayCommand)?.RaiseCanExecuteChanged();
+            }
         }
+
 
         private async Task AddStock()
         {
-            await _stockApiService.AddStockToProductAsync(1, 50); // Replace with real values
+            try
+            {
+                await _stockApiService.AddStockToProductAsync(SelectedProductId, QuantityToAdd);
+                MessageBox.Show("Stock added successfully.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "") =>

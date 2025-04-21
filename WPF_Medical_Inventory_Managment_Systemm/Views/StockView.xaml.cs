@@ -51,5 +51,29 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
         {
 
         }
+
+        private void AddStockFromLowStock_Click(object sender, RoutedEventArgs e)
+        {
+            if (LowStockDataGrid.SelectedItem is StockViewModel selected)
+            {
+                // Pass selected.ProductId if needed
+                // ViewModel.SelectedProductId = selected.ProductId;
+            }
+
+            MainTabControl.SelectedIndex = 3; // Navigate to Add Stock tab
+        }
+
+        private void AddStockFromNearExpiry_Click(object sender, RoutedEventArgs e)
+        {
+            if (NearExpiryDataGrid.SelectedItem is StockViewModel selected)
+            {
+                // Pass selected.ProductId if needed
+                // ViewModel.SelectedProductId = selected.ProductId;
+            }
+
+            MainTabControl.SelectedIndex = 3;
+        }
+
+
     }
 }
