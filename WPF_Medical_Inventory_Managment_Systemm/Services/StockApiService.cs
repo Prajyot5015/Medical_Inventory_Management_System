@@ -52,7 +52,9 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
 
         public async Task AddStockToProductAsync(int productId, int quantityToAdd)
         {
-            var response = await _httpClient.PostAsJsonAsync($"{_baseUrl}/add-stock", new { productId, quantityToAdd });
+            var response = await _httpClient.PostAsync(
+                $"{_baseUrl}/add-stock?productId={productId}&quantityToAdd={quantityToAdd}", null);
+
             response.EnsureSuccessStatusCode();
         }
     }
