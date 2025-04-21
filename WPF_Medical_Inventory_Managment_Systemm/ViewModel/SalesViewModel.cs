@@ -58,6 +58,51 @@ public class SalesViewModel : INotifyPropertyChanged
         }
     }
 
+    public ObservableCollection<SaleResponseDto> AllSales { get; set; } = new ObservableCollection<SaleResponseDto>();
+
+    private int _searchSaleId;
+    public int SearchSaleId
+    {
+        get => _searchSaleId;
+        set
+        {
+            _searchSaleId = value;
+            OnPropertyChanged(nameof(SearchSaleId));
+        }
+    }
+
+    private SaleResponseDto _searchedSale;
+    public SaleResponseDto SearchedSale
+    {
+        get => _searchedSale;
+        set
+        {
+            _searchedSale = value;
+            OnPropertyChanged(nameof(SearchedSale));
+        }
+    }
+
+    private bool _isGenerateSaleViewVisible = true;
+    public bool IsGenerateSaleViewVisible
+    {
+        get => _isGenerateSaleViewVisible;
+        set
+        {
+            _isGenerateSaleViewVisible = value;
+            OnPropertyChanged(nameof(IsGenerateSaleViewVisible));
+            OnPropertyChanged(nameof(IsAllSalesViewVisible));
+        }
+    }
+
+    public bool IsAllSalesViewVisible => !IsGenerateSaleViewVisible;
+
+    public ICommand ShowGenerateSaleViewCommand { get; }
+    public ICommand ShowAllSalesViewCommand { get; }
+
+
+
+    public ICommand LoadAllSalesCommand { get; }
+    public ICommand SearchSaleByIdCommand { get; }
 
     public ICommand AddToCartCommand { get; }
     public ICommand SubmitSaleCommand { get; }
@@ -66,6 +111,12 @@ public class SalesViewModel : INotifyPropertyChanged
     {
         AddToCartCommand = new RelayCommand(AddToCart);
         SubmitSaleCommand = new RelayCommand(async () => await SubmitSale());
+        LoadAllSalesCommand = new RelayCommand(async () => await LoadAllSales());
+        SearchSaleByIdCommand = new RelayCommand(async () => await GetSaleById());
+
+        ShowGenerateSaleViewCommand = new RelayCommand(() => IsGenerateSaleViewVisible = true);
+        ShowAllSalesViewCommand = new RelayCommand(() => IsGenerateSaleViewVisible = false);
+
         LoadProducts();
     }
 
@@ -169,6 +220,23 @@ public class SalesViewModel : INotifyPropertyChanged
         else
         {
             MessageBox.Show("Failed to download invoice.");
+        }
+    }
+
+
+    private async Task LoadAllSales()
+    {
+        AllSales.Clear();
+        var sales = await _saleService.GetAllSalesAsync();
+        foreach (var sale in sales)
+            AllSales.Add(sale);
+    }
+
+    private async Task GetSaleById()
+    {
+        if (SearchSaleId > 0)
+        {
+            SearchedSale = await _saleService.GetSaleByIdAsync(SearchSaleId);
         }
     }
 

@@ -42,6 +42,35 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
                 return null;
             }
         }
+
+
+        public async Task<List<SaleResponseDto>> GetAllSalesAsync()
+        {
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<SaleResponseDto>>("Sales");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching sales: {ex.Message}");
+                return new List<SaleResponseDto>();
+            }
+        }
+
+        public async Task<SaleResponseDto> GetSaleByIdAsync(int id)
+        {
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<SaleResponseDto>($"Sales/{id}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching sale by ID: {ex.Message}");
+                return null;
+            }
+        }
+
+
     }
 
 }
