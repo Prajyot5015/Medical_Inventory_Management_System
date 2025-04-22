@@ -10,30 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Medical_Inventory_Managment_Systemm.Models;
+using WPF_Medical_Inventory_Managment_Systemm.ViewModel;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.Views
 {
     /// <summary>
-    /// Interaction logic for SalesPage.xaml
+    /// Interaction logic for SaleDetailsWindow.xaml
     /// </summary>
-    public partial class SalesPage : Page
+    public partial class SaleDetailsWindow : Window
     {
-        public SalesPage()
+        public SaleDetailsWindow(SaleResponseDto sale)
         {
             InitializeComponent();
-            this.DataContext = new SalesViewModel();
+            DataContext = sale;
         }
 
-        private void DataGrid_SelectionChanged()
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Button_ColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
-        {
-
+            this.Close();
         }
     }
 }

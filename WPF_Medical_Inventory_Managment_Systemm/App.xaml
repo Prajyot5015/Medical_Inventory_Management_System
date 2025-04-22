@@ -7,7 +7,11 @@
 
     <Application.Resources>
         <ResourceDictionary>
+            <Style x:Key="ModernButtonStyle" TargetType="Button">
+                <!-- Style definition as above -->
+            </Style>
             <ResourceDictionary.MergedDictionaries>
+                
 
                 <!-- ✅ Base Theme (Light or Dark) -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />

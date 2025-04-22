@@ -19,7 +19,7 @@
                 Command="{Binding ShowGenerateSaleViewCommand}" 
                 Background="{Binding IsGenerateSaleViewVisible, Converter={StaticResource BoolToBrushConverter}, ConverterParameter=True}" />
             <Button Content="Get All Sales" Width="150"  Margin="2" Padding="10" FontSize="20"
-                Command="{Binding ShowAllSalesViewCommand}"
+                Command="{Binding ShowAllSalesViewCommand}" 
                 Background="{Binding IsGenerateSaleViewVisible, Converter={StaticResource BoolToBrushConverter}, ConverterParameter=False}" />
         </StackPanel>
 
@@ -50,14 +50,14 @@
                     <TextBox Text="{Binding Quantity}" Width="300" Margin="10 0" Padding="15"
                        materialDesign:HintAssist.Hint="Quantity" 
                        HorizontalContentAlignment="Center" 
-                       VerticalContentAlignment="Center"/>  
+                       VerticalContentAlignment="Center"/>
                 </StackPanel>
 
 
 
                 <Button Content="Add" Command="{Binding AddToCartCommand}" Width="300" 
                      Background="#0078D4" Foreground="White" BorderBrush="#0078D4" 
-                     BorderThickness="1" Padding="10 5" Height="50" Margin="0 20 0 0" FontSize="20" FontWeight="Bold"/> 
+                     BorderThickness="1" Padding="10 5" Height="50" Margin="0 20 0 0" FontSize="20" FontWeight="Bold"/>
             </StackPanel>
 
             <Grid>
@@ -82,8 +82,6 @@
                 Margin="10"
                 HorizontalAlignment="Right"/>
 
-
-
             <Button Content="Generate Invoice" Command="{Binding SubmitSaleCommand}" Margin="0 10 0 0" Height="40" Background="#0078D4" Foreground="White" FontSize="20" FontWeight="Bold"/>
 
         </StackPanel>
@@ -91,19 +89,110 @@
         <!-- All Sales View -->
         <StackPanel Visibility="{Binding IsAllSalesViewVisible, Converter={StaticResource BoolToVisibilityConverter}}">
             <TextBlock Text="All Sales" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
-            <Button Content="Load All Sales" Command="{Binding LoadAllSalesCommand}" Margin="0 0 0 10"/>
 
-            <DataGrid ItemsSource="{Binding AllSales}" AutoGenerateColumns="False" Height="300">
+            <DataGrid ItemsSource="{Binding AllSales}" 
+          AutoGenerateColumns="False" 
+          Height="500"
+          Margin="0,10,0,0"
+          Background="White"
+          BorderBrush="#E0E0E0"
+          BorderThickness="1"
+          RowBackground="White"
+          AlternatingRowBackground="#F5F5F5"
+          GridLinesVisibility="None"
+          HeadersVisibility="Column"
+          IsReadOnly="True"
+          SelectionMode="Single"
+          SelectionUnit="FullRow"
+          FontSize="14"
+          HorizontalGridLinesBrush="#EEEEEE"
+          VerticalGridLinesBrush="#EEEEEE">
+
+                <DataGrid.Resources>
+                    <!-- Header Style -->
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#0078D4"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="0,10"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+
+                    <!-- Row Style -->
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#E3F2FD"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#BBDEFB"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <!-- Cell Style -->
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Customer" Binding="{Binding CustomerName}" />
-                    <DataGridTextColumn Header="Total Items" Binding="{Binding Items.Count}" />
+                    <!-- ID Column -->
+                    <DataGridTextColumn Header="ID" 
+                            Binding="{Binding Id}" 
+                            Width="*"
+                            />
+
+                    <!-- Customer Column -->
+                    <DataGridTextColumn Header="CUSTOMER" 
+                            Binding="{Binding CustomerName}" 
+                            Width="*"/>
+
+                    <!-- Date Column -->
+                    <DataGridTextColumn Header="DATE" 
+                            Binding="{Binding SaleDate, StringFormat={}{0:dd-MMM-yyyy HH:mm}}" 
+                            Width="*"/>
+
+                    <!-- Items Count Column -->
+                    <DataGridTextColumn Header="ITEMS" 
+                            Binding="{Binding Items.Count}" 
+                            Width="*"
+                            />
+
+                    <!-- Total Column -->
+                    <DataGridTextColumn Header="TOTAL" 
+                            Binding="{Binding TotalAmount, StringFormat={}{0:C}}" 
+                            Width="*"
+                            />
+
+                    <!-- Action Column -->
+                    <DataGridTemplateColumn Header="ACTIONS" 
+                                Width="*"
+                                IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="View Details" 
+                            Command="{Binding DataContext.ViewSaleByIdCommand, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                            CommandParameter="{Binding Id}"
+                            Style="{StaticResource ModernButtonStyle}"
+                            Padding="8,3"
+                            Margin="10"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        
-        
     </StackPanel>
-
-
 </Page>

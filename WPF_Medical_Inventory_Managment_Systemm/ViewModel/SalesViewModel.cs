@@ -5,6 +5,8 @@ using System.Windows;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
 using System.IO;
+using WPF_Medical_Inventory_Managment_Systemm.Helpers.RelayCommands;
+using WPF_Medical_Inventory_Managment_Systemm.Views;
 
 public class SalesViewModel : INotifyPropertyChanged
 {
@@ -107,6 +109,9 @@ public class SalesViewModel : INotifyPropertyChanged
     public ICommand AddToCartCommand { get; }
     public ICommand SubmitSaleCommand { get; }
 
+    public ICommand ViewSaleByIdCommand { get; }
+
+
     public SalesViewModel()
     {
         AddToCartCommand = new RelayCommand(AddToCart);
@@ -115,7 +120,13 @@ public class SalesViewModel : INotifyPropertyChanged
         SearchSaleByIdCommand = new RelayCommand(async () => await GetSaleById());
 
         ShowGenerateSaleViewCommand = new RelayCommand(() => IsGenerateSaleViewVisible = true);
-        ShowAllSalesViewCommand = new RelayCommand(() => IsGenerateSaleViewVisible = false);
+        ShowAllSalesViewCommand = new RelayCommand(async () =>
+        {
+            IsGenerateSaleViewVisible = false;
+            await LoadAllSales();
+        });
+
+        ViewSaleByIdCommand = new RelayCommand<int>(async (saleId) => await ViewSaleById(saleId));
 
         LoadProducts();
     }
@@ -240,6 +251,22 @@ public class SalesViewModel : INotifyPropertyChanged
         }
     }
 
+    private async Task ViewSaleById(int saleId)
+    {
+        var sale = await _saleService.GetSaleByIdAsync(saleId);
+        if (sale != null)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                var window = new SaleDetailsWindow(sale);
+                window.ShowDialog();
+            });
+        }
+        else
+        {
+            MessageBox.Show("Sale not found.");
+        }
+    }
 
     protected void OnPropertyChanged(string propertyName)
     {
