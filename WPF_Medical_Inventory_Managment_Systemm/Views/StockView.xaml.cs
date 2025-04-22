@@ -29,8 +29,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             InitializeComponent();
             _viewModel = new StockViewModel();
             DataContext = _viewModel;
-            this.Loaded += StockView_Loaded;
-
 
             Loaded += async (s, e) =>
             {
@@ -59,17 +57,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             var element = sender as FrameworkElement;
             var storyboard = (Storyboard)Resources["FadeInStoryboard"];
             storyboard.Begin(element);
-        }
-
-        private void StockView_Loaded(object sender, RoutedEventArgs e)
-        {
-            var vm = this.DataContext as StockViewModel;
-
-            if (vm != null && !vm.PopupShownOnce)
-            {
-                PopupOverlay.Visibility = Visibility.Visible;
-                vm.PopupShownOnce = true;
-            }
         }
 
     }
