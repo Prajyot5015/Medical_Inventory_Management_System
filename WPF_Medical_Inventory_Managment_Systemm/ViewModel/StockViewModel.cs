@@ -7,12 +7,10 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using WPF_Medical_Inventory_Managment_Systemm.Helpers.RelayCommands;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
-using WPF_Medical_Inventory_Managment_Systemm.Views;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
 {
@@ -36,32 +34,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             AddStockCommand = new RelayCommand(async () => await AddStock(), () => SelectedProductId > 0 && QuantityToAdd > 0);
             NavigateToAddStockCommand = new RelayCommand(() => NavigateToAddStock(SelectedStockItem));
 
-            ClosePopupCommand = new RelayCommand(() =>
-            {
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    var mainWindow = Application.Current.MainWindow;
-
-                    if (mainWindow?.Content is Frame frame)
-                    {
-                        var stockView = frame.Content as StockView;
-                        if (stockView != null && stockView.FindName("PopupOverlay") is Grid popupOverlay)
-                        {
-                            popupOverlay.Visibility = Visibility.Collapsed;
-                        }
-                    }
-                });
-            });
-
-
-
-
-
-
             _ = LoadStockData();
             _ = LoadProducts();
-
-           
         }
 
         public ICommand LoadStockDataCommand { get; }
@@ -70,22 +44,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         public ICommand UpdateStockAfterSaleCommand { get; }
         public ICommand UpdateStockAfterPurchaseCommand { get; }
         public ICommand NavigateToAddStockCommand { get; }
+
         public ICommand AddStockCommand { get; }
-        public ICommand ClosePopupCommand { get; set; }
-
-
-
-        private bool _popupShownOnce = false;
-        public bool PopupShownOnce
-        {
-            get => _popupShownOnce;
-            set
-            {
-                _popupShownOnce = value;
-                OnPropertyChanged();
-            }
-        }
-
 
         private ObservableCollection<StockDto> _stockList;
         public ObservableCollection<StockDto> StockList
@@ -107,9 +67,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             get => _nearExpiryStockList;
             set { _nearExpiryStockList = value; OnPropertyChanged(); }
         }
-
-
-
 
 
         private ObservableCollection<Product> _products = new ObservableCollection<Product>();
