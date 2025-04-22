@@ -100,9 +100,6 @@ public class SalesViewModel : INotifyPropertyChanged
 
     public ICommand ShowGenerateSaleViewCommand { get; }
     public ICommand ShowAllSalesViewCommand { get; }
-
-
-
     public ICommand LoadAllSalesCommand { get; }
     public ICommand SearchSaleByIdCommand { get; }
 
