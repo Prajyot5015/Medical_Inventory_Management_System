@@ -4,9 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             mc:Ignorable="d" Width="555" Height="236">
+    <Grid Margin="0,0,-469,266" Background="#00000000">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="365*"/>
+            <ColumnDefinition Width="275*"/>
+            <ColumnDefinition Width="354*"/>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="360*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Margin="0,0,0,-235" HorizontalAlignment="Left" Width="556" Grid.ColumnSpan="3" RadiusX="55" RadiusY="55" Stroke="#FFB7C5CE" Fill="#FFD2C8D2"/>
+
+        <StackPanel Grid.ColumnSpan="3" Margin="235,30,259,-215"/>
+        <Rectangle RenderTransformOrigin="1.205,0.661" RadiusX="114.951" RadiusY="114.951" Margin="170,31,60,-257" Grid.ColumnSpan="2">
+            <Rectangle.RenderTransform>
+                <TransformGroup>
+                    
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.045"/>
+                    <TranslateTransform Y="-94.99"/>
+                </TransformGroup>
+                
+                
+                
+            </Rectangle.RenderTransform>
+
+        </Rectangle>
     </Grid>
 </UserControl>
