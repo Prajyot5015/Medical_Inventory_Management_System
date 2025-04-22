@@ -20,6 +20,7 @@
             <Button Content="Products" Margin="10" Click="NavigateToProductPage" Style="{DynamicResource MetroButton}" />
 
             <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
+            <Button Content="Purchase Ordered" Margin="10" Click="NavigateToPurchaseOrderPage" Style="{DynamicResource MetroButton}"/>
 
 
             <Button Content="Sales" Margin="10" Click="NavigateToSalePage" Style="{DynamicResource MetroButton}" />

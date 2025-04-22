@@ -46,16 +46,24 @@ namespace WPF_Medical_Inventory_Managment_Systemm
                 client.BaseAddress = new Uri("http://localhost:5000/api/stock"); // Update to your stock API URL
             });
 
+            services.AddHttpClient<PurchaseOrderApiService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:5000/api/"); // Update to your purchase order API URL
+            });
+
             services.AddTransient<ManufacturersViewModel>();
             services.AddTransient<BrandViewModel>();
             services.AddTransient<ProductViewModel>();
             services.AddTransient<SalesViewModel>();
             services.AddTransient<StockViewModel>();
+            services.AddTransient<PurchaseOrderViewModel>();
+
             services.AddTransient<ManufacturersPage>();
             services.AddTransient<BrandView>();
             services.AddTransient<ProductWindow>();
             services.AddTransient<SalesPage>();
             services.AddTransient<StockView>();
+            services.AddTransient<PurchaseOrderView>();
         }
 
         private void NavigateToManufacturerPage(object sender, RoutedEventArgs e)
@@ -88,6 +96,19 @@ namespace WPF_Medical_Inventory_Managment_Systemm
         {
             var page = _provider.GetRequiredService<StockView>();
             page.DataContext = _provider.GetRequiredService<StockViewModel>();  // Bind the StockViewModel to the view
+            MainFrame.Navigate(page);
+        }
+
+        //private void NavigateToPurchaseOrderPage(object sender, RoutedEventArgs e)
+        //{
+        //    var page = _provider.GetRequiredService<PurchaseOrderView>();
+        //    page.DataContext = _provider.GetRequiredService<PurchaseOrderViewModel>();  // Bind the Purchase order view model to the view
+        //    MainFrame.Navigate(page);
+        //}
+        private void NavigateToPurchaseOrderPage(object sender, RoutedEventArgs e)
+        {
+            var page = _provider.GetRequiredService<PurchaseOrderView>();
+            page.DataContext = _provider.GetRequiredService<PurchaseOrderViewModel>();
             MainFrame.Navigate(page);
         }
 
