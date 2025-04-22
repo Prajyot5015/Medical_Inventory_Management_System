@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -46,5 +47,17 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
         {
 
         }
+
+        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+        private void Tab_Loaded(object sender, RoutedEventArgs e)
+        {
+            var element = sender as FrameworkElement;
+            var storyboard = (Storyboard)Resources["FadeInStoryboard"];
+            storyboard.Begin(element);
+        }
+
     }
 }
