@@ -11,7 +11,11 @@
                 <!-- Style definition as above -->
             </Style>
             <ResourceDictionary.MergedDictionaries>
-                
+
+                <ResourceDictionary Source="Styles.xaml"/>
+
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="Indigo" SecondaryColor="DeepPurple" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml"/>
 
                 <!-- ✅ Base Theme (Light or Dark) -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
