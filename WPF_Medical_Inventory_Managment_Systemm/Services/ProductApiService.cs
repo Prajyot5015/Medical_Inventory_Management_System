@@ -16,6 +16,17 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
                 BaseAddress = new Uri("https://localhost:7228/api/")  // https://localhost:7228;http://localhost:5000
             };
         }
+        //public ProductApiService(HttpClient httpClient)
+        //{
+        //    _client = httpClient;
+        //    _client.BaseAddress = new Uri("https://localhost:7228/api/");
+        //}
+        public ProductApiService(HttpClient httpClient)
+        {
+            _client = httpClient;
+        }
+
+
 
         // Get All Products
         public async Task<List<Product>> GetAllProductsAsync()

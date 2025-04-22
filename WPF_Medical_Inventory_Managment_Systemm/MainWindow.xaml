@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+
             <!-- Color Definitions -->
             <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#2E3B4E"/>
             <SolidColorBrush x:Key="HoverBrush" Color="#4CAF50"/>
@@ -28,6 +29,9 @@
             <SolidColorBrush x:Key="TextLightBrush" Color="White"/>
             <SolidColorBrush x:Key="TextDarkBrush" Color="#212121"/>
             <SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F5F5"/>
+
+            <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
+            <Button Content="Purchase Ordered" Margin="10" Click="NavigateToPurchaseOrderPage" Style="{DynamicResource MetroButton}"/>
 
             <!-- Navigation Button Style -->
             <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

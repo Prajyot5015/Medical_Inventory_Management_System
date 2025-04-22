@@ -9,6 +9,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Services\Class1.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Folder Include="Helpers\" />
 	</ItemGroup>
 
