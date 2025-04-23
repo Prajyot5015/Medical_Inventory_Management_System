@@ -8,6 +8,7 @@
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <local:BoolToBrushConverter x:Key="BoolToBrushConverter" />
+        <local:DecimalConverter x:Key="DecimalConverter" />
     </Page.Resources>
 
 
@@ -82,6 +83,26 @@
                 Margin="10"
                 HorizontalAlignment="Right"/>
 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <TextBlock Text="Discount:" VerticalAlignment="Center" Margin="0 0 5 0" FontWeight="Bold" FontSize="14"/>
+
+                <TextBox Text="{Binding OverallDiscountPercentage, 
+                UpdateSourceTrigger=PropertyChanged, 
+                Converter={StaticResource DecimalConverter},
+                ValidatesOnExceptions=True,
+                NotifyOnValidationError=True}"
+         Width="90" 
+         MinWidth="50" 
+         Margin="0 0 10 0"
+         Padding="8"
+         HorizontalContentAlignment="Right"
+         />
+
+                <TextBlock Text="%" VerticalAlignment="Center" Margin="0 0 15 0" FontSize="14"/>
+                <TextBlock Text="{Binding GrandTotalAmount, StringFormat='Grand Total: {0:C}'}" 
+               VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Foreground="DarkGreen"/>
+            </StackPanel>
+
             <Button Content="Generate Invoice" Command="{Binding SubmitSaleCommand}" Margin="0 10 0 0" Height="40" Background="#0078D4" Foreground="White" FontSize="20" FontWeight="Bold"/>
 
         </StackPanel>
@@ -91,22 +112,22 @@
             <TextBlock Text="All Sales" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
 
             <DataGrid ItemsSource="{Binding AllSales}" 
-          AutoGenerateColumns="False" 
-          Height="500"
-          Margin="0,10,0,0"
-          Background="White"
-          BorderBrush="#E0E0E0"
-          BorderThickness="1"
-          RowBackground="White"
-          AlternatingRowBackground="#F5F5F5"
-          GridLinesVisibility="None"
-          HeadersVisibility="Column"
-          IsReadOnly="True"
-          SelectionMode="Single"
-          SelectionUnit="FullRow"
-          FontSize="14"
-          HorizontalGridLinesBrush="#EEEEEE"
-          VerticalGridLinesBrush="#EEEEEE">
+              AutoGenerateColumns="False" 
+              Height="500"
+              Margin="0,10,0,0"
+              Background="White"
+              BorderBrush="#E0E0E0"
+              BorderThickness="1"
+              RowBackground="White"
+              AlternatingRowBackground="#F5F5F5"
+              GridLinesVisibility="None"
+              HeadersVisibility="Column"
+              IsReadOnly="True"
+              SelectionMode="Single"
+              SelectionUnit="FullRow"
+              FontSize="14"
+              HorizontalGridLinesBrush="#EEEEEE"
+              VerticalGridLinesBrush="#EEEEEE">
 
                 <DataGrid.Resources>
                     <!-- Header Style -->
@@ -175,6 +196,12 @@
                             Width="*"
                             />
 
+                    <!-- ✅ Paid Amount Column (binding to GrandTotal) -->
+                    <DataGridTextColumn Header="PAID AMOUNT" 
+                    Binding="{Binding GrandTotal, StringFormat={}{0:C}}" 
+                    Width="*"/>
+
+
                     <!-- Action Column -->
                     <DataGridTemplateColumn Header="ACTIONS" 
                                 Width="*"
@@ -192,7 +219,13 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
+          
+            
+            
             </DataGrid>
         </StackPanel>
+   
+    
+    
     </StackPanel>
 </Page>

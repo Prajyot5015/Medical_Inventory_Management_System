@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
+using WPF_Medical_Inventory_Managment_Systemm.Services;
 using WPF_Medical_Inventory_Managment_Systemm.ViewModel;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.Views
@@ -24,12 +25,18 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
         public SaleDetailsWindow(SaleResponseDto sale)
         {
             InitializeComponent();
-            DataContext = sale;
+            var viewModel = new SaleDetailViewModel(new SalesApiService(), sale);
+            DataContext = viewModel;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void ReprintButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
