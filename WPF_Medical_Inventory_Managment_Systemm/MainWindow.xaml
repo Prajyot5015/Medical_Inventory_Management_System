@@ -10,6 +10,7 @@
                  Height="700"
                  Width="1200"
                  WindowStartupLocation="CenterScreen"
+                 Background="White"
                  GlowBrush="{StaticResource PrimaryBlueBrush}"
                  NonActiveGlowBrush="{StaticResource MediumGrayBrush}"
                  BorderThickness="3">
@@ -26,7 +27,7 @@
         <!-- Navigation Panel -->
         <Border DockPanel.Dock="Left" 
                 Width="220" 
-                Background="{StaticResource LightCyanBrush}">
+               >
             <StackPanel>
                 <!-- App Title/Header -->
                 <Border Background="{StaticResource AccentBrush}" Padding="15,20">
@@ -64,12 +65,7 @@
                             Click="NavigateToPurchaseOrderPage"/>
                 </StackPanel>
 
-                <!-- Footer/User Area -->
-                <Border Background="{StaticResource LightCyanBrush}" 
-                        Margin="0,20,0,0" 
-                        Padding="10"
-                        VerticalAlignment="Bottom">
-                </Border>
+             
             </StackPanel>
         </Border>
 

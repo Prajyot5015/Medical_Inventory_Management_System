@@ -23,7 +23,7 @@
 
             <!-- Form Section -->
             <materialDesign:Card Padding="20" Margin="0 0 0 20">
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top"  Background="#FFE4DDDD" >
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top"  Background="#F8DAD0" >
 
                     <TextBlock Text="Add New Product" FontSize="24" FontWeight="Bold" Margin="20 5 0 20" Foreground="#333"/>
 
@@ -86,16 +86,14 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Content="Add Product"
                                 Command="{Binding AddProductCommand}"
-                                Background="#009688"
-                                Foreground="White"
+                                Style="{StaticResource SuccessButton}"
                                 Width="160"
                                 Height="40"
                                 Margin="10"
                                 FontSize="16"/>
                                     <Button Content="Update Product"
                                 Command="{Binding UpdateProductCommand}"
-                                Background="#03A9F4"
-                                Foreground="White"
+                                Style="{StaticResource PrimaryButton}"
                                 Width="160"
                                 Height="40"
                                 Margin="10"
@@ -140,20 +138,16 @@
                                             <Button Content="Edit"
                                         Margin="5"
                                         Padding="5"
-                                        Width="70"
-                                        Background="#FFC107"
-                                        Foreground="Black"
-                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Width="50"
+                                      Style="{StaticResource PrimaryButton}"
                                         Command="{Binding DataContext.EditProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                         CommandParameter="{Binding}"/>
 
                                             <Button Content="Delete"
                                         Margin="5"
                                         Padding="5"
-                                        Width="70"
-                                        Background="#F44336"
-                                        Foreground="White"
-                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Width="50"
+                                         Style="{StaticResource DangerButton}"
                                         Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                         CommandParameter="{Binding}"/>
                                         </StackPanel>
