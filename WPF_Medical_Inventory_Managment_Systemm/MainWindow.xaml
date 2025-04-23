@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+
             <!-- Color Definitions -->
             <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#4DB6AC"/>
             <!-- Soft Teal -->
@@ -35,6 +36,9 @@
             <!-- Very Light Gray -->
             <SolidColorBrush x:Key="HeaderBrush" Color="#388E3C"/>
             <!-- Darker Green -->
+
+            <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
+            <Button Content="Purchase Ordered" Margin="10" Click="NavigateToPurchaseOrderPage" Style="{DynamicResource MetroButton}"/>
 
             <!-- Navigation Button Style -->
             <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

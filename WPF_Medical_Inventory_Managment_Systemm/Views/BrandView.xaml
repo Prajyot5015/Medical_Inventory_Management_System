@@ -69,12 +69,15 @@
                              Margin="0,0,10,0"
                              Padding="6"
                              BorderBrush="#B0BEC5"
+                             materialDesign:HintAssist.Hint="Brand Id"
                              BorderThickness="1"/>
+
                     <TextBox Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Width="200"
-                             Padding="6"
-                             BorderBrush="#B0BEC5"
-                             BorderThickness="1"/>
+         Width="200"
+         Padding="6"
+         materialDesign:HintAssist.Hint="Enter brand name"
+         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+
                 </StackPanel>
 
                 <!-- Action Buttons -->

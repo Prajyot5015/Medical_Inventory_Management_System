@@ -110,6 +110,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
                 }
                 await LoadManufacturersAsync();
                 SelectedManufacturer = new ManufacturersDTO();
+                SearchId = 0;
             }
             catch (Exception ex)
             {

@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+
       mc:Ignorable="d"
       Title="ManufacturersPage"
        Background="#F4F4F4">
@@ -43,15 +45,15 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" Margin="0,0,10,10" FontWeight="Bold"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name}" 
-                         Margin="0,0,0,10" Height="30" Padding="5" BorderBrush="Black" BorderThickness="1"/>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name : " Margin="0,0,10,10" FontWeight="Bold"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name}" materialDesign:HintAssist.Hint="Enter Manufacturer Name" 
+                        Style="{StaticResource MaterialDesignTextBox}" Margin="0,0,0,10" Height="30" Padding="2,3,3,3" BorderBrush="Black" BorderThickness="1"/>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact:" Margin="0,0,10,10" FontWeight="Bold"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact : " Margin="0,0,10,10" FontWeight="Bold"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails}" 
                          Margin="0,0,0,10" Height="30" Padding="5" BorderBrush="black" BorderThickness="1"/>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Address:" Margin="0,0,10,0" FontWeight="Bold"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Address : " Margin="0,0,10,0" FontWeight="Bold"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address}" 
                          Height="30" Padding="5" BorderBrush="black" BorderThickness="1"/>
             </Grid>
@@ -61,7 +63,7 @@
             <Button Content="New" Command="{Binding NewManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FF38ADCE"/>
             <Button Content="Save" Command="{Binding SaveManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FF1F9E30"/>
             <Button Content="Delete" Command="{Binding DeleteManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FFD21212"/>
-            <Button Content="Refresh" Command="{Binding LoadManufacturersCommand}" Width="100" Height="40" Margin="5"/>
+           <!-- <Button Content="Refresh" Command="{Binding LoadManufacturersCommand}" Width="100" Height="40" Margin="5"/> -->
         </StackPanel>
 
         <TextBlock Grid.Row="3" Text="Manufacturers" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
