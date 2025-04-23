@@ -17,28 +17,65 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
             //_httpClient.BaseAddress = new Uri("https://localhost:7228/api/");
         }
 
+        
         public async Task<List<PurchaseOrderDTO>> GetAllPurchaseOrdersAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<PurchaseOrderDTO>>("PurchaseOrders");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<PurchaseOrderDTO>>("PurchaseOrders");
+            }
+            catch (Exception ex)
+            {
+            
+                throw new ApplicationException("Error retrieving purchase orders.", ex);
+            }
         }
 
+      
         public async Task<PurchaseOrderDTO> GetPurchaseOrderByIdAsync(int id)
         {
-            return await _httpClient.GetFromJsonAsync<PurchaseOrderDTO>($"PurchaseOrders/{id}");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<PurchaseOrderDTO>($"PurchaseOrders/{id}");
+            }
+            catch (Exception ex)
+            {
+           
+                throw new ApplicationException($"Error retrieving purchase order with ID {id}.", ex);
+            }
         }
 
         public async Task<string> AddPurchaseOrderAsync(PurchaseOrderDTO dto)
         {
-            var response = await _httpClient.PostAsJsonAsync("PurchaseOrders", dto);
-            return await response.Content.ReadAsStringAsync();
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("PurchaseOrders", dto);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                   
+                    throw new ApplicationException($"Failed to add purchase order: {response.ReasonPhrase}");
+                }
+            }
+            catch (Exception ex)
+            {
+     
+                throw new ApplicationException("Error adding purchase order.", ex);
+            }
         }
 
+        // Uncomment if Update is needed in the future
         //public async Task<string> UpdatePurchaseOrderAsync(PurchaseOrderDTO dto)
         //{
         //    var response = await _httpClient.PutAsJsonAsync($"PurchaseOrders/{dto.Id}", dto);
         //    return await response.Content.ReadAsStringAsync();
         //}
 
+        // Uncomment if Delete is needed in the future
         //public async Task<string> DeletePurchaseOrderAsync(int id)
         //{
         //    var response = await _httpClient.DeleteAsync($"PurchaseOrders/{id}");
@@ -46,6 +83,58 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
         //}
     }
 }
+
+
+
+
+//using System;
+//using System.Collections.Generic;
+//using System.Net.Http;
+//using System.Net.Http.Json;
+//using System.Threading.Tasks;
+//using WPF_Medical_Inventory_Managment_Systemm.Models;
+
+//namespace WPF_Medical_Inventory_Managment_Systemm.Services
+//{
+//    public class PurchaseOrderApiService
+//    {
+//        private readonly HttpClient _httpClient;
+
+//        public PurchaseOrderApiService(HttpClient httpClient)
+//        {
+//            _httpClient = httpClient;
+//            _httpClient.BaseAddress = new Uri("https://localhost:7228/api/");
+//        }
+
+//        public async Task<List<PurchaseOrderDTO>> GetAllPurchaseOrdersAsync()
+//        {
+//            return await _httpClient.GetFromJsonAsync<List<PurchaseOrderDTO>>("PurchaseOrders");
+//        }
+
+//        public async Task<PurchaseOrderDTO> GetPurchaseOrderByIdAsync(int id)
+//        {
+//            return await _httpClient.GetFromJsonAsync<PurchaseOrderDTO>($"PurchaseOrders/{id}");
+//        }
+
+//        public async Task<string> AddPurchaseOrderAsync(PurchaseOrderDTO dto)
+//        {
+//            var response = await _httpClient.PostAsJsonAsync("PurchaseOrders", dto);
+//            return await response.Content.ReadAsStringAsync();
+//        }
+
+//public async Task<string> UpdatePurchaseOrderAsync(PurchaseOrderDTO dto)
+//{
+//    var response = await _httpClient.PutAsJsonAsync($"PurchaseOrders/{dto.Id}", dto);
+//    return await response.Content.ReadAsStringAsync();
+//}
+
+//public async Task<string> DeletePurchaseOrderAsync(int id)
+//{
+//    var response = await _httpClient.DeleteAsync($"PurchaseOrders/{id}");
+//    return await response.Content.ReadAsStringAsync();
+//}
+//    }
+//}
 
 
 

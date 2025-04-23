@@ -4,9 +4,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Converters"
       mc:Ignorable="d"
       Title="PurchaseOrderPage"
       Background="#F4F4F4">
+
+
+    <Page.Resources>
+        <local:StringToIntConverter x:Key="StringToIntConverter"/>
+    </Page.Resources>
+
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -36,28 +43,36 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
             <Label Content="Product:" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <ComboBox Width="150" Height="50"
-                      ItemsSource="{Binding Products}" 
-                      SelectedItem="{Binding PurchaseOrder.SelectedProduct}" 
-                      DisplayMemberPath="Name"
-                      Margin="36,0,100,0" materialDesign:HintAssist.Hint="Select Product" Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
-   
+          ItemsSource="{Binding Products}" 
+          SelectedItem="{Binding SelectedProduct}" 
+          DisplayMemberPath="Name"
+          Margin="36,0,100,0" 
+          materialDesign:HintAssist.Hint="Select Product" 
+          Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+
+
         </StackPanel>
         
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="406,0,0,10">
             <Label Content="Quantity:" VerticalAlignment="Center" Margin="0,0,30,0"/>
-            <TextBox Width="150" 
-                 Text="{Binding PurchaseOrder.Quantity, UpdateSourceTrigger=PropertyChanged}" 
-                 Margin="0,0,50,0"
-                 materialDesign:HintAssist.Hint="Qty" Style="{StaticResource MaterialDesignTextBox}"/>
+            <TextBox Width="150"
+         Text="{Binding PurchaseOrder.Quantity, Converter={StaticResource StringToIntConverter}, UpdateSourceTrigger=PropertyChanged}" 
+         Margin="0,0,50,0"
+         materialDesign:HintAssist.Hint="Qty"
+         Style="{StaticResource MaterialDesignTextBox}"/>
+
         </StackPanel>  
 
         <!-- Price (Read Only) -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="425,0,0,10">
             <Label Content="Price:" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <TextBox Width="150" 
-             Text="{Binding PurchaseOrder.PurchasePrice}"        
-             IsReadOnly="True"
-             Margin="0,0,50,0" materialDesign:HintAssist.Hint="Qty" Style="{StaticResource MaterialDesignTextBox}"/>
+         Text="{Binding PurchasePrice,UpdateSourceTrigger=PropertyChanged}"        
+         IsReadOnly="True"
+         Margin="0,0,50,0" 
+         materialDesign:HintAssist.Hint="Price" 
+         Style="{StaticResource MaterialDesignTextBox}"/>
+
         </StackPanel>
 
 
@@ -75,22 +90,31 @@
         </StackPanel>
 
         <!-- Purchase Order List -->
-        <StackPanel Grid.Row="3" Margin="0,80,0,0">
+        <Grid Grid.Row="3" Margin="0,80,0,0">
+
+            <StackPanel Margin="0,0,0,0">
             <TextBlock Text="Purchase Orders" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
-            <ListView ItemsSource="{Binding PurchaseOrders}" 
-                      SelectedItem="{Binding SelectedPurchaseOrder}"
-                      Style="{StaticResource MaterialDesignListView}">
+            </StackPanel>
+
+            <ListView Grid.Row="1" Margin="20,20,20,20"
+              ItemsSource="{Binding PurchaseOrders}" 
+              SelectedItem="{Binding SelectedPurchaseOrder}"
+              Style="{StaticResource MaterialDesignListView}"
+              ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Supplier Name" Width="250" DisplayMemberBinding="{Binding SupplierName}"/>
                         <GridViewColumn Header="Order Date" Width="250" DisplayMemberBinding="{Binding OrderDate}"/>
-                        <GridViewColumn Header="Product" Width="200" DisplayMemberBinding="{Binding Product.Name}"/>
-                        <GridViewColumn Header="Quantity" Width="200" DisplayMemberBinding="{Binding Quantity}"/>
-                        <GridViewColumn Header="Price" Width="150" DisplayMemberBinding="{Binding PurchasePrice}"/>
+                        
+                        <GridViewColumn Header="Product" Width="200" DisplayMemberBinding="{Binding DisplayProductName}"/>
+                        <GridViewColumn Header="Quantity" Width="200" DisplayMemberBinding="{Binding DisplayQuantity}"/>
+                        <GridViewColumn Header="Price" Width="150" DisplayMemberBinding="{Binding DisplayPurchasePrice}"/>
+
                     </GridView>
                 </ListView.View>
             </ListView>
-        </StackPanel>
+        </Grid>
+
 
         <!-- Status Bar -->
         <StatusBar Grid.Row="4" Margin="0,10,0,0">
