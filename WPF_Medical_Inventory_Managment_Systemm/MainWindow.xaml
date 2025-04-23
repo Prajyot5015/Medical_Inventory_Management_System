@@ -30,9 +30,7 @@
             <SolidColorBrush x:Key="TextDarkBrush" Color="#212121"/>
             <SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F5F5"/>
 
-            <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
-            <Button Content="Purchase Ordered" Margin="10" Click="NavigateToPurchaseOrderPage" Style="{DynamicResource MetroButton}"/>
-
+           
             <!-- Navigation Button Style -->
             <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                 <Setter Property="Background" Value="Transparent"/>
@@ -102,6 +100,10 @@
                     <Button Content="Sales" 
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToSalePage"/>
+                    <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
+                    <Button Content="Purchase Ordered" Margin="10" Click="NavigateToPurchaseOrderPage" Style="{DynamicResource MetroButton}"/>
+
+
                 </StackPanel>
 
                 <!-- Footer/User Area -->
