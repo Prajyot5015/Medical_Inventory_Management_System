@@ -19,9 +19,11 @@
             <Button Content="Generate Sale" Width="150" Margin="2" Padding="10" FontSize="20"
                 Command="{Binding ShowGenerateSaleViewCommand}" 
                 Background="{Binding IsGenerateSaleViewVisible, Converter={StaticResource BoolToBrushConverter}, ConverterParameter=True}" />
+            
             <Button Content="Get All Sales" Width="150"  Margin="2" Padding="10" FontSize="20"
                 Command="{Binding ShowAllSalesViewCommand}" 
                 Background="{Binding IsGenerateSaleViewVisible, Converter={StaticResource BoolToBrushConverter}, ConverterParameter=False}" />
+            
         </StackPanel>
 
         <!-- Generate Sale View -->
@@ -212,7 +214,7 @@
                             Command="{Binding DataContext.ViewSaleByIdCommand, 
                                     RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
                             CommandParameter="{Binding Id}"
-                            Style="{StaticResource ModernButtonStyle}"
+                           
                             Padding="8,3"
                             Margin="10"/>
                             </DataTemplate>
