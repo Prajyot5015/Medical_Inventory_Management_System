@@ -25,7 +25,7 @@
         </Style>
 
         <Style TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Background" Value="#FF0078D4"/>
+            <Setter Property="Background" Value="#F8DAD0"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Padding" Value="10,5"/>
@@ -78,19 +78,19 @@
         </Grid.RowDefinitions>
 
         <!-- Header Section -->
-        <Border Grid.Row="0" Background="#FF0078D4" CornerRadius="4" Padding="15">
+        <Border Grid.Row="0" Background="#F8DAD0" CornerRadius="4" Padding="15">
             <StackPanel>
                 <TextBlock Text="{Binding CustomerName}" 
                            FontSize="20" 
                            FontWeight="Bold" 
-                           Foreground="White"
+                           
                            HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="Sale ID: " Foreground="White" FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding Id}" Foreground="White"/>
-                    <TextBlock Text="   |   " Foreground="White"/>
-                    <TextBlock Text="Date: " Foreground="White" FontWeight="SemiBold"/>
-                    <TextBlock Text="{Binding SaleDate, StringFormat={}{0:yyyy-MM-dd HH:mm}}" Foreground="White"/>
+                    <TextBlock Text="Sale ID: "  FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding Id}" />
+                    <TextBlock Text="   |   " />
+                    <TextBlock Text="Date: "  FontWeight="SemiBold"/>
+                    <TextBlock Text="{Binding SaleDate, StringFormat={}{0:yyyy-MM-dd HH:mm}}"/>
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -157,7 +157,7 @@
             Content="Reprint Bill" 
             Width="150"
              Margin="50 10"
-            Style="{StaticResource ModernButton}"
+            Style="{StaticResource SuccessButton}"
          Command="{Binding ReprintCommand}" 
             HorizontalAlignment="Right"/>
         </Grid>

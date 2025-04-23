@@ -27,7 +27,7 @@
                     BorderBrush="{StaticResource MediumGrayBrush}">
 
             <!-- All Stock Tab -->
-            <TabItem Header="All Stock" Width="120" Height="50">
+            <TabItem Header="All Stock" Width="120" Height="50" Background="#BCFEFE">
                 <DataGrid x:Name="StockDataGrid"
                           Margin="10,10,10,10"
                           AutoGenerateColumns="False"
@@ -49,7 +49,7 @@
             </TabItem>
 
             <!-- Low Stock Tab -->
-            <TabItem Header="Low Stock" Width="120" Height="50">
+            <TabItem Header="Low Stock" Width="120" Height="50" Background="#BCFEFE">
                 <DataGrid x:Name="LowStockDataGrid"
                           Margin="10,10,10,10"
                           AutoGenerateColumns="False"
@@ -82,7 +82,7 @@
             </TabItem>
 
             <!-- Near Expiry Tab -->
-            <TabItem Header="Near Expiry" Width="120" Height="50">
+            <TabItem Header="Near Expiry" Width="120" Height="50" Background="#BCFEFE">
                 <DataGrid x:Name="NearExpiryDataGrid"
                           Margin="10,10,10,10"
                           AutoGenerateColumns="False"
@@ -115,7 +115,7 @@
             </TabItem>
 
             <!-- Add Stock Tab -->
-            <TabItem Header="Add Stock" Width="120" Height="50">
+            <TabItem Header="Add Stock" Width="120" Height="50" Background="#BCFEFE">
                 <Border Style="{StaticResource InventoryCard}"
                         Width="500"
                         BorderBrush="Black"
