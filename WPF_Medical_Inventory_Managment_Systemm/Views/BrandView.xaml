@@ -3,44 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Title="Brand Management"
-      Background="#F4F4F4">
-
-  
+      Background="{StaticResource LightGrayBrush}">
 
     <Page.Resources>
-        <!-- Brushes -->
-        <SolidColorBrush x:Key="RowHoverBackground" Color="#E3F2FD"/>
-
-        <!-- Action Button Style -->
-        <Style x:Key="ActionButtonStyle" TargetType="Button">
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="MinWidth" Value="80"/>
-            <Setter Property="MaxWidth" Value="120"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#388E3C"/>
-                    <Setter Property="Cursor" Value="Hand"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
         <!-- DataGrid Row Hover Style -->
         <Style x:Key="DataGridRowHover" TargetType="DataGridRow">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True">
-                    <Setter Property="Background" Value="#E3F2FD"/>
-                    <!-- Lighter blue for hover -->
+                    <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
-                    <!-- Blue background for selected row -->
-                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Background" Value="{StaticResource PrimaryBlueBrush}"/>
+                    <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -57,7 +32,7 @@
             <TextBlock Text="Brand Management"
                        FontSize="24"
                        FontWeight="Bold"
-                       Foreground="#2E7D32"
+                       Foreground="{StaticResource PrimaryBlueBrush}"
                        Margin="0,0,0,20" />
 
             <!-- Form Section -->
@@ -68,63 +43,45 @@
                              Width="80"
                              Margin="0,0,10,0"
                              Padding="6"
-                             BorderBrush="#B0BEC5"
+                             BorderBrush="{StaticResource MediumGrayBrush}"
                              materialDesign:HintAssist.Hint="Brand Id"
-                             BorderThickness="1"/>
-
+                             Style="{StaticResource MaterialTextBox}"/>
                     <TextBox Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-         Width="200"
-         Padding="6"
-         materialDesign:HintAssist.Hint="Enter brand name"
-         Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
-
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             materialDesign:HintAssist.Hint="Enter brand name"
+                             Width="200"
+                             Padding="6"
+                             />
                 </StackPanel>
 
                 <!-- Action Buttons -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                     <Button Content="Add"
+                            Width="100"
                             Command="{Binding AddCommand}"
-                            Style="{StaticResource ActionButtonStyle}"
-                            Background="#4CAF50"
-                            Margin="0,0,10,0"
-                            />
+                            Style="{StaticResource SuccessButton}"
+                            Margin="0,0,10,0"/>
                     <Button Content="Update"
+                            Width="100"
                             Command="{Binding UpdateCommand}"
-                            Style="{StaticResource ActionButtonStyle}"
-                            Background="#FFC107"
-                            Margin="0,0,10,0"
-                            />
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="0,0,10,0"/>
                     <Button Content="Refresh"
+                            Width="100"
                             Command="{Binding LoadCommand}"
-                            Style="{StaticResource ActionButtonStyle}"
-                            Background="#2196F3"/>
+                            Style="{StaticResource PrimaryButton}"/>
                 </StackPanel>
             </StackPanel>
 
             <!-- DataGrid Section -->
             <Border Grid.Row="1"
-                    Background="White"
-                    BorderBrush="#E2E8F0"
-                    BorderThickness="1"
-                    CornerRadius="8"
-                    Padding="10">
-                <Border.Effect>
-                    <DropShadowEffect Color="Black" ShadowDepth="2" Opacity="0.3" BlurRadius="5"/>
-                </Border.Effect>
-
+                    Style="{StaticResource InventoryCard}">
                 <DataGrid ItemsSource="{Binding Brands}"
                           SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
                           AutoGenerateColumns="False"
                           SelectionMode="Single"
                           IsReadOnly="True"
-                          RowStyle="{StaticResource DataGridRowHover}"
-                          AlternatingRowBackground="#F5F5F5"
-                          RowBackground="{StaticResource RowHoverBackground}"
-                          FontSize="14"
-                          CanUserResizeColumns="True"
-                          CanUserResizeRows="True"
-                          HeadersVisibility="Column"
-                          GridLinesVisibility="None">
+                          RowStyle="{StaticResource DataGridRowHover}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                         <DataGridTextColumn Header="Brand Name" Binding="{Binding Name}" Width="*"/>
@@ -134,11 +91,11 @@
                                     <Button Content="Delete"
                                             Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                             CommandParameter="{Binding}"
-                                            Background="#D32F2F"
-                                            Foreground="White"
-                                            Padding="4,2"
-                                            BorderThickness="0"
-                                            Cursor="Hand"/>
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource DangerButton}"
+                                            Padding="6,2"                                
+                                            Width="100"
+                                            Height="30"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

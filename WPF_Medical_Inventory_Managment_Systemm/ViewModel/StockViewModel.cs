@@ -31,8 +31,10 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             LoadStockDataCommand = new RelayCommand(async () => await LoadStockData());
             LoadLowStockCommand = new RelayCommand(async () => await LoadLowStockData());
             LoadNearExpiryCommand = new RelayCommand(async () => await LoadNearExpiryData());
-            AddStockCommand = new RelayCommand(async () => await AddStock(), () => SelectedProductId > 0 && QuantityToAdd > 0);
+            AddStockCommand = new RelayCommand(async () => await AddStock());
             NavigateToAddStockCommand = new RelayCommand(() => NavigateToAddStock(SelectedStockItem));
+            ResetFormCommand = new RelayCommand(ResetForm);
+
 
             _ = LoadStockData();
             _ = LoadProducts();
@@ -44,8 +46,17 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         public ICommand UpdateStockAfterSaleCommand { get; }
         public ICommand UpdateStockAfterPurchaseCommand { get; }
         public ICommand NavigateToAddStockCommand { get; }
+        public ICommand ResetFormCommand { get; }
 
         public ICommand AddStockCommand { get; }
+
+
+        private void ResetForm()
+        {
+            SelectedProductId = 0; // or null if you're using nullable int
+            QuantityToAdd = null;  // works only if QuantityToAdd is int?
+        }
+
 
         private ObservableCollection<StockDto> _stockList;
         public ObservableCollection<StockDto> StockList
@@ -257,33 +268,41 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             }
         }
 
-        private int _quantityToAdd;
-        public int QuantityToAdd
+        private int? _quantityToAdd;
+        public int? QuantityToAdd
         {
             get => _quantityToAdd;
             set
             {
                 _quantityToAdd = value;
-                OnPropertyChanged();
-                (AddStockCommand as RelayCommand)?.RaiseCanExecuteChanged();
+                OnPropertyChanged(nameof(QuantityToAdd));
             }
         }
+
+
 
 
         private async Task AddStock()
         {
             try
             {
-                await _stockApiService.AddStockToProductAsync(SelectedProductId, QuantityToAdd);
+                if (!QuantityToAdd.HasValue || QuantityToAdd <= 0)
+                {
+                    MessageBox.Show("Please enter a valid positive number");
+                    return;
+                }
+
+                await _stockApiService.AddStockToProductAsync(SelectedProductId, QuantityToAdd.Value);
                 MessageBox.Show("Stock added successfully.");
-                //SelectedBrand = new Brand();
-                SelectedProductId = 0;
+                QuantityToAdd = null; // Clear the input after successful addition
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
+
+
 
 
         private void NavigateToAddStock(StockDto selectedItem)

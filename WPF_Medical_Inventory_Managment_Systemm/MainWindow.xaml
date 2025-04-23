@@ -10,64 +10,15 @@
                  Height="700"
                  Width="1200"
                  WindowStartupLocation="CenterScreen"
-                 GlowBrush="{DynamicResource AccentTealBrush}"
-                 NonActiveGlowBrush="{DynamicResource MediumGrayBrush}"
-                 BorderThickness="1">
+                 GlowBrush="{StaticResource PrimaryBlueBrush}"
+                 NonActiveGlowBrush="{StaticResource MediumGrayBrush}"
+                 BorderThickness="3">
 
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- External Styles -->
                 <ResourceDictionary Source="Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
-
-            <!-- Color Definitions -->
-            <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#4DB6AC"/>
-            <!-- Soft Teal -->
-            <SolidColorBrush x:Key="HoverBrush" Color="#81C784"/>
-            <!-- Light Mint -->
-            <SolidColorBrush x:Key="PressedBrush" Color="#66BB6A"/>
-            <!-- Medium Green -->
-            <SolidColorBrush x:Key="TextLightBrush" Color="White"/>
-            <SolidColorBrush x:Key="TextDarkBrush" Color="#424242"/>
-            <!-- Dark Gray -->
-            <SolidColorBrush x:Key="MainBackgroundBrush" Color="#FAFAFA"/>
-            <!-- Very Light Gray -->
-            <SolidColorBrush x:Key="HeaderBrush" Color="#388E3C"/>
-            <!-- Darker Green -->
-
-           
-            <!-- Navigation Button Style -->
-            <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{StaticResource TextLightBrush}"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                <Setter Property="Padding" Value="15,12"/>
-                <Setter Property="Margin" Value="5,2"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="Button">
-                            <Border Background="{TemplateBinding Background}" CornerRadius="4">
-                                <ContentPresenter Content="{TemplateBinding Content}" 
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="Center" 
-                                                  Margin="{TemplateBinding Padding}"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="{StaticResource HoverBrush}"/>
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="True">
-                        <Setter Property="Background" Value="{StaticResource PressedBrush}"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
 
@@ -75,10 +26,10 @@
         <!-- Navigation Panel -->
         <Border DockPanel.Dock="Left" 
                 Width="220" 
-                Background="{StaticResource SidebarBackgroundBrush}">
+                Background="{StaticResource LightCyanBrush}">
             <StackPanel>
                 <!-- App Title/Header -->
-                <Border Background="{StaticResource HeaderBrush}" Padding="15,20">
+                <Border Background="{StaticResource AccentBrush}" Padding="15,20">
                     <TextBlock Text="MEDICAL INVENTORY" 
                                FontSize="16"
                                FontWeight="Bold"
@@ -107,14 +58,14 @@
                     <Button Content="Sales" 
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToSalePage"/>
-                    <Button Content="Stock Management" Margin="10" Click="NavigateToStockPage" Style="{DynamicResource MetroButton}"/>
-                    <Button Content="Purchase Ordered" Margin="10" Click="NavigateToPurchaseOrderPage" Style="{DynamicResource MetroButton}"/>
 
-
+                    <Button Content="Purchase Orders" 
+                            Style="{StaticResource NavButtonStyle}"
+                            Click="NavigateToPurchaseOrderPage"/>
                 </StackPanel>
 
                 <!-- Footer/User Area -->
-                <Border Background="{StaticResource HeaderBrush}" 
+                <Border Background="{StaticResource LightCyanBrush}" 
                         Margin="0,20,0,0" 
                         Padding="10"
                         VerticalAlignment="Bottom">
@@ -125,6 +76,6 @@
         <!-- Main Content Area -->
         <Frame x:Name="MainFrame" 
                NavigationUIVisibility="Hidden"
-               Background="{StaticResource MainBackgroundBrush}"/>
+               Background="{StaticResource DarkTealBrush}"/>
     </DockPanel>
 </mah:MetroWindow>
