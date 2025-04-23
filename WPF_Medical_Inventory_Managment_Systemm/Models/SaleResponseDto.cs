@@ -13,12 +13,15 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Models
         public DateTime SaleDate { get; set; }
         public List<SaleItemResponseDto> Items { get; set; }
 
-        public decimal TotalAmount
-        {
-            get
-            {
-                return Items?.Sum(item => item.Total) ?? 0;
-            }
-        }
+        //public decimal TotalAmount
+        //{
+        //    get
+        //    {
+        //        return Items?.Sum(item => item.Total) ?? 0;
+        //    }
+        //}
+        public decimal TotalAmount { get; set; }
+        public decimal Discount { get; set; }
+        public decimal GrandTotal { get; set; }
     }
 }

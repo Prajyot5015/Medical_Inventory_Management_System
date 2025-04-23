@@ -16,9 +16,10 @@ namespace Medical_Inventory_Management_System.Services.Implementations
             _saleRepo = saleRepo;
             _mapper = mapper;
         }
-
         public async Task<SaleResponseDto> CreateSaleAsync(CreateSaleDto dto)
         {
+            decimal totalAmount = 0;
+
             var sale = new Sale
             {
                 CustomerName = dto.CustomerName,
@@ -37,6 +38,9 @@ namespace Medical_Inventory_Management_System.Services.Implementations
 
                 product.Stock -= itemDto.Quantity;
 
+                decimal itemTotal = product.Price * itemDto.Quantity;
+                totalAmount += itemTotal;
+
                 var saleItem = new SalesItem
                 {
                     ProductId = product.Id,
@@ -48,9 +52,52 @@ namespace Medical_Inventory_Management_System.Services.Implementations
                 await _saleRepo.UpdateProductAsync(product);
             }
 
+            // Calculate Discount Amount
+            decimal discountAmount = totalAmount * (dto.DiscountPercentage / 100);
+
+            sale.TotalAmount = totalAmount;
+            sale.Discount = discountAmount;             // store actual discount value
+            sale.GrandTotal = totalAmount - discountAmount;
+
             var savedSale = await _saleRepo.AddSaleAsync(sale);
             return _mapper.Map<SaleResponseDto>(savedSale);
         }
+
+
+        //public async Task<SaleResponseDto> CreateSaleAsync(CreateSaleDto dto)
+        //{
+        //    var sale = new Sale
+        //    {
+        //        CustomerName = dto.CustomerName,
+        //        SaleDate = DateTime.Now,
+        //        Items = new List<SalesItem>()
+        //    };
+
+        //    foreach (var itemDto in dto.Items)
+        //    {
+        //        var product = await _saleRepo.GetProductByIdAsync(itemDto.ProductId);
+        //        if (product == null)
+        //            throw new Exception($"Product ID {itemDto.ProductId} not found");
+
+        //        if (product.Stock < itemDto.Quantity)
+        //            throw new Exception($"Insufficient stock for {product.Name}");
+
+        //        product.Stock -= itemDto.Quantity;
+
+        //        var saleItem = new SalesItem
+        //        {
+        //            ProductId = product.Id,
+        //            Quantity = itemDto.Quantity,
+        //            UnitPrice = product.Price
+        //        };
+
+        //        sale.Items.Add(saleItem);
+        //        await _saleRepo.UpdateProductAsync(product);
+        //    }
+
+        //    var savedSale = await _saleRepo.AddSaleAsync(sale);
+        //    return _mapper.Map<SaleResponseDto>(savedSale);
+        //}
 
         public async Task<List<SaleResponseDto>> GetAllSalesAsync()
         {

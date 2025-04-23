@@ -10,5 +10,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Models
     {
         public string CustomerName { get; set; }
         public List<SaleItemDto> Items { get; set; } = new();
+
+        public decimal DiscountPercentage { get; set; }
     }
 }

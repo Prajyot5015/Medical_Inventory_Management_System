@@ -4,5 +4,7 @@
     {
         public string CustomerName { get; set; }
         public List<SaleItemDto> Items { get; set; }
+
+        public decimal DiscountPercentage { get; set; }
     }
 }

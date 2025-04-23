@@ -10,7 +10,7 @@
                  Height="700"
                  Width="1200"
                  WindowStartupLocation="CenterScreen"
-                 GlowBrush="{DynamicResource PrimaryBlueBrush}"
+                 GlowBrush="{DynamicResource AccentTealBrush}"
                  NonActiveGlowBrush="{DynamicResource MediumGrayBrush}"
                  BorderThickness="1">
 
@@ -23,12 +23,19 @@
 
 
             <!-- Color Definitions -->
-            <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#2E3B4E"/>
-            <SolidColorBrush x:Key="HoverBrush" Color="#4CAF50"/>
-            <SolidColorBrush x:Key="PressedBrush" Color="#388E3C"/>
+            <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#4DB6AC"/>
+            <!-- Soft Teal -->
+            <SolidColorBrush x:Key="HoverBrush" Color="#81C784"/>
+            <!-- Light Mint -->
+            <SolidColorBrush x:Key="PressedBrush" Color="#66BB6A"/>
+            <!-- Medium Green -->
             <SolidColorBrush x:Key="TextLightBrush" Color="White"/>
-            <SolidColorBrush x:Key="TextDarkBrush" Color="#212121"/>
-            <SolidColorBrush x:Key="MainBackgroundBrush" Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="TextDarkBrush" Color="#424242"/>
+            <!-- Dark Gray -->
+            <SolidColorBrush x:Key="MainBackgroundBrush" Color="#FAFAFA"/>
+            <!-- Very Light Gray -->
+            <SolidColorBrush x:Key="HeaderBrush" Color="#388E3C"/>
+            <!-- Darker Green -->
 
            
             <!-- Navigation Button Style -->
@@ -71,7 +78,7 @@
                 Background="{StaticResource SidebarBackgroundBrush}">
             <StackPanel>
                 <!-- App Title/Header -->
-                <Border Background="#0066B3" Padding="15,20">
+                <Border Background="{StaticResource HeaderBrush}" Padding="15,20">
                     <TextBlock Text="MEDICAL INVENTORY" 
                                FontSize="16"
                                FontWeight="Bold"
@@ -107,7 +114,7 @@
                 </StackPanel>
 
                 <!-- Footer/User Area -->
-                <Border Background="#0066B3" 
+                <Border Background="{StaticResource HeaderBrush}" 
                         Margin="0,20,0,0" 
                         Padding="10"
                         VerticalAlignment="Bottom">

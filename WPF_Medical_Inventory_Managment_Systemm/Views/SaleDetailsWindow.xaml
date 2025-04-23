@@ -123,29 +123,44 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0" 
-                   Background="#FFE3F2FD" 
-                   CornerRadius="4" 
-                   Padding="10"
-                   HorizontalAlignment="Right">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Total Amount:" 
-                              FontWeight="Bold" 
-                              Margin="0,0,10,0"
-                              VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:C}}" 
-                              FontWeight="Bold" 
-                              FontSize="18"
-                              VerticalAlignment="Center"/>
-                </StackPanel>
-            </Border>
+            <StackPanel Grid.Column="0" 
+                Background="#FFE3F2FD" 
+               
+                HorizontalAlignment="Right"
+                Width="400">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Margin" Value="0,2"/>
+                    </Style>
+                </StackPanel.Resources>
 
-            <Button Grid.Column="1" 
-                   Content="Close" 
-                   Width="120" 
-                   Style="{StaticResource ModernButton}"
-                   Click="CloseButton_Click"
-                   HorizontalAlignment="Right"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Total Amount: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:C}}" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Discount: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Discount, StringFormat={}{0:C}}" FontWeight="Bold"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock Text="Grand Total: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding GrandTotal, StringFormat={}{0:C}}" FontWeight="Bold"/>
+                </StackPanel>
+            </StackPanel>
+
+
+            <!-- Reprint Bill Button -->
+            <Button Grid.Column="2" 
+            Content="Reprint Bill" 
+            Width="150"
+             Margin="50 10"
+            Style="{StaticResource ModernButton}"
+         Command="{Binding ReprintCommand}" 
+            HorizontalAlignment="Right"/>
         </Grid>
+
     </Grid>
 </Window>
