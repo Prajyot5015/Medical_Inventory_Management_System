@@ -7,7 +7,7 @@
 
       mc:Ignorable="d"
       Title="ManufacturersPage"
-       Background="#F4F4F4">
+        Background="#F8DAD0">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -25,7 +25,7 @@
                      Text="{Binding SearchId, UpdateSourceTrigger=PropertyChanged}" 
                      BorderBrush="black" BorderThickness="1" />
             <Button Content="Search" Command="{Binding GetManufacturerByIdCommand}" 
-                    Margin="10,0,0,0" Width="100" Height="35" Background="#FF38ADCE"/>
+                    Margin="10,0,0,0" Width="100" Height="35"  Style="{StaticResource SuccessButton}"/>
 
             <TextBlock Text="Manufacturer Details" VerticalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="200,0,0,0"/>
         </StackPanel>
@@ -60,9 +60,9 @@
         </Border>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,10">
-            <Button Content="New" Command="{Binding NewManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FF38ADCE"/>
-            <Button Content="Save" Command="{Binding SaveManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FF1F9E30"/>
-            <Button Content="Delete" Command="{Binding DeleteManufacturerCommand}" Width="100" Height="40" Margin="5" Background="#FFD21212"/>
+            <Button Content="New" Command="{Binding NewManufacturerCommand}" Width="100" Height="40" Margin="5"  Style="{StaticResource SuccessButton}"/>
+            <Button Content="Save" Command="{Binding SaveManufacturerCommand}" Width="100" Height="40" Margin="5" Style="{StaticResource PrimaryButton}"/>
+            <Button Content="Delete" Command="{Binding DeleteManufacturerCommand}" Width="100" Height="40" Margin="5" Style="{StaticResource DangerButton}"/>
            <!-- <Button Content="Refresh" Command="{Binding LoadManufacturersCommand}" Width="100" Height="40" Margin="5"/> -->
         </StackPanel>
 
@@ -72,9 +72,9 @@
         <ListView Grid.Row="3" ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Margin="0,30,0,0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="80"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="180"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="250" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="250"/>
+                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="250"/>
                     <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="250"/>
                 </GridView>
             </ListView.View>
