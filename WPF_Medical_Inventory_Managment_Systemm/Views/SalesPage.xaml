@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
      xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Converters"
-      Background="White" >
+      Background="#F8DAD0" >
 
     <Page.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -15,7 +15,7 @@
 
     <StackPanel Margin="30 0 30 0">
         <!-- Toggle Buttons -->
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 10">
             <Button Content="Generate Sale" Width="150" Margin="2" Padding="10" FontSize="20"
                 Command="{Binding ShowGenerateSaleViewCommand}" 
                 Background="{Binding IsGenerateSaleViewVisible, Converter={StaticResource BoolToBrushConverter}, ConverterParameter=True}" />
