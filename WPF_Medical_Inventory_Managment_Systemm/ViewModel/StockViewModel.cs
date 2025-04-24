@@ -34,6 +34,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             AddStockCommand = new RelayCommand(async () => await AddStock());
             NavigateToAddStockCommand = new RelayCommand(() => NavigateToAddStock(SelectedStockItem));
             ResetFormCommand = new RelayCommand(ResetForm);
+            CloseAddStockTabCommand = new RelayCommand(ExecuteCloseAddStockTab);
+
 
 
             _ = LoadStockData();
@@ -47,6 +49,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         public ICommand UpdateStockAfterPurchaseCommand { get; }
         public ICommand NavigateToAddStockCommand { get; }
         public ICommand ResetFormCommand { get; }
+        public ICommand CloseAddStockTabCommand { get; }
 
         public ICommand AddStockCommand { get; }
 
@@ -303,13 +306,18 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         }
 
 
+        private void ExecuteCloseAddStockTab()
+        {
+            SelectedTabIndex = _previousTabIndex; // Replace 0 with the index you want to navigate back to (e.g. All Stock)
+        }
 
-
+        private int _previousTabIndex;
         private void NavigateToAddStock(StockDto selectedItem)
         {
             if (selectedItem != null)
             {
                 SelectedProductId = selectedItem.ProductId;
+                _previousTabIndex = SelectedTabIndex;  // store current tab before navigating
                 SelectedTabIndex = 3; // Index for "Add Stock" tab
             }
         }

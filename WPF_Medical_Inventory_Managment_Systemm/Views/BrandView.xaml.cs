@@ -22,5 +22,13 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             if (_viewModel != null)
                 await _viewModel.LoadAsync();
         }
+        private void BrandNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (DataContext is BrandViewModel viewModel)
+            {
+                viewModel.MarkManualEntry();
+            }
+        }
+
     }
 }
