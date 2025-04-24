@@ -29,6 +29,9 @@ public class SalesViewModel : INotifyPropertyChanged
     public ICommand ShowAllSalesViewCommand { get; }
     public ICommand ViewSaleByIdCommand { get; }
 
+    public ICommand IncreaseQuantityCommand { get; }
+    public ICommand DecreaseQuantityCommand { get; }
+
     public SalesViewModel()
     {
         AddToCartCommand = new RelayCommand(AddToCart);
@@ -44,8 +47,22 @@ public class SalesViewModel : INotifyPropertyChanged
         });
 
         ViewSaleByIdCommand = new RelayCommand<int>(async (saleId) => await ViewSaleById(saleId));
+        IncreaseQuantityCommand = new RelayCommand(IncreaseQuantity);
+        DecreaseQuantityCommand = new RelayCommand(DecreaseQuantity);
+
 
         LoadProducts();
+    }
+
+    private void IncreaseQuantity()
+    {
+        Quantity += 1;
+    }
+
+    private void DecreaseQuantity()
+    {
+        if (Quantity > 1)
+            Quantity -= 1;
     }
 
     private async void LoadProducts()
@@ -58,7 +75,21 @@ public class SalesViewModel : INotifyPropertyChanged
 
     private void AddToCart()
     {
-        if (SelectedProduct == null || Quantity <= 0) return;
+        ValidateCustomerName();
+        //if (SelectedProduct == null || Quantity <= 0) return;
+
+        if (SelectedProduct == null)
+        {
+            MessageBox.Show("Please Select Product.");
+            return;
+        }
+
+
+        //if (CustomerName == null || CustomerName == string.Empty)
+        //{
+        //    MessageBox.Show("Please Enter customer name.");
+        //    return;
+        //}
 
         var unitPrice = SelectedProduct.Price;
         var total = unitPrice * Quantity;
@@ -197,12 +228,41 @@ public class SalesViewModel : INotifyPropertyChanged
         }
     }
 
+    private void ValidateCustomerName()
+    {
+        if (string.IsNullOrEmpty(CustomerName))
+        {
+            CustomerNameError = "Please enter customer name.";
+        }
+        else
+        {
+            CustomerNameError = null; 
+        }
+    }
+
     private string _customerName;
     public string CustomerName
     {
         get => _customerName;
-        set => SetProperty(ref _customerName, value);
+        set
+        {
+            SetProperty(ref _customerName, value);
+            ValidateCustomerName();
+        }
     }
+
+    private string _customerNameError;
+    public string CustomerNameError
+    {
+        get { return _customerNameError; }
+        set
+        {
+            _customerNameError = value;
+            OnPropertyChanged(nameof(CustomerNameError));
+        }
+    }
+
+    private string _productError;
 
     private Product _selectedProduct;
     public Product SelectedProduct
