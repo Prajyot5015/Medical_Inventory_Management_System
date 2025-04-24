@@ -53,7 +53,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                     };
 
                     SelectedProduct = _selectedPurchaseOrder.Items?.FirstOrDefault()?.Product;
-                    PurchasePrice = SelectedProduct?.Price ?? 0;
+                    PurchasePrice = SelectedProduct?.Price ??0;
                 }
             }
         }
@@ -154,7 +154,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
 
             PurchaseOrder = new PurchaseOrderDTO
             {
-                OrderDate = DateTime.Now
+                OrderDate = DateTime.Now,
+                Quantity = 0
             };
 
             //SelectedProduct = defaultProduct;

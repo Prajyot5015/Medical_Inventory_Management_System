@@ -11,8 +11,9 @@
 
 
     <Page.Resources>
-        <local:StringToIntConverter x:Key="StringToIntConverter"/>
+        <local:QuantityConverter x:Key="QuantityConverter" />
     </Page.Resources>
+
 
 
     <Grid Margin="20">
@@ -28,7 +29,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
             <Label Content="Supplier Name:" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <TextBox Width="200" Text="{Binding PurchaseOrder.SupplierName, UpdateSourceTrigger=PropertyChanged}"
-                     materialDesign:HintAssist.Hint="Enter Supplier Name" Style="{StaticResource MaterialDesignTextBox}" BorderBrush="Black"   Margin="0,0,50,0"/>
+                      BorderBrush="Black"   Margin="0,0,50,0" Padding="2,2,2,2"/>
 
             
         </StackPanel>
@@ -41,65 +42,58 @@
 
         <!-- Product + Quantity -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
-            <Label Content="Product:" VerticalAlignment="Center" Margin="0,0,30,0"/>
-            <ComboBox Width="150" Height="50"
+            <Label Content="Product:" VerticalAlignment="Center" Margin="0,10,30,0"/>
+            <ComboBox Width="130" Height="40"
           ItemsSource="{Binding Products}" 
           SelectedItem="{Binding SelectedProduct}" 
           DisplayMemberPath="Name"
-          Margin="36,0,100,0" 
-          materialDesign:HintAssist.Hint="Select Product" 
-          Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+          Margin="45,20,100,0"/>
 
 
         </StackPanel>
         
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="406,0,0,10">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="406,10,0,10">
             <Label Content="Quantity:" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <TextBox Width="150"
-         Text="{Binding PurchaseOrder.Quantity, Converter={StaticResource StringToIntConverter}, UpdateSourceTrigger=PropertyChanged}" 
-         Margin="0,0,50,0"
-         materialDesign:HintAssist.Hint="Qty"
-         Style="{StaticResource MaterialDesignTextBox}"/>
+         Text="{Binding PurchaseOrder.Quantity,Converter={StaticResource QuantityConverter}, UpdateSourceTrigger=PropertyChanged,TargetNullValue=''}" 
+         Margin="0,0,50,0"/>
 
         </StackPanel>  
 
         <!-- Price (Read Only) -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="425,0,0,10">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="430,0,0,10">
             <Label Content="Price:" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <TextBox Width="150" 
          Text="{Binding PurchasePrice,UpdateSourceTrigger=PropertyChanged}"        
          IsReadOnly="True"
-         Margin="0,0,50,0" 
-         materialDesign:HintAssist.Hint="Price" 
-         Style="{StaticResource MaterialDesignTextBox}"/>
+         Margin="0,0,50,0"/>
 
         </StackPanel>
 
 
         <!-- Action Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="90,90,0,0">
             <Button Content="New" 
                     Command="{Binding NewPurchaseOrderCommand}"
-                    Style="{DynamicResource MaterialDesignRaisedSecondaryDarkButton}"
                     Width="100" Height="35" Margin="10,0" Background="#FF38ADCE" Foreground="White"/>
 
             <Button Content="Save" 
                     Command="{Binding SavePurchaseOrderCommand}"
-                    Style="{DynamicResource MaterialDesignRaisedSecondaryDarkButton}"
-                    Width="100" Height="35" Margin="10,0" Background="#FF1F9E30" Foreground="White"/>
+                   
+                    Width="100" Height="35" Margin="30,0,70,0" Background="#FF1F9E30" Foreground="White"/>
         </StackPanel>
 
         <!-- Purchase Order List -->
-        <Grid Grid.Row="3" Margin="0,80,0,0">
+        <Grid Grid.Row="3" Margin="0,0,0,0">
 
             <StackPanel Margin="0,0,0,0">
-            <TextBlock Text="Purchase Orders" FontSize="18" FontWeight="Bold" Margin="0,0,0,10"/>
+            <TextBlock Text="Purchase Orders" FontSize="18" FontWeight="Bold" Margin="20,0,0,10"/>
             </StackPanel>
 
-            <ListView Grid.Row="1" Margin="20,20,20,20"
+            <ListView Grid.Row="1" Margin="0,40,20,20"
               ItemsSource="{Binding PurchaseOrders}" 
               SelectedItem="{Binding SelectedPurchaseOrder}"
-              Style="{StaticResource MaterialDesignListView}"
+              
               ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ListView.View>
                     <GridView>
@@ -126,6 +120,11 @@
 </Page>
 
 
+    
+    
+    
+    
+    
 
 <!--
     <Page x:Class="WPF_Medical_Inventory_Managment_Systemm.Views.PurchaseOrderView"
