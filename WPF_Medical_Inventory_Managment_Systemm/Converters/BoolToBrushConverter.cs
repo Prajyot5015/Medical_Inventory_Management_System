@@ -16,7 +16,9 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Converters
             bool boolValue = (bool)value;
             bool param = System.Convert.ToBoolean(parameter);
 
-            return boolValue == param ? Brushes.SteelBlue : Brushes.Gray;
+            return boolValue == param ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4F7C82")) : Brushes.Transparent;
+
+            // return boolValue == param ? Brushes.SteelBlue : Brushes.Gray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

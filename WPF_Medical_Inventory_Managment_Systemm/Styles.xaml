@@ -130,7 +130,7 @@
         <Setter Property="Background" Value="{StaticResource PrimaryBlueBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#8A8886"/>
+                <Setter Property="Background"  Value="{StaticResource DarkBlueBrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -186,6 +186,19 @@
         <Setter Property="BorderThickness" Value="0,0,0,0"/>
     </Style>
 
+    <Style TargetType="DataGridRow">
+        <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#F8DAD0"/>
+                <!-- Your custom selected color -->
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
     <Style TargetType="DataGridCell">
         <Setter Property="Padding" Value="12,8"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -203,6 +216,12 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#F8DAD0"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- TEXT STYLES -->
