@@ -31,14 +31,30 @@
                     <UniformGrid Columns="4" Rows="2" Margin="20 0 20 20" HorizontalAlignment="Stretch">
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Name" FontWeight="SemiBold" Height="24"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Name" FontWeight="SemiBold" Height="24"/>
+                                <TextBlock  Text="{Binding NameError}"
+                                             Foreground="Red" 
+                                             FontSize="14" 
+                                             Padding="10 0 0 0"/>   
+                            </StackPanel>
+                           
                             <TextBox Text="{Binding NewProduct.Name, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="Name" Height="30"
                                     />
                         </StackPanel>
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Batch" FontWeight="SemiBold" Height="22"/>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Batch" FontWeight="SemiBold" Height="22"/>
+                                <TextBlock  Text="{Binding BatchError}"
+                                   Foreground="Red" 
+                                   FontSize="14" 
+                                   Padding="10 0 0 0"/>
+                            </StackPanel>
+                            
+                            
                             <TextBox Text="{Binding NewProduct.Batch, UpdateSourceTrigger=PropertyChanged}" Height="31"
                                     />
                         </StackPanel>
@@ -49,17 +65,42 @@
                         </StackPanel>
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Unit" FontWeight="SemiBold" Height="22"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Unit" FontWeight="SemiBold" Height="22"/>
+                                <TextBlock  Text="{Binding UnitError}"
+                                    Foreground="Red" 
+                                    FontSize="14" 
+                                    Padding="10 0 0 0"/>
+                            </StackPanel>
+
+                           
                             <TextBox Text="{Binding NewProduct.Unit}" Height="29" />
                         </StackPanel>
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Price" FontWeight="SemiBold" Height="19"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Price" FontWeight="SemiBold" Height="19"/>
+                                <TextBlock  Text="{Binding PriceError}"
+                                    Foreground="Red" 
+                                    FontSize="14" 
+                                    Padding="10 0 0 0"/>
+                            </StackPanel>
+
+                            
                             <TextBox Text="{Binding NewProduct.Price, UpdateSourceTrigger=PropertyChanged}" Height="31"  />
                         </StackPanel>
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Brand" FontWeight="SemiBold" Height="19"/>
+
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Brand" FontWeight="SemiBold" Height="19"/>
+                                <TextBlock  Text="{Binding BrandError}"
+                                    Foreground="Red" 
+                                    FontSize="14" 
+                                    Padding="10 0 0 0"/>
+                            </StackPanel>
+
+                           
                             <ComboBox ItemsSource="{Binding Brands}"
                                       DisplayMemberPath="Name"
                                       SelectedValuePath="Id"
@@ -68,7 +109,14 @@
                         </StackPanel>
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Manufacturer" FontWeight="SemiBold" Height="19"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Manufacturer" FontWeight="SemiBold" Height="19"/>
+                                <TextBlock  Text="{Binding ManufacturerError}"
+                                    Foreground="Red" 
+                                    FontSize="14" 
+                                    Padding="10 0 0 0"/>
+                            </StackPanel>
+                         
                             <ComboBox ItemsSource="{Binding Manufacturers}"
                                       DisplayMemberPath="Name"
                                       SelectedValuePath="Id"
@@ -77,7 +125,14 @@
                         </StackPanel>
 
                         <StackPanel Margin="5">
-                            <TextBlock Text="Quantiy" FontWeight="SemiBold" Height="22"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Quantiy" FontWeight="SemiBold" Height="22"/>
+                                <TextBlock  Text="{Binding QuantityError}"
+                                    Foreground="Red" 
+                                    FontSize="14" 
+                                    Padding="10 0 0 0"/>
+                            </StackPanel>
+                          
                             <TextBox Text="{Binding NewProduct.Stock}" Height="29"  />
                         </StackPanel>
 
