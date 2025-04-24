@@ -35,6 +35,8 @@
 
 
     <!-- SIDEBAR STYLES -->
+    
+    <!-- Enhanced NavButtonStyle with hover and active states -->
     <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
@@ -43,28 +45,47 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Padding" Value="15,12"/>
         <Setter Property="Margin" Value="5,2"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                    <Border x:Name="border" 
+                            Background="{TemplateBinding Background}" 
+                            CornerRadius="8">
                         <ContentPresenter Content="{TemplateBinding Content}" 
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="Center" 
                                       Margin="{TemplateBinding Padding}"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Hover State -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource MediumGrayBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
+                        </Trigger>
+
+                        <!-- Pressed State -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource DarkTealBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
+                        </Trigger>
+
+                        <!-- Disabled State -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource MediumGrayBrush}"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="{StaticResource MediumGrayBrush}"/>
-            </Trigger>
-
-        </Style.Triggers>
     </Style>
+
+    <!-- Active state style for navigation buttons -->
+    <Style x:Key="NavButtonActiveStyle" TargetType="Button" BasedOn="{StaticResource NavButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource DarkTealBrush}" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
 
     <!-- BASE BUTTON STYLE -->
     <Style x:Key="BaseButtonStyle" TargetType="Button">

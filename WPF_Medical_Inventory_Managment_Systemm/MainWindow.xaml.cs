@@ -21,7 +21,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm
             ConfigureServices(services);
             _provider = services.BuildServiceProvider();
 
-            NavigateToManufacturerPage(null, null);
+            NavigateToManufacturerPage(ManufacturersBtn, null);
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -68,6 +68,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm
 
         private void NavigateToManufacturerPage(object sender, RoutedEventArgs e)
         {
+            SetActiveButton((Button)sender);
             var page = _provider.GetRequiredService<ManufacturersPage>();
             page.DataContext = _provider.GetRequiredService<ManufacturersViewModel>();
             MainFrame.Navigate(page);
@@ -75,6 +76,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm
 
         private void NavigateToBrandPage(object sender, RoutedEventArgs e)
         {
+            SetActiveButton((Button)sender);
             var page = _provider.GetRequiredService<BrandView>();
             page.DataContext = _provider.GetRequiredService<BrandViewModel>();
             MainFrame.Navigate(page);
@@ -82,18 +84,21 @@ namespace WPF_Medical_Inventory_Managment_Systemm
 
         private void NavigateToProductPage(object sender, RoutedEventArgs e)
         {
+            SetActiveButton((Button)sender);
             var page = _provider.GetRequiredService<ProductWindow>();
             page.DataContext = _provider.GetRequiredService<ProductViewModel>();
             MainFrame.Navigate(page);
         }
         private void NavigateToSalePage(object sender, RoutedEventArgs e)
         {
+            SetActiveButton((Button)sender);
             var page = _provider.GetRequiredService<SalesPage>();
             page.DataContext = _provider.GetRequiredService<SalesViewModel>();
             MainFrame.Navigate(page);
         }
         private void NavigateToStockPage(object sender, RoutedEventArgs e)
         {
+            SetActiveButton((Button)sender);
             var page = _provider.GetRequiredService<StockView>();
             page.DataContext = _provider.GetRequiredService<StockViewModel>();  // Bind the StockViewModel to the view
             MainFrame.Navigate(page);
@@ -107,10 +112,30 @@ namespace WPF_Medical_Inventory_Managment_Systemm
         //}
         private void NavigateToPurchaseOrderPage(object sender, RoutedEventArgs e)
         {
+            SetActiveButton((Button)sender);
             var page = _provider.GetRequiredService<PurchaseOrderView>();
             page.DataContext = _provider.GetRequiredService<PurchaseOrderViewModel>();
             MainFrame.Navigate(page);
         }
+
+
+        private Button _currentNavButton;
+
+        private void SetActiveButton(Button activeButton)
+        {
+            if (_currentNavButton != null)
+            {
+                _currentNavButton.Style = (Style)FindResource("NavButtonStyle");
+            }
+
+            if (activeButton != null)
+            {
+                activeButton.Style = (Style)FindResource("NavButtonActiveStyle");
+                _currentNavButton = activeButton;
+            }
+        }
+
+
 
     }
 }
