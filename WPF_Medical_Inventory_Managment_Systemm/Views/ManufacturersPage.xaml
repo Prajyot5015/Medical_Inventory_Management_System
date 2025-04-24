@@ -45,17 +45,23 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Name : " Margin="0,0,10,10" FontWeight="Bold"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name}" materialDesign:HintAssist.Hint="Enter Manufacturer Name" 
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Enter Name : " Margin="0,0,10,10" FontWeight="Bold"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name,UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Enter Manufacturer Name" 
                         Style="{StaticResource MaterialDesignTextBox}" Margin="0,0,0,10" Height="30" Padding="2,3,3,3" BorderBrush="Black" BorderThickness="1"/>
+                       
+                <TextBlock Grid.Row="1" Grid.Column="0" Text=" Enter Contact : " Margin="0,0,10,10" FontWeight="Bold"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails,UpdateSourceTrigger=PropertyChanged}"   
+                         materialDesign:HintAssist.Hint="Enter Manufacurer Contact" 
+                         Style="{StaticResource MaterialDesignTextBox}"
+                         PreviewTextInput="ContactTextBox_PreviewTextInput"
+                         Margin="0,0,0,10" Height="30" Padding="2,3,3,3" BorderBrush="black" BorderThickness="1"/>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Contact : " Margin="0,0,10,10" FontWeight="Bold"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails}" 
-                         Margin="0,0,0,10" Height="30" Padding="5" BorderBrush="black" BorderThickness="1"/>
-
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Address : " Margin="0,0,10,0" FontWeight="Bold"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address}" 
-                         Height="30" Padding="5" BorderBrush="black" BorderThickness="1"/>
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Enter Address : " Margin="0,0,10,0" FontWeight="Bold"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address,UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.Hint="Enter Manufacturer Address" 
+                         Style="{StaticResource MaterialDesignTextBox}"
+                         materialDesign:HintAssist.Foreground="#f5e5e4"
+                         Height="30" Padding="2,3,3,3" BorderBrush="black" BorderThickness="1"/>
             </Grid>
         </Border>
 
@@ -70,12 +76,24 @@
 
 
         <ListView Grid.Row="3" ItemsSource="{Binding Manufacturers}" SelectedItem="{Binding SelectedManufacturer}" Margin="0,30,0,0">
+            <ListView.Resources>
+                <!-- Custom Style for Column Headers -->
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="Background" Value="#F8DAD0"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <!-- Optional text color -->
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="10,5"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.Resources>
             <ListView.View>
+                
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="250" />
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="250"/>
-                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="250"/>
-                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="250"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="200" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="300"/>
+                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="300"/>
+                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="300"/>
                 </GridView>
             </ListView.View>
         </ListView>

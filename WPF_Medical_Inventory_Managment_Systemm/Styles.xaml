@@ -177,6 +177,8 @@
         <Setter Property="VerticalGridLinesBrush" Value="{StaticResource LightGrayBrush}"/>
     </Style>
 
+    <!--column header -->
+    
     <Style TargetType="DataGridColumnHeader">
         <Setter Property="Background" Value="#F8DAD0"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
@@ -185,6 +187,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="BorderThickness" Value="0,0,0,0"/>
     </Style>
+
 
     <Style TargetType="DataGridRow">
         <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
@@ -197,6 +200,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
 
 
     <Style TargetType="DataGridCell">
