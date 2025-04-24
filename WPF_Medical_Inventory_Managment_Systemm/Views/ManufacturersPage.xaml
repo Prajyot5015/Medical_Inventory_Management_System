@@ -4,10 +4,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Converters"
 
       mc:Ignorable="d"
       Title="ManufacturersPage"
         Background="#F8DAD0">
+
+    <Page.Resources>
+        <local:StringToIntConverter x:Key="StringToIntConverter" />
+    </Page.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -22,7 +27,7 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="0" Margin="0,0,0,10">
             <TextBlock Text="Search by ID:" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="Bold"/>
             <TextBox Width="100" Height="30" Padding="5" 
-                     Text="{Binding SearchId, UpdateSourceTrigger=PropertyChanged}" 
+                     Text="{Binding SearchId,Converter={StaticResource StringToIntConverter}, UpdateSourceTrigger=PropertyChanged}" 
                      BorderBrush="black" BorderThickness="1" />
             <Button Content="Search" Command="{Binding GetManufacturerByIdCommand}" 
                     Margin="10,0,0,0" Width="100" Height="35"  Style="{StaticResource SuccessButton}"/>
