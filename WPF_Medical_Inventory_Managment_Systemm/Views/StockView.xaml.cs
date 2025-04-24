@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WPF_Medical_Inventory_Managment_Systemm.ViewModels;
+using WPF_Medical_Inventory_Managment_Systemm.Helpers; // Add this for SessionState
 
 namespace WPF_Medical_Inventory_Managment_Systemm.Views
 {
-    /// <summary>
-    /// Interaction logic for StockView.xaml
-    /// </summary>
     public partial class StockView : Page
     {
         private readonly StockViewModel _viewModel;
@@ -32,26 +20,33 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
 
             Loaded += async (s, e) =>
             {
-                await _viewModel.LoadStockData();
-                await _viewModel.LoadLowStockData();
-                await _viewModel.LoadNearExpiryData();
+                try
+                {
+                    await _viewModel.LoadStockData();
+                    await _viewModel.LoadLowStockData();
+                    await _viewModel.LoadNearExpiryData();
+
+                    if (!SessionState.IsLowStockPopupShown &&
+                        _viewModel.LowStockList != null &&
+                        _viewModel.LowStockList.Any())
+                    {
+                        LowStockPopup.Visibility = Visibility.Visible;
+                        SessionState.IsLowStockPopupShown = true; // Mark as shown
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error loading data: {ex.Message}", "Load Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             };
         }
 
-        private void LowStockDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void LowStockDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 
-        }
-       
-        private void NearExpiryDataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
-        {
+        private void NearExpiryDataGrid_SelectionChanged_1(object sender, SelectionChangedEventArgs e) { }
 
-        }
+        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) { }
 
-        private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
         private void Tab_Loaded(object sender, RoutedEventArgs e)
         {
             var element = sender as FrameworkElement;
@@ -59,5 +54,15 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             storyboard.Begin(element);
         }
 
+        private void OkButton_Click(object sender, RoutedEventArgs e)
+        {
+            LowStockPopup.Visibility = Visibility.Collapsed;
+            MainTabControl.SelectedIndex = 1;  // Show "Low Stock" tab
+        }
+
+        private void ClosePopup_Click(object sender, RoutedEventArgs e)
+        {
+            LowStockPopup.Visibility = Visibility.Collapsed;
+        }
     }
 }

@@ -123,15 +123,31 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             set
             {
                 _isManuallyEntered = value;
+                Console.WriteLine($"IsManuallyEntered set to: {_isManuallyEntered}");
                 OnPropertyChanged();
             }
         }
 
+
         public void MarkManualEntry()
         {
-            if (!IsManuallyEntered)
-                IsManuallyEntered = true;
+            // Only mark as manually entered if the name doesn't match any existing brand
+            if (SelectedBrand != null && !string.IsNullOrWhiteSpace(SelectedBrand.Name))
+            {
+                bool isExisting = false;
+                foreach (var brand in Brands)
+                {
+                    if (string.Equals(brand.Name, SelectedBrand.Name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        isExisting = true;
+                        break;
+                    }
+                }
+
+                IsManuallyEntered = !isExisting;
+            }
         }
+
 
 
         public async Task RefreshAsync()

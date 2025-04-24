@@ -36,8 +36,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             ResetFormCommand = new RelayCommand(ResetForm);
             CloseAddStockTabCommand = new RelayCommand(ExecuteCloseAddStockTab);
 
-
-
             _ = LoadStockData();
             _ = LoadProducts();
         }
@@ -50,7 +48,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         public ICommand NavigateToAddStockCommand { get; }
         public ICommand ResetFormCommand { get; }
         public ICommand CloseAddStockTabCommand { get; }
-
         public ICommand AddStockCommand { get; }
 
 
@@ -59,7 +56,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             SelectedProductId = 0; // or null if you're using nullable int
             QuantityToAdd = null;  // works only if QuantityToAdd is int?
         }
-
 
         private ObservableCollection<StockDto> _stockList;
         public ObservableCollection<StockDto> StockList
@@ -82,7 +78,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             set { _nearExpiryStockList = value; OnPropertyChanged(); }
         }
 
-
         private ObservableCollection<Product> _products = new ObservableCollection<Product>();
         public ObservableCollection<Product> Products
         {
@@ -103,8 +98,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             }
         }
 
-
-
         private int _selectedTabIndex;
         public int SelectedTabIndex
         {
@@ -116,6 +109,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
                 _ = HandleTabChangeAsync(value);
             }
         }
+
         private async Task HandleTabChangeAsync(int index)
         {
             switch (index)
@@ -132,6 +126,24 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             get => _selectedStockItem;
             set { _selectedStockItem = value; OnPropertyChanged(); }
         }
+
+
+
+        private bool _showLowStockAlert;
+        public bool ShowLowStockAlert
+        {
+            get => _showLowStockAlert;
+            set
+            {
+                _showLowStockAlert = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+
+
+
 
         public async Task LoadStockData()
         {
@@ -256,9 +268,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             NearExpiryStockList = stockDtos;
         }
 
-
-
-
         private int _selectedProductId;
         public int SelectedProductId
         {
@@ -282,9 +291,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             }
         }
 
-
-
-
         private async Task AddStock()
         {
             try
@@ -305,7 +311,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             }
         }
 
-
         private void ExecuteCloseAddStockTab()
         {
             SelectedTabIndex = _previousTabIndex; // Replace 0 with the index you want to navigate back to (e.g. All Stock)
@@ -322,6 +327,10 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             }
         }
 
+        public bool HasLowStockItems()
+    {
+        return LowStockList != null && LowStockList.Any();
+    }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "") =>
