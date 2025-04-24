@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using WPF_Medical_Inventory_Managment_Systemm.Helpers.RelayCommands;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
@@ -61,6 +62,15 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         // Add a new product
         private async Task AddProduct()
         {
+
+            ValidateProduct();
+
+            if (HasValidationErrors())
+            {
+                return; // Don't proceed if validation fails
+            }
+
+
             if (decimal.TryParse(NewProduct.Price, out decimal parsedPrice))
             {
                 NewProduct.Price = parsedPrice.ToString("0.00");
@@ -77,6 +87,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             var success = await _apiService.CreateProductAsync(NewProduct);
             if (success)
             {
+                MessageBox.Show("Product added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 await LoadData();
                 ResetForm();
             }
@@ -104,39 +115,93 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         }
 
         // Update the selected product
+
         private async Task UpdateProduct()
         {
+            ValidateProduct();
+
+            if (HasValidationErrors())
+            {
+                return; // Don't proceed if validation fails
+            }
+
             if (SelectedProduct == null) return;
 
-            var dto = new UpdateProductDTO
-            {
-                Name = NewProduct.Name,
-                Batch = NewProduct.Batch,
-                Unit = NewProduct.Unit,
-                Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
-                Stock = NewProduct.Stock,
-                BrandId = NewProduct.BrandId,
-                ManufacturerId = NewProduct.ManufacturerId
-            };
+            var result = MessageBox.Show("Are you sure you want to update this product?",
+                                         "Confirm Update",
+                                         MessageBoxButton.YesNo,
+                                         MessageBoxImage.Question);
 
-            var success = await _apiService.UpdateProductAsync(SelectedProduct.Id, dto);
-            if (success)
+            if (result == MessageBoxResult.Yes)
             {
-                await LoadData();
-                ResetForm();
+                var dto = new UpdateProductDTO
+                {
+                    Name = NewProduct.Name,
+                    Batch = NewProduct.Batch,
+                    Unit = NewProduct.Unit,
+                    Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
+                    Stock = NewProduct.Stock,
+                    BrandId = NewProduct.BrandId,
+                    ManufacturerId = NewProduct.ManufacturerId
+                };
+
+                var success = await _apiService.UpdateProductAsync(SelectedProduct.Id, dto);
+                if (success)
+                {
+                    await LoadData();
+                    ResetForm();
+                }
             }
         }
+
+        //private async Task UpdateProduct()
+        //{
+        //    ValidateProduct();
+
+        //    if (HasValidationErrors())
+        //    {
+        //        return; // Don't proceed if validation fails
+        //    }
+
+        //    if (SelectedProduct == null) return;
+
+        //    var dto = new UpdateProductDTO
+        //    {
+        //        Name = NewProduct.Name,
+        //        Batch = NewProduct.Batch,
+        //        Unit = NewProduct.Unit,
+        //        Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
+        //        Stock = NewProduct.Stock,
+        //        BrandId = NewProduct.BrandId,
+        //        ManufacturerId = NewProduct.ManufacturerId
+        //    };
+
+        //    var success = await _apiService.UpdateProductAsync(SelectedProduct.Id, dto);
+        //    if (success)
+        //    {
+        //        await LoadData();
+        //        ResetForm();
+        //    }
+        //}
 
         // Delete a product
         private async Task DeleteProduct(Product product)
         {
             if (product == null) return;
 
-            var success = await _apiService.DeleteProductAsync(product.Id);
-            if (success)
+            var result = MessageBox.Show("Are you sure you want to delete this product?",
+                                "Confirm Deletion",
+                                MessageBoxButton.YesNo,
+                                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
-                await LoadData();
-                ResetForm();
+                var success = await _apiService.DeleteProductAsync(product.Id);
+                if (success)
+                {
+                    await LoadData();
+                    ResetForm();
+                }
             }
         }
 
@@ -146,6 +211,47 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             NewProduct = new CreateProductDTO();
             SelectedProduct = null;
             OnPropertyChanged(nameof(NewProduct));
+        }
+
+        public string NameError { get; set; }
+        public string BatchError { get; set; }
+        public string UnitError { get; set; }
+        public string PriceError { get; set; }
+        public string BrandError { get; set; }
+        public string ManufacturerError { get; set; }
+        public string QuantityError { get; set; }
+
+        // Validation method
+        private void ValidateProduct()
+        {
+            NameError = string.IsNullOrEmpty(NewProduct.Name) ? "Please enter product name." : null;
+            BatchError = string.IsNullOrEmpty(NewProduct.Batch) ? "Please enter batch number." : null;
+            UnitError = string.IsNullOrEmpty(NewProduct.Unit) ? "Please enter unit." : null;
+            PriceError = decimal.TryParse(NewProduct.Price, out _) ? null : "Please enter a valid price.";
+            BrandError = NewProduct.BrandId == 0 ? "Please select a brand." : null;
+            ManufacturerError = NewProduct.ManufacturerId == 0 ? "Please select a manufacturer." : null;
+            QuantityError = NewProduct.Stock <= 0 ? "Please enter a valid quantity." : null;
+
+
+            OnPropertyChanged(nameof(NameError));
+            OnPropertyChanged(nameof(BatchError));
+            OnPropertyChanged(nameof(UnitError));
+            OnPropertyChanged(nameof(PriceError));
+            OnPropertyChanged(nameof(BrandError));
+            OnPropertyChanged(nameof(ManufacturerError));
+            OnPropertyChanged(nameof(QuantityError));
+        }
+
+        // Check if any validation error exists
+        private bool HasValidationErrors()
+        {
+            return !string.IsNullOrEmpty(NameError) ||
+                   !string.IsNullOrEmpty(BatchError) ||
+                   !string.IsNullOrEmpty(UnitError) ||
+                   !string.IsNullOrEmpty(PriceError) ||
+                    !string.IsNullOrEmpty(BrandError) ||
+                   !string.IsNullOrEmpty(ManufacturerError) ||
+                   !string.IsNullOrEmpty(QuantityError);
         }
 
         // INotifyPropertyChanged Implementation
