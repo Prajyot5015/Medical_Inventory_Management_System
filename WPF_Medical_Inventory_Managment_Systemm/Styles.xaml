@@ -156,6 +156,8 @@
         <Setter Property="VerticalGridLinesBrush" Value="{StaticResource LightGrayBrush}"/>
     </Style>
 
+    <!--column header -->
+    
     <Style TargetType="DataGridColumnHeader">
         <Setter Property="Background" Value="#F8DAD0"/>
         <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
@@ -165,6 +167,8 @@
         <Setter Property="BorderThickness" Value="0,0,0,0"/>
     </Style>
 
+    <!--column cell-->
+    
     <Style TargetType="DataGridCell">
         <Setter Property="Padding" Value="12,8"/>
         <Setter Property="BorderThickness" Value="0"/>
