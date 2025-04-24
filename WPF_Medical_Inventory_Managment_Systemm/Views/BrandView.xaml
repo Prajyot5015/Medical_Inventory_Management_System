@@ -20,7 +20,7 @@
                     <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True">
-                    <Setter Property="Background" Value="{StaticResource PrimaryBlueBrush}"/>
+                    <Setter Property="Background" Value="#F8DAD0"/>
                     <Setter Property="Foreground" Value="{StaticResource WhiteBrush}"/>
                 </DataTrigger>
             </Style.Triggers>
