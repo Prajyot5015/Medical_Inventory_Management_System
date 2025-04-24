@@ -41,26 +41,32 @@
                 <!-- Navigation Buttons -->
                 <StackPanel Margin="10,20,10,0">
                     <Button Content="Manufacturers" 
+                            x:Name="ManufacturersBtn"
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToManufacturerPage"/>
 
                     <Button Content="Brands" 
+                            x:Name="BrandsBtn"
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToBrandPage"/>
 
                     <Button Content="Products" 
+                            x:Name="ProductsBtn"
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToProductPage"/>
 
                     <Button Content="Stock Management" 
+                            x:Name="StockBtn"
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToStockPage"/>
 
                     <Button Content="Sales" 
+                            x:Name="SalesBtn"
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToSalePage"/>
 
                     <Button Content="Purchase Orders" 
+                            x:Name="PurchaseBtn"
                             Style="{StaticResource NavButtonStyle}"
                             Click="NavigateToPurchaseOrderPage"/>
                 </StackPanel>
