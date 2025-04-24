@@ -46,17 +46,18 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Enter Name : " Margin="0,0,10,10" FontWeight="Bold"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name}" materialDesign:HintAssist.Hint="Enter Manufacturer Name" 
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedManufacturer.Name,UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Enter Manufacturer Name" 
                         Style="{StaticResource MaterialDesignTextBox}" Margin="0,0,0,10" Height="30" Padding="2,3,3,3" BorderBrush="Black" BorderThickness="1"/>
-
+                       
                 <TextBlock Grid.Row="1" Grid.Column="0" Text=" Enter Contact : " Margin="0,0,10,10" FontWeight="Bold"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails}" 
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedManufacturer.ContactDetails,UpdateSourceTrigger=PropertyChanged}"   
                          materialDesign:HintAssist.Hint="Enter Manufacurer Contact" 
                          Style="{StaticResource MaterialDesignTextBox}"
+                         PreviewTextInput="ContactTextBox_PreviewTextInput"
                          Margin="0,0,0,10" Height="30" Padding="2,3,3,3" BorderBrush="black" BorderThickness="1"/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Enter Address : " Margin="0,0,10,0" FontWeight="Bold"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address}" 
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedManufacturer.Address,UpdateSourceTrigger=PropertyChanged}"
                          materialDesign:HintAssist.Hint="Enter Manufacturer Address" 
                          Style="{StaticResource MaterialDesignTextBox}"
                          materialDesign:HintAssist.Foreground="#f5e5e4"
@@ -89,10 +90,10 @@
             <ListView.View>
                 
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="250" />
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="250"/>
-                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="250"/>
-                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="250"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="200" />
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="300"/>
+                    <GridViewColumn Header="Contact" DisplayMemberBinding="{Binding ContactDetails}" Width="300"/>
+                    <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" Width="300"/>
                 </GridView>
             </ListView.View>
         </ListView>

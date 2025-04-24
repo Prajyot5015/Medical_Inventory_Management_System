@@ -23,10 +23,14 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
         public ManufacturersPage()
         {
             InitializeComponent();
+
+        }
+        private void ContactTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(char.IsDigit);
         }
 
-       
 
-       
+
     }
 }
