@@ -25,6 +25,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             set
             {
                 _selectedBrand = value ?? new Brand();
+                IsManuallyEntered = false; // reset when selected from list
                 OnPropertyChanged();
                 ((RelayCommand)UpdateCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
@@ -113,6 +114,25 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 }
             }
         }
+
+
+        private bool _isManuallyEntered;
+        public bool IsManuallyEntered
+        {
+            get => _isManuallyEntered;
+            set
+            {
+                _isManuallyEntered = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void MarkManualEntry()
+        {
+            if (!IsManuallyEntered)
+                IsManuallyEntered = true;
+        }
+
 
         public async Task RefreshAsync()
         {

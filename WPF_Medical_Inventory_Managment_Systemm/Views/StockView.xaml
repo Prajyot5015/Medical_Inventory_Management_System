@@ -22,7 +22,7 @@
                     FontWeight="SemiBold"
                     SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}"
                     SelectionChanged="MainTabControl_SelectionChanged"
-                    Background="{StaticResource WhiteBrush}"
+                    Background="#F8DAD0"
                     BorderThickness="1"
                     BorderBrush="{StaticResource MediumGrayBrush}">
 
@@ -129,6 +129,8 @@
                                    Foreground="{StaticResource PrimaryBlueBrush}" 
                                    Margin="0 0 0 20" 
                                    HorizontalAlignment="Center"/>
+                        
+                        
                         <TextBlock Text="Select Product:" FontWeight="SemiBold" Margin="0 6 0 2"/>
                         <ComboBox ItemsSource="{Binding Products}" 
                                   DisplayMemberPath="Id" 
@@ -153,17 +155,22 @@
                                  Padding="6" 
                                  Style="{StaticResource MaterialTextBox}" 
                                  Margin="0 0 0 20"/>
-                        <Button Content="Add Stock" 
-                                Width="140" 
-                                Style="{StaticResource SuccessButton}" 
-                                Command="{Binding AddStockCommand}" 
-                                HorizontalAlignment="Center"/>
-                        <Button Content="Reset" 
-                                Width="140" 
-                                Style="{StaticResource DangerButton}" 
-                                Command="{Binding ResetFormCommand}" 
-                                HorizontalAlignment="Center" 
-                                Margin="0,10,0,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                            
+                            <Button Content="Reset" 
+                                    Width="140" 
+                                    Style="{StaticResource DangerButton}" 
+                                    Command="{Binding ResetFormCommand}"/>
+                            <Button Content="Add Stock" 
+                                    Width="140" 
+                                    Style="{StaticResource SuccessButton}" 
+                                    Command="{Binding AddStockCommand}"/>                            
+                            <Button Content="Close"
+                                    Width="140"
+                                    Style="{StaticResource NeutralButton}" 
+                                    Command="{Binding CloseAddStockTabCommand}"/>
+                        </StackPanel>
+                        
 
                     </StackPanel>
                 </Border>
