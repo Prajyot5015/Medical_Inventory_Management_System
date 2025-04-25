@@ -102,13 +102,24 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             await LoadPurchaseOrdersAsync();
         }
 
+        //private async Task LoadProductsAsync()
+        //{
+        //    Products.Clear();
+        //    var products = await _productService.GetAllProductsAsync();
+        //    foreach (var product in products)
+        //        Products.Add(product);
+        //}
         private async Task LoadProductsAsync()
         {
             Products.Clear();
             var products = await _productService.GetAllProductsAsync();
             foreach (var product in products)
                 Products.Add(product);
+
+            // Set first product as selected by default
+            SelectedProduct = Products.FirstOrDefault();
         }
+
 
         private async Task LoadPurchaseOrdersAsync()
         {
