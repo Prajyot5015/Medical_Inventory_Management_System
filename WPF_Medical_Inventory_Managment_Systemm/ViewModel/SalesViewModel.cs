@@ -32,6 +32,28 @@ public class SalesViewModel : INotifyPropertyChanged
     public ICommand IncreaseQuantityCommand { get; }
     public ICommand DecreaseQuantityCommand { get; }
 
+    private bool _productErrorPopupVisibility;
+    public bool ProductErrorPopupVisibility
+    {
+        get => _productErrorPopupVisibility;
+        set => SetProperty(ref _productErrorPopupVisibility, value);
+    }
+
+    private bool _warningPopupVisibility;
+    public bool WarningPopupVisibility
+    {
+        get => _warningPopupVisibility;
+        set => SetProperty(ref _warningPopupVisibility, value);
+    }
+
+    private string _errorMessage;
+    public string ErrorMessage
+    {
+        get => _errorMessage;
+        set => SetProperty(ref _errorMessage, value);
+    }
+
+
     public SalesViewModel()
     {
         AddToCartCommand = new RelayCommand(AddToCart);
@@ -73,23 +95,19 @@ public class SalesViewModel : INotifyPropertyChanged
             Products.Add(product);
     }
 
-    private void AddToCart()
+    private async void AddToCart()
     {
         ValidateCustomerName();
-        //if (SelectedProduct == null || Quantity <= 0) return;
 
         if (SelectedProduct == null)
         {
-            MessageBox.Show("Please Select Product.");
+            ProductErrorPopupVisibility = true; 
+
+            await Task.Delay(3000);
+            ProductErrorPopupVisibility = false; 
+
             return;
         }
-
-
-        //if (CustomerName == null || CustomerName == string.Empty)
-        //{
-        //    MessageBox.Show("Please Enter customer name.");
-        //    return;
-        //}
 
         var unitPrice = SelectedProduct.Price;
         var total = unitPrice * Quantity;
@@ -135,12 +153,17 @@ public class SalesViewModel : INotifyPropertyChanged
 
     private async Task SubmitSale()
     {
+        // Check for invalid customer name or empty cart
         if (string.IsNullOrWhiteSpace(CustomerName) || CartItems.Count == 0)
         {
-            MessageBox.Show("Please enter customer name and add at least one item to the cart.");
+            ErrorMessage = "Please enter Customer name and add at least one item to the cart.";
+            WarningPopupVisibility = true;
+            await Task.Delay(3000); 
+            WarningPopupVisibility = false; 
             return;
         }
 
+        // Proceed with sale creation if validation passes
         var sale = new CreateSaleDto
         {
             CustomerName = CustomerName,
@@ -148,18 +171,21 @@ public class SalesViewModel : INotifyPropertyChanged
             DiscountPercentage = OverallDiscountPercentage
         };
 
+        // Call service to create the sale
         var result = await _saleService.CreateSaleAsync(sale);
         if (result != null)
         {
             await DownloadInvoice(result.Id);
-            ResetForm();
+            ResetForm(); 
         }
         else
         {
-            MessageBox.Show("Sale creation failed!");
+            ErrorMessage = "Sale creation failed,";
+            WarningPopupVisibility = true;
+            await Task.Delay(3000); 
+            WarningPopupVisibility = false; 
         }
     }
-
     private void ResetForm()
     {
         CartItems.Clear();
