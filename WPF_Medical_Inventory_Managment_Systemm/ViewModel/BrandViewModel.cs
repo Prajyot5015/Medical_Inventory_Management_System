@@ -98,21 +98,24 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
 
         public async Task DeleteAsync()
         {
-            var result = MessageBox.Show($"Are you sure you want to delete '{SelectedBrand.Name}'?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
-            {
+            //var result = MessageBox.Show($"Are you sure you want to delete '{SelectedBrand.Name}'?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            //if (result == MessageBoxResult.Yes)
+            //{
                 try
                 {
                     await _service.DeleteBrandAsync(SelectedBrand.Id);
-                    MessageBox.Show("Brand deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
+                    //MessageBox.Show("Brand deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
                     SelectedBrand = new Brand();
                     await LoadAsync();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Failed to delete brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                     throw;
+                   
+                    //MessageBox.Show($"Failed to delete brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
+            //}
         }
 
 
@@ -148,7 +151,10 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             }
         }
 
-
+        public async void ConfirmDelete()
+        {
+            await DeleteAsync();
+        }
 
         public async Task RefreshAsync()
         {
