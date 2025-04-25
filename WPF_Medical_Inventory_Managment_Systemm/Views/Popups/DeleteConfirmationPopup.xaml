@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="WPF_Medical_Inventory_Managment_Systemm.Views.Popups.DeleteConfirmationPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Views.Popups"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+            xmlns:fa="http://schemas.fontawesome.io/icons/"
+             x:Name="RootControl"
+             Visibility="{Binding PopupVisibility, ElementName=RootControl}">
+    <Grid Background="#88000000" Panel.ZIndex="999">
+        <Border Width="500" Height="200" Background="White" CornerRadius="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+
+                <!-- Icon -->
+                <fa:FontAwesome Icon="Trash" Foreground="Red" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+
+                <!-- Static Confirmation Text -->
+                <TextBlock Text="Are you sure you want to delete this product?" 
+                           FontWeight="Bold" FontSize="16" TextAlignment="Center" 
+                           TextWrapping="Wrap" Margin="0,0,0,20"/>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Button Content="Yes" Width="80" Margin="10,0" Style="{StaticResource PrimaryButton}" Command="{Binding ConfirmCommand, ElementName=RootControl}"/>
+                    <Button Content="No" Width="80" Margin="10,0" Style="{StaticResource NeutralButton}" Command="{Binding CancelCommand, ElementName=RootControl}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

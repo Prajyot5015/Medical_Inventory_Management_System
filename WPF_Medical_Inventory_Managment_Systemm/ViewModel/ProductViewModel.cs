@@ -29,6 +29,26 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         public ICommand UpdateProductCommand { get; }
         public ICommand DeleteProductCommand { get; }
 
+        public ICommand ConfirmDeleteCommand { get; }
+        public ICommand CancelDeleteCommand { get; }
+
+        private Product _productToDelete;
+
+        private bool _isProductAddedPopupVisible;
+        public string ProductAddedPopupVisibility => _isProductAddedPopupVisible ? "Visible" : "Collapsed";
+
+        private bool _isUpdateConfirmationPopupVisible;
+        public string UpdateConfirmationPopupVisibility => _isUpdateConfirmationPopupVisible ? "Visible" : "Collapsed";
+
+        private bool _isUpdateSuccessPopupVisible;
+        public string UpdateSuccessPopupVisibility => _isUpdateSuccessPopupVisible ? "Visible" : "Collapsed";
+
+        public ICommand ConfirmUpdateCommand => new RelayCommand(async () => await ConfirmUpdate());
+        public ICommand CancelUpdateCommand => new RelayCommand(CancelUpdate);
+
+
+
+
         public ProductViewModel()
         {
             _apiService = new ProductApiService();
@@ -39,7 +59,11 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             AddProductCommand = new RelayCommand(async () => await AddProduct());
             EditProductCommand = new RelayCommand<Product>(async (product) => await EditProduct(product));
             UpdateProductCommand = new RelayCommand(async () => await UpdateProduct());
-            DeleteProductCommand = new RelayCommand<Product>(async (product) => await DeleteProduct(product));
+
+            DeleteProductCommand = new RelayCommand<Product>(async (product) => await PrepareDeleteProduct(product));
+
+            ConfirmDeleteCommand = new RelayCommand(async () => await ConfirmDelete());
+            CancelDeleteCommand = new RelayCommand(CancelDelete);
         }
 
         // Load all necessary data: Products, Brands, Manufacturers
@@ -87,7 +111,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             var success = await _apiService.CreateProductAsync(NewProduct);
             if (success)
             {
-                MessageBox.Show("Product added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                await ShowProductAddedPopup();
+                // MessageBox.Show("Product added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                 await LoadData();
                 ResetForm();
             }
@@ -121,68 +146,43 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             ValidateProduct();
 
             if (HasValidationErrors())
-            {
-                return; // Don't proceed if validation fails
-            }
+                return;
 
             if (SelectedProduct == null) return;
 
-            var result = MessageBox.Show("Are you sure you want to update this product?",
-                                         "Confirm Update",
-                                         MessageBoxButton.YesNo,
-                                         MessageBoxImage.Question);
+           ShowUpdateConfirmationPopup(); 
+        }
 
-            if (result == MessageBoxResult.Yes)
+        private async Task ConfirmUpdate()
+        {
+            HideUpdateConfirmationPopup(); // hide the confirmation popup first
+
+            var dto = new UpdateProductDTO
             {
-                var dto = new UpdateProductDTO
-                {
-                    Name = NewProduct.Name,
-                    Batch = NewProduct.Batch,
-                    Unit = NewProduct.Unit,
-                    Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
-                    Stock = NewProduct.Stock,
-                    BrandId = NewProduct.BrandId,
-                    ManufacturerId = NewProduct.ManufacturerId
-                };
+                Name = NewProduct.Name,
+                Batch = NewProduct.Batch,
+                Unit = NewProduct.Unit,
+                Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
+                Stock = NewProduct.Stock,
+                BrandId = NewProduct.BrandId,
+                ManufacturerId = NewProduct.ManufacturerId
+            };
 
-                var success = await _apiService.UpdateProductAsync(SelectedProduct.Id, dto);
-                if (success)
-                {
-                    await LoadData();
-                    ResetForm();
-                }
+            var success = await _apiService.UpdateProductAsync(SelectedProduct.Id, dto);
+            if (success)
+            {
+                await ShowUpdateSuccessPopup(); // show success popup
+                await LoadData();
+                ResetForm();
             }
         }
 
-        //private async Task UpdateProduct()
-        //{
-        //    ValidateProduct();
+        private void CancelUpdate()
+        {
+            HideUpdateConfirmationPopup();
+        }
 
-        //    if (HasValidationErrors())
-        //    {
-        //        return; // Don't proceed if validation fails
-        //    }
 
-        //    if (SelectedProduct == null) return;
-
-        //    var dto = new UpdateProductDTO
-        //    {
-        //        Name = NewProduct.Name,
-        //        Batch = NewProduct.Batch,
-        //        Unit = NewProduct.Unit,
-        //        Price = decimal.TryParse(NewProduct.Price, out var p) ? p : 0,
-        //        Stock = NewProduct.Stock,
-        //        BrandId = NewProduct.BrandId,
-        //        ManufacturerId = NewProduct.ManufacturerId
-        //    };
-
-        //    var success = await _apiService.UpdateProductAsync(SelectedProduct.Id, dto);
-        //    if (success)
-        //    {
-        //        await LoadData();
-        //        ResetForm();
-        //    }
-        //}
 
         // Delete a product
         private async Task DeleteProduct(Product product)
@@ -253,6 +253,83 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                    !string.IsNullOrEmpty(ManufacturerError) ||
                    !string.IsNullOrEmpty(QuantityError);
         }
+
+
+
+        private async Task PrepareDeleteProduct(Product product)
+        {
+            if (product == null) return;
+
+            _productToDelete = product;
+
+            // Show the confirmation popup
+            OnPropertyChanged(nameof(DeleteConfirmationPopupVisibility)); // Notify the view to show the popup
+        }
+
+        private async Task ConfirmDelete()
+        {
+            if (_productToDelete == null) return;
+
+            var success = await _apiService.DeleteProductAsync(_productToDelete.Id);
+            if (success)
+            {
+                await LoadData();
+                ResetForm();
+            }
+
+
+            _productToDelete = null;
+            // Hide the confirmation popup
+            OnPropertyChanged(nameof(DeleteConfirmationPopupVisibility)); // Hide the popup after deletion
+        }
+
+        private void CancelDelete()
+        {
+            _productToDelete = null;
+
+            // Hide the confirmation popup
+            OnPropertyChanged(nameof(DeleteConfirmationPopupVisibility)); // Hide the popup
+        }
+
+        // Property for controlling the visibility of the popup in the view
+        public string DeleteConfirmationPopupVisibility => _productToDelete == null ? "Collapsed" : "Visible";
+
+        private async Task ShowProductAddedPopup()
+        {
+            _isProductAddedPopupVisible = true;
+            OnPropertyChanged(nameof(ProductAddedPopupVisibility));
+
+            await Task.Delay(2000); // Show popup for 2 seconds
+
+            _isProductAddedPopupVisible = false;
+            OnPropertyChanged(nameof(ProductAddedPopupVisibility));
+        }
+
+        private void ShowUpdateConfirmationPopup()
+        {
+            _isUpdateConfirmationPopupVisible = true;
+            OnPropertyChanged(nameof(UpdateConfirmationPopupVisibility));
+        }
+
+        private void HideUpdateConfirmationPopup()
+        {
+            _isUpdateConfirmationPopupVisible = false;
+            OnPropertyChanged(nameof(UpdateConfirmationPopupVisibility));
+        }
+
+        private async Task ShowUpdateSuccessPopup()
+        {
+            _isUpdateSuccessPopupVisible = true;
+            OnPropertyChanged(nameof(UpdateSuccessPopupVisibility));
+
+            await Task.Delay(2000); // Show for 2 seconds
+
+            _isUpdateSuccessPopupVisible = false;
+            OnPropertyChanged(nameof(UpdateSuccessPopupVisibility));
+        }
+
+
+
 
         // INotifyPropertyChanged Implementation
         public event PropertyChangedEventHandler PropertyChanged;
