@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 using WPF_Medical_Inventory_Managment_Systemm.ViewModel;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.Views
@@ -29,6 +30,27 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
                 viewModel.MarkManualEntry();
             }
         }
+
+        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (Resources["SlideDownStoryboard"] is Storyboard slideDownStoryboard)
+                {
+                    // Set the target to the DataGrid's TranslateTransform
+                    Storyboard.SetTargetName(slideDownStoryboard, "DataGridTranslateTransform");
+                    slideDownStoryboard.Begin();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the error appropriately
+                System.Diagnostics.Debug.WriteLine($"Error in DataGrid_Loaded: {ex.Message}");
+            }
+        }
+
+
 
     }
 }
