@@ -25,54 +25,71 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Input Fields -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
-            <Label Content="Supplier Name:" VerticalAlignment="Center" Margin="0,0,30,0"/>
-            <TextBox Width="200" Text="{Binding PurchaseOrder.SupplierName, UpdateSourceTrigger=PropertyChanged}"
-                      BorderBrush="Black"   Margin="0,0,50,0" Padding="2,2,2,2"/>
+        <Border Grid.Row="0" Grid.RowSpan="3" BorderBrush="Gray" BorderThickness="2" CornerRadius="10" Padding="10" Margin="0,0,0,10" Background="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            
-        </StackPanel>
+                <!-- Row 0: Supplier Name + Order Date -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="394,0,0,10">
-       
-        <Label Content="Order Date:" VerticalAlignment="Center" Margin="0,0,30,0"/>
-        <DatePicker Width="150" SelectedDate="{Binding PurchaseOrder.OrderDate}" Margin="0,0,50,0"/>
-        </StackPanel>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10" Grid.Column="0">
+                        <Label Content="Supplier Name:" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                        <TextBox Width="200" Text="{Binding PurchaseOrder.SupplierName, UpdateSourceTrigger=PropertyChanged}"
+                         BorderBrush="Black" Margin="0,0,50,0" Padding="2"/>
+                    </StackPanel>
 
-        <!-- Product + Quantity -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10">
-            <Label Content="Product:" VerticalAlignment="Center" Margin="0,10,30,0"/>
-            <ComboBox Width="130" Height="40"
-          ItemsSource="{Binding Products}" 
-          SelectedItem="{Binding SelectedProduct}" 
-          DisplayMemberPath="Name"
-          Margin="45,20,100,0"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,10" Grid.Column="1">
+                        <Label Content="Order Date:" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                        <DatePicker Width="150" SelectedDate="{Binding PurchaseOrder.OrderDate}" Margin="0,0,50,0"/>
+                    </StackPanel>
+                </Grid>
 
+                <!-- Row 1: Product + Quantity -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-        </StackPanel>
-        
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="406,10,0,10">
-            <Label Content="Quantity:" VerticalAlignment="Center" Margin="0,0,30,0"/>
-            <TextBox Width="150"
-         Text="{Binding PurchaseOrder.Quantity,Converter={StaticResource QuantityConverter}, UpdateSourceTrigger=PropertyChanged,TargetNullValue=''}" 
-         Margin="0,0,50,0"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="45,20,0,10" Grid.Column="0">
+                        <Label Content="Product:" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                        <ComboBox Width="130" Height="30"
+                          ItemsSource="{Binding Products}" 
+                          SelectedItem="{Binding SelectedProduct}" 
+                          DisplayMemberPath="Name"
+                          Margin="0,0,100,0"/>
+                    </StackPanel>
 
-        </StackPanel>  
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,20,0,10" Grid.Column="1">
+                        <Label Content="Quantity:" VerticalAlignment="Center" Margin="0,0,45,0"/>
+                        <TextBox Width="150"
+                         Text="{Binding PurchaseOrder.Quantity, Converter={StaticResource QuantityConverter}, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}" 
+                         Margin="0,0,50,0"/>
+                    </StackPanel>
+                </Grid>
 
-        <!-- Price (Read Only) -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="430,0,0,10">
-            <Label Content="Price:" VerticalAlignment="Center" Margin="0,0,30,0"/>
-            <TextBox Width="150" 
-         Text="{Binding PurchasePrice,UpdateSourceTrigger=PropertyChanged}"        
-         IsReadOnly="True"
-         Margin="0,0,50,0"/>
-
-        </StackPanel>
+                <!-- Row 2: Price -->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="580,20,0,10">
+                    <Label Content="Price:" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                    <TextBox Width="150" 
+                     Text="{Binding PurchasePrice, UpdateSourceTrigger=PropertyChanged}"        
+                     IsReadOnly="True"
+                     Margin="0,0,50,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
 
 
         <!-- Action Buttons -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="90,90,0,0">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="800,190,40,30">
             <Button Content="New" 
                     Command="{Binding NewPurchaseOrderCommand}"
                     Width="100" Height="35" Margin="10,0" Style="{StaticResource SuccessButton}" Foreground="White"/>
@@ -82,6 +99,7 @@
                    
                     Width="100" Height="35" Margin="30,0,70,0" Style="{StaticResource PrimaryButton}" Foreground="White"/>
         </StackPanel>
+
 
         <!-- Purchase Order List -->
         <Grid Grid.Row="3" Margin="0,0,0,0">

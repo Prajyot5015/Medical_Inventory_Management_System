@@ -5,6 +5,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Converters"
+  
+
 
       mc:Ignorable="d"
       Title="ManufacturersPage"
@@ -14,7 +16,13 @@
         <local:StringToIntConverter x:Key="StringToIntConverter" />
     </Page.Resources>
 
+    
+
+
     <Grid Margin="20">
+
+ 
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
