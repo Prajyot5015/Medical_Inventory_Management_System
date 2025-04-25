@@ -155,7 +155,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             await _orderService.AddPurchaseOrderAsync(dto);
             ResetPurchaseOrder();
             await LoadPurchaseOrdersAsync();
-           
+
+            MessageBox.Show("Purchase order saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
 
