@@ -9,7 +9,6 @@
       Background="#F8DAD0">
 
     <Page.Resources>
-
         <local:BrandNameHintMultiConverter x:Key="BrandNameHintMultiConverter"/>
 
         <!-- DataGrid Row Hover Style -->
@@ -40,60 +39,62 @@
                        FontWeight="Bold"
                        Margin="0,0,0,20" />
 
-            <!-- Form Section -->
-            <StackPanel Grid.Row="0" Margin="0,40,0,20">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <StackPanel>
-                        <TextBlock Text="Brand Id" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                        <TextBox Text="{Binding SelectedBrand.Id}"
-                                 IsReadOnly="True"
-                                 Width="80"
-                                 Padding="6"
-                                 BorderBrush="{StaticResource MediumGrayBrush}"
-                                 Style="{StaticResource MaterialTextBox}"/>
+            <!-- Form Section with Border -->
+            <Border Background="#FFF" BorderBrush="#4A766E" BorderThickness="2" CornerRadius="8" Padding="20">
+                <StackPanel Grid.Row="0" Margin="0,20,0,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <!-- StackPanel for Brand Id -->
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBlock Text="Brand Id" FontWeight="SemiBold" Margin="0,0,0,2"/>
+                            <TextBox Text="{Binding SelectedBrand.Id}"
+                                     IsReadOnly="True"
+                                     Width="80"
+                                     Padding="6"
+                                     BorderBrush="{StaticResource MediumGrayBrush}"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        </StackPanel>
+
+                        <!-- StackPanel for Brand Name -->
+                        <StackPanel>
+                            <TextBlock Text="Brand Name" FontWeight="SemiBold" Margin="0,0,0,2"/>
+                            <TextBox Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Width="200"                    
+                 Padding="6"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 TextChanged="BrandNameTextBox_TextChanged">
+                                <materialDesign:HintAssist.Hint>
+                                    <MultiBinding Converter="{StaticResource BrandNameHintMultiConverter}">
+                                        <Binding Path="SelectedBrand.Name"/>
+                                        <Binding Path="IsManuallyEntered"/>
+                                    </MultiBinding>
+                                </materialDesign:HintAssist.Hint>
+                            </TextBox>
+                        </StackPanel>
                     </StackPanel>
 
-                    <StackPanel>
-                        <TextBox Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Width="200"                    
-                                 Padding="6"
-                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                 TextChanged="BrandNameTextBox_TextChanged">
-                            <materialDesign:HintAssist.Hint>
-                                <MultiBinding Converter="{StaticResource BrandNameHintMultiConverter}">
-                                    <Binding Path="SelectedBrand.Name"/>
-                                    <Binding Path="IsManuallyEntered"/>
-                                </MultiBinding>
-                            </materialDesign:HintAssist.Hint>
-                        </TextBox>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button Content="Add"
+                                Width="100"
+                                Command="{Binding AddCommand}"
+                                Style="{StaticResource SuccessButton}"
+                                Margin="0,0,10,0"/>
+                        <Button Content="Update"
+                                Width="100"
+                                Command="{Binding UpdateCommand}"
+                                Style="{StaticResource PrimaryButton}"
+                                Margin="0,0,10,0"/>
+                        <Button Content="Refresh"
+                                Width="100"
+                                Command="{Binding LoadCommand}"
+                                Style="{StaticResource PrimaryButton}"/>
                     </StackPanel>
-
-
                 </StackPanel>
-
-
-                <!-- Action Buttons -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                    <Button Content="Add"
-                            Width="100"
-                            Command="{Binding AddCommand}"
-                            Style="{StaticResource SuccessButton}"
-                            Margin="0,0,10,0"/>
-                    <Button Content="Update"
-                            Width="100"
-                            Command="{Binding UpdateCommand}"
-                            Style="{StaticResource PrimaryButton}"
-                            Margin="0,0,10,0"/>
-                    <Button Content="Refresh"
-                            Width="100"
-                            Command="{Binding LoadCommand}"
-                            Style="{StaticResource PrimaryButton}"/>
-                </StackPanel>
-            </StackPanel>
+            </Border>
 
             <!-- DataGrid Section -->
-            <Border Grid.Row="1"
-                    Style="{StaticResource InventoryCard}">
+            <Border Grid.Row="1" Style="{StaticResource InventoryCard}" Background="#FFF" BorderBrush="#4A766E" BorderThickness="2" CornerRadius="8" Padding="20">
                 <DataGrid ItemsSource="{Binding Brands}"
                           SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
                           AutoGenerateColumns="False"
