@@ -9,21 +9,28 @@
       Background="#F8DAD0">
 
     <Page.Resources>
-        <local:BrandNameHintMultiConverter x:Key="BrandNameHintMultiConverter"/>
+        <ResourceDictionary>
+            <!-- Merge animation resources -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionary/Animations.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <!-- DataGrid Row Hover Style -->
-        <Style x:Key="DataGridRowHover" TargetType="DataGridRow">
-            <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True">
-                    <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True">
-                    <Setter Property="Background" Value="#FFC6F6D5"/>
-                    <Setter Property="Foreground" Value="Black"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+            <!-- Your other resources -->
+            <local:BrandNameHintMultiConverter x:Key="BrandNameHintMultiConverter"/>
+
+            <Style x:Key="DataGridRowHover" TargetType="DataGridRow">
+                <Setter Property="Background" Value="{StaticResource WhiteBrush}"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True">
+                        <Setter Property="Background" Value="{StaticResource LightGrayBrush}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True">
+                        <Setter Property="Background" Value="#FFC6F6D5"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
     </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -58,10 +65,10 @@
                         <StackPanel>
                             <TextBlock Text="Brand Name" FontWeight="SemiBold" Margin="0,0,0,2"/>
                             <TextBox Text="{Binding SelectedBrand.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Width="200"                    
-                 Padding="6"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                 TextChanged="BrandNameTextBox_TextChanged">
+                                     Width="200"                    
+                                     Padding="6"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                     TextChanged="BrandNameTextBox_TextChanged">
                                 <materialDesign:HintAssist.Hint>
                                     <MultiBinding Converter="{StaticResource BrandNameHintMultiConverter}">
                                         <Binding Path="SelectedBrand.Name"/>
@@ -71,7 +78,6 @@
                             </TextBox>
                         </StackPanel>
                     </StackPanel>
-
 
                     <!-- Action Buttons -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -93,14 +99,19 @@
                 </StackPanel>
             </Border>
 
-            <!-- DataGrid Section -->
+            <!-- DataGrid Section with Animation -->
             <Border Grid.Row="1" Style="{StaticResource InventoryCard}" Background="#FFF" BorderBrush="#4A766E" BorderThickness="2" CornerRadius="8" Padding="20">
+                <!-- DataGrid with TranslateTransform for animation -->
                 <DataGrid ItemsSource="{Binding Brands}"
-                          SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
-                          AutoGenerateColumns="False"
-                          SelectionMode="Single"
-                          IsReadOnly="True"
-                          RowStyle="{StaticResource DataGridRowHover}">
+                  SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  SelectionMode="Single"
+                  IsReadOnly="True"
+                  RowStyle="{StaticResource DataGridRowHover}" 
+                  BorderBrush="{x:Null}">               <!--Loaded="DataGrid_Loaded"-->
+                    <!--<DataGrid.RenderTransform>
+                        <TranslateTransform x:Name="DataGridTranslateTransform" Y="-300"/>
+                    </DataGrid.RenderTransform>-->
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                         <DataGridTextColumn Header="Brand Name" Binding="{Binding Name}" Width="*"/>
@@ -112,7 +123,7 @@
                                             CommandParameter="{Binding}"
                                             HorizontalAlignment="Center"
                                             Style="{StaticResource DangerButton}"
-                                            Padding="6,2"                                
+                                            Padding="6,2"
                                             Width="100"
                                             Height="30"/>
                                 </DataTemplate>
@@ -121,6 +132,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </Border>
+
         </Grid>
     </ScrollViewer>
 </Page>
