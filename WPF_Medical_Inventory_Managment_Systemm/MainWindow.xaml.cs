@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
 using WPF_Medical_Inventory_Managment_Systemm.ViewModel;
 using WPF_Medical_Inventory_Managment_Systemm.ViewModels;
@@ -12,10 +13,13 @@ namespace WPF_Medical_Inventory_Managment_Systemm
     public partial class MainWindow : MahApps.Metro.Controls.MetroWindow//Window
     {
         private readonly ServiceProvider _provider;
+        private DispatcherTimer timer;
+
 
         public MainWindow()
         {
             InitializeComponent();
+            StartClock();
 
             var services = new ServiceCollection();
             ConfigureServices(services);
@@ -134,6 +138,22 @@ namespace WPF_Medical_Inventory_Managment_Systemm
                 _currentNavButton = activeButton;
             }
         }
+
+
+        private void StartClock()
+        {
+            timer = new DispatcherTimer(); // Use the class-level variable
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            ClockTextBlock.Text = DateTime.Now.ToString("hh:mm:ss tt");
+        }
+
 
 
 

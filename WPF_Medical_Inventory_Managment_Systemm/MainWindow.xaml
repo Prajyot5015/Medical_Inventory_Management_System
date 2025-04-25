@@ -7,6 +7,8 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
                  Title="Medical Inventory Dashboard"
+                 ShowTitleBar="False"
+
                  Height="700"
                  Width="1200"
                  WindowStartupLocation="CenterScreen"
@@ -24,6 +26,40 @@
     </mah:MetroWindow.Resources>
 
     <DockPanel>
+
+
+
+        <Border DockPanel.Dock="Top"
+        Background="{StaticResource PrimaryGreenBrush}"
+        Height="30">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Title -->
+                <TextBlock Text="Medical Inventory Dashboard"
+                   FontSize="16"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   VerticalAlignment="Center"
+                   Margin="15,0"
+                   Grid.Column="0"/>
+
+                <!-- Clock (on the left) -->
+                <TextBlock x:Name="ClockTextBlock"
+                   FontSize="14"
+                   FontWeight="SemiBold"
+                   Foreground="Black"
+                   VerticalAlignment="Center"
+                   Margin="15,0"
+                   Grid.Column="1"/>
+
+            </Grid>
+        </Border>
+
         <!-- Navigation Panel -->
         <Border DockPanel.Dock="Left" 
                 Width="220" 
@@ -79,5 +115,6 @@
         <Frame x:Name="MainFrame" 
                NavigationUIVisibility="Hidden"
                Background="{StaticResource DarkTealBrush}"/>
+        
     </DockPanel>
 </mah:MetroWindow>
