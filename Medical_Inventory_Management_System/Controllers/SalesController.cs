@@ -68,5 +68,16 @@ namespace Medical_Inventory_Management_System.Controllers
         }
 
 
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchSales([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return BadRequest("Search query cannot be empty.");
+
+            var result = await _saleService.SearchSalesAsync(query);
+            return Ok(result);
+        }
+
+
     }
 }

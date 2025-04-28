@@ -9,5 +9,7 @@ namespace Medical_Inventory_Management_System.Services.Interface
 
         Task<SaleResponseDto> GetSaleByIdAsync(int id);
 
+        Task<IEnumerable<SaleResponseDto>> SearchSalesAsync(string query);
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Medical_Inventory_Management_System.Data;
 using Medical_Inventory_Management_System.Models.Domain;
+using Medical_Inventory_Management_System.Models.DTOs;
 using Medical_Inventory_Management_System.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
@@ -69,6 +70,41 @@ namespace Medical_Inventory_Management_System.Repositories.Implementations
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        public async Task<IEnumerable<SaleResponseDto>> SearchSalesAsync(string query)
+        {
+            query = query.ToLower();
+
+            var sales = await _context.Sales
+                .Include(s => s.Items)
+                    .ThenInclude(i => i.Product) 
+                .Where(s =>
+                    s.CustomerName.ToLower().Contains(query) ||
+                    s.TotalAmount.ToString().Contains(query) ||
+                    s.Discount.ToString().Contains(query) ||
+                    s.GrandTotal.ToString().Contains(query) ||
+                    s.SaleDate.ToString().Contains(query)
+                )
+                .Select(s => new SaleResponseDto
+                {
+                    Id = s.Id,
+                    CustomerName = s.CustomerName,
+                    SaleDate = s.SaleDate,
+                    TotalAmount = s.TotalAmount,
+                    Discount = s.Discount,
+                    GrandTotal = s.GrandTotal,
+                    Items = s.Items.Select(item => new SaleItemResponseDto
+                    {
+                        ProductName = item.Product.Name,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            return sales;
+        }
+
+       
     }
 
 }
