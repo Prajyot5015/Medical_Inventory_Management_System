@@ -1,4 +1,5 @@
 ﻿using Medical_Inventory_Management_System.Models.Domain;
+using Medical_Inventory_Management_System.Models.DTOs;
 
 namespace Medical_Inventory_Management_System.Repositories.Interface
 {
@@ -11,5 +12,6 @@ namespace Medical_Inventory_Management_System.Repositories.Interface
 
         Task<Sale> GetSaleByIdAsync(int id);
 
+        Task<IEnumerable<SaleResponseDto>> SearchSalesAsync(string query);
     }
 }

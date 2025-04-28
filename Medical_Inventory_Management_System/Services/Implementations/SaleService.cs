@@ -114,6 +114,13 @@ namespace Medical_Inventory_Management_System.Services.Implementations
             return _mapper.Map<SaleResponseDto>(sale);
         }
 
+        public async Task<IEnumerable<SaleResponseDto>> SearchSalesAsync(string query)
+        {
+            return await _saleRepo.SearchSalesAsync(query);
+        }
+
+
+
     }
 
 }
