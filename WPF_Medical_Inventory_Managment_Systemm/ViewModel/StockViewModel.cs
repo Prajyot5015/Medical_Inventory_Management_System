@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -21,12 +22,16 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
         private readonly BrandService _brandService;
         private readonly ManufacturersApiService _manufacturerService;
 
+        public ISnackbarMessageQueue SnackBarMessageQueue { get; }
+
         public StockViewModel()
         {
             _stockApiService = new StockApiService();
             _productApiService = new ProductApiService();
             _brandService = new BrandService(new HttpClient { BaseAddress = new Uri("http://your-api-url/") });
             _manufacturerService = new ManufacturersApiService(new HttpClient { BaseAddress = new Uri("http://your-api-url/") });
+
+            SnackBarMessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
             LoadStockDataCommand = new RelayCommand(async () => await LoadStockData());
             LoadLowStockCommand = new RelayCommand(async () => await LoadLowStockData());
@@ -91,6 +96,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
             {
                 var productList = await _productApiService.GetAllProductsAsync();
                 Products = new ObservableCollection<Product>(productList);
+                //SnackbarMessageQueue.Enqueue("Products loaded successfully.");
             }
             catch (Exception ex)
             {
@@ -302,7 +308,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModels
                 }
 
                 await _stockApiService.AddStockToProductAsync(SelectedProductId, QuantityToAdd.Value);
-                MessageBox.Show("Stock added successfully.");
+                SnackBarMessageQueue.Enqueue("Stock added successfully.");
+                //MessageBox.Show("Stock added successfully.");
                 QuantityToAdd = null; // Clear the input after successful addition
             }
             catch (Exception ex)

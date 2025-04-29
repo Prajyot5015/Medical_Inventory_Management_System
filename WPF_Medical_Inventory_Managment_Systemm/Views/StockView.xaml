@@ -4,9 +4,10 @@
       xmlns:local="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.Views" 
       xmlns:viewmodels="clr-namespace:WPF_Medical_Inventory_Managment_Systemm.ViewModels" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
-      Title="Stock Management"
+      Title="Stock Management"  
       Background="{StaticResource LightGrayBrush}">
 
     <Grid d:DataContext="{d:DesignInstance Type=viewmodels:StockViewModel}">
@@ -202,6 +203,14 @@ RowStyle="{StaticResource DataGridRowHover}">
             </Border>
         </Grid>
 
+
+        <!--Snackbar for displaying messages-->
+        <materialDesign:Snackbar
+                x:Name="MySnackbar"         
+                MessageQueue="{Binding SnackBarMessageQueue}" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="50,180,0,0"/>
 
 
     </Grid>

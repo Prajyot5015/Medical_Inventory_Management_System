@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,16 +8,21 @@ using System.Windows.Input;
 using WPF_Medical_Inventory_Managment_Systemm.Models;
 using WPF_Medical_Inventory_Managment_Systemm.Services;
 using WPF_Medical_Inventory_Managment_Systemm.Helpers;
+using MaterialDesignThemes.Wpf;
+using WPF_Medical_Inventory_Managment_Systemm.Views.Notification;
 
 namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
 {
     public class BrandViewModel : INotifyPropertyChanged
     {
         private readonly BrandService _service;
+        private Brand _selectedBrand = new Brand();
+        private bool _isManuallyEntered;
+        private bool _isLoaded = false;
 
+        public ISnackbarMessageQueue SnackBarMessageQueue { get; }
         public ObservableCollection<Brand> Brands { get; } = new();
 
-        private Brand _selectedBrand = new Brand();
         public Brand SelectedBrand
         {
             get => _selectedBrand;
@@ -29,7 +33,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                 OnPropertyChanged();
                 ((RelayCommand)UpdateCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)DeleteCommand).RaiseCanExecuteChanged();
-                ((RelayCommand)AddCommand).RaiseCanExecuteChanged(); // Recheck the AddCommand availability
+                ((RelayCommand)AddCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -41,25 +45,25 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         public BrandViewModel()
         {
             _service = new BrandService(App.HttpClient);
+            SnackBarMessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
             LoadCommand = new RelayCommand(async () => await LoadAsync());
-            AddCommand = new RelayCommand(async () => await AddAsync(), () => SelectedBrand?.Id == 0); // Disabled when a brand is selected
+            AddCommand = new RelayCommand(async () => await AddAsync(), () => SelectedBrand?.Id == 0);
             UpdateCommand = new RelayCommand(async () => await UpdateAsync(), () => SelectedBrand?.Id > 0);
             DeleteCommand = new RelayCommand(async () => await DeleteAsync(), () => SelectedBrand?.Id > 0);
 
             // Load brands on initialization
-            _ = LoadAsync(); // Fire-and-forget call
+            _ = LoadAsync();
         }
-
-        private bool _isLoaded = false;
 
         public async Task LoadAsync()
         {
             Brands.Clear();
             var brands = await _service.GetBrandsAsync();
             foreach (var brand in brands)
+            {
                 Brands.Add(brand);
-
+            }
             _isLoaded = true;
         }
 
@@ -67,20 +71,22 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         {
             if (string.IsNullOrWhiteSpace(SelectedBrand.Name))
             {
-                MessageBox.Show("Brand name cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Brand name cannot be empty.", "Validation Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             try
             {
                 await _service.AddBrandAsync(SelectedBrand);
-                MessageBox.Show("Brand added successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                SnackBarMessageQueue.Enqueue("Brand added successfully.");
                 SelectedBrand = new Brand();
                 await LoadAsync();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to add brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Failed to add brand. Error: {ex.Message}",
+                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -88,38 +94,41 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
         {
             if (string.IsNullOrWhiteSpace(SelectedBrand.Name))
             {
-                MessageBox.Show("Brand name cannot be empty.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Brand name cannot be empty.", "Validation Error",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             await _service.UpdateBrandAsync(SelectedBrand);
+            SnackBarMessageQueue.Enqueue("Brand Updated Successfully");
             await LoadAsync();
         }
 
         public async Task DeleteAsync()
         {
-            //var result = MessageBox.Show($"Are you sure you want to delete '{SelectedBrand.Name}'?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            //if (result == MessageBoxResult.Yes)
-            //{
-                try
-                {
-                    await _service.DeleteBrandAsync(SelectedBrand.Id);
-                    //MessageBox.Show("Brand deleted successfully.", "Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
-                    SelectedBrand = new Brand();
-                    await LoadAsync();
-                }
-                catch (Exception ex)
-                {
+            if (SelectedBrand == null) return;
 
-                     throw;
-                   
-                    //MessageBox.Show($"Failed to delete brand. Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            //}
+            try
+            {
+                var brandToDelete = SelectedBrand;
+                await _service.DeleteBrandAsync(brandToDelete.Id);
+
+                // Remove the specific item instead of reloading
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Brands.Remove(brandToDelete);
+                });
+
+                SnackBarMessageQueue.Enqueue("Brand deleted successfully");
+                SelectedBrand = new Brand();
+            }
+            catch (Exception ex)
+            {
+                SnackBarMessageQueue.Enqueue($"Delete failed: {ex.Message}");
+            }
         }
 
 
-        private bool _isManuallyEntered;
         public bool IsManuallyEntered
         {
             get => _isManuallyEntered;
@@ -131,10 +140,8 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             }
         }
 
-
         public void MarkManualEntry()
         {
-            // Only mark as manually entered if the name doesn't match any existing brand
             if (SelectedBrand != null && !string.IsNullOrWhiteSpace(SelectedBrand.Name))
             {
                 bool isExisting = false;
@@ -146,20 +153,14 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
                         break;
                     }
                 }
-
                 IsManuallyEntered = !isExisting;
             }
         }
 
-        public async void ConfirmDelete()
-        {
-            await DeleteAsync();
-        }
-
         public async Task RefreshAsync()
         {
-            Brands.Clear();  // Clear the brands collection
-            await LoadAsync();  // Reload the brands
+            Brands.Clear();
+            await LoadAsync();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -167,6 +168,3 @@ namespace WPF_Medical_Inventory_Managment_Systemm.ViewModel
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
-
-
-

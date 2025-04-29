@@ -8,10 +8,10 @@
              d:DesignHeight="200" d:DesignWidth="400">
     <Border Background="White" 
             BorderBrush="{StaticResource MediumGrayBrush}" 
-            BorderThickness="1" 
-            CornerRadius="8"
+            BorderThickness="4" 
+            CornerRadius="20"
             Padding="20">
-        <Grid>
+        <Grid Height="152" VerticalAlignment="Bottom">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>

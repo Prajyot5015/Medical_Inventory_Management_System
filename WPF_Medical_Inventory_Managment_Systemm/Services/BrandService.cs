@@ -21,8 +21,16 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Services
 
         public async Task<List<Brand>> GetBrandsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Brand>>("brands");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<Brand>>("brands");
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception("Failed to fetch brands.", ex);
+            }
         }
+
 
         public async Task AddBrandAsync(Brand brand)
         {
