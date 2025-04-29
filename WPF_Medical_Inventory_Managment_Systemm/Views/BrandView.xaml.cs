@@ -29,6 +29,7 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             if (_viewModel != null)
                 await _viewModel.LoadAsync();
         }
+
         private void BrandNameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (DataContext is BrandViewModel viewModel)
@@ -37,91 +38,48 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             }
         }
 
-
-
-        
-
         private void ShowDeleteConfirmation()
         {
             if (_viewModel?.SelectedBrand == null) return;
 
+            // Clear previous event handlers to avoid duplicates
+            DeleteConfirmationPopup.ConfirmClicked -= OnDeleteConfirmed;
+            DeleteConfirmationPopup.CancelClicked -= OnDeleteCancelled;
+
+            // Add fresh handlers
+            DeleteConfirmationPopup.ConfirmClicked += OnDeleteConfirmed;
+            DeleteConfirmationPopup.CancelClicked += OnDeleteCancelled;
+
             DeleteConfirmationPopup.Title = "Delete Brand";
-            DeleteConfirmationPopup.Message = $"Are you sure you want to delete the brand '{_viewModel.SelectedBrand.Name}'?";
+            DeleteConfirmationPopup.Message = $"Are you sure you want to delete '{_viewModel.SelectedBrand.Name}'?";
             DeleteConfirmationPopup.ConfirmButtonText = "Delete";
             DeleteConfirmationPopup.CancelButtonText = "Cancel";
+            DeleteConfirmationPopup.SetMessageType(MessageType.Confirmation);
 
-            // Animation for showing the popup
-            var fadeIn = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = TimeSpan.FromSeconds(0.2)
-            };
-
-            PopupOverlay.BeginAnimation(OpacityProperty, fadeIn);
-            PopupOverlay.Visibility = Visibility.Visible;
+            ShowPopup();
         }
 
         private async void OnDeleteConfirmed(object sender, RoutedEventArgs e)
         {
-            PopupOverlay.Visibility = Visibility.Collapsed;
-            if (_viewModel != null && _viewModel.SelectedBrand != null)
+            try
             {
-                try
-                {
-                    await _viewModel.DeleteAsync();
-                    ShowSuccessPopup("Success", "Brand deleted successfully!");
-                }
-                catch (Exception ex)
-                {
-                    ShowErrorPopup("Error", $"Failed to delete brand: {ex.Message}");
-                }
+                HidePopup();
+                await _viewModel.DeleteAsync();
+            }
+            catch (Exception ex)
+            {
+                _viewModel.SnackBarMessageQueue.Enqueue($"Error: {ex.Message}");
             }
         }
 
-
         private void OnDeleteCancelled(object sender, RoutedEventArgs e)
         {
-            // Animation for hiding the popup
-            var fadeOut = new DoubleAnimation
-            {
-                From = 1,
-                To = 0,
-                Duration = TimeSpan.FromSeconds(0.2)
-            };
-
-            fadeOut.Completed += (s, _) => PopupOverlay.Visibility = Visibility.Collapsed;
-            PopupOverlay.BeginAnimation(OpacityProperty, fadeOut);
-        }
-
-        private void ShowSuccessPopup(string title, string message)
-        {
-            DeleteConfirmationPopup.Title = title;
-            DeleteConfirmationPopup.Message = message;
-            DeleteConfirmationPopup.SetMessageType(MessageType.Success);
-
-            // Only show OK button for success messages
-            DeleteConfirmationPopup.ConfirmClicked -= OnDeleteConfirmed;
-            DeleteConfirmationPopup.ConfirmClicked += (s, e) => HidePopup();
-
-            ShowPopup();
-        }
-
-        private void ShowErrorPopup(string title, string message)
-        {
-            DeleteConfirmationPopup.Title = title;
-            DeleteConfirmationPopup.Message = message;
-            DeleteConfirmationPopup.SetMessageType(MessageType.Error);
-
-            // Only show OK button for error messages
-            DeleteConfirmationPopup.ConfirmClicked -= OnDeleteConfirmed;
-            DeleteConfirmationPopup.ConfirmClicked += (s, e) => HidePopup();
-
-            ShowPopup();
+            HidePopup();
         }
 
         private void ShowPopup()
         {
+            PopupOverlay.Visibility = Visibility.Visible;
             var fadeIn = new DoubleAnimation
             {
                 From = 0,
@@ -129,7 +87,6 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
                 Duration = TimeSpan.FromSeconds(0.2)
             };
             PopupOverlay.BeginAnimation(OpacityProperty, fadeIn);
-            PopupOverlay.Visibility = Visibility.Visible;
         }
 
         private void HidePopup()
@@ -144,56 +101,34 @@ namespace WPF_Medical_Inventory_Managment_Systemm.Views
             PopupOverlay.BeginAnimation(OpacityProperty, fadeOut);
         }
 
-
-
-
-
-
-        // Modify your DataGrid's delete button to use CommandParameter
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button && button.CommandParameter is Brand brand)
             {
-                _viewModel.SelectedBrand = brand;
-                ShowDeleteConfirmation();
+                // Make sure we're using the same instance from the collection
+                var itemToDelete = _viewModel.Brands.FirstOrDefault(b => b.Id == brand.Id);
+                if (itemToDelete != null)
+                {
+                    _viewModel.SelectedBrand = itemToDelete;
+                    ShowDeleteConfirmation();
+                }
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 if (Resources["SlideDownStoryboard"] is Storyboard slideDownStoryboard)
                 {
-                    // Set the target to the DataGrid's TranslateTransform
                     Storyboard.SetTargetName(slideDownStoryboard, "DataGridTranslateTransform");
                     slideDownStoryboard.Begin();
                 }
             }
             catch (Exception ex)
             {
-                // Log or handle the error appropriately
                 System.Diagnostics.Debug.WriteLine($"Error in DataGrid_Loaded: {ex.Message}");
             }
         }
-
-
-
-
-
     }
 }
